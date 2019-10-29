@@ -69,7 +69,17 @@ public class Component {
     }
 
     public void render(){
-        
+
+        int x = 16;
+        int y = 16, size = 16;
+
+        glBegin(GL_QUADS);
+        glColor3f(0.5f,0.2f,0.9f);
+        glVertex2f(x, y);
+        glVertex2f(x + size, y);
+        glVertex2f(x + size, y + size);
+        glVertex2f(x, y + size);
+        glEnd();
     }
 
     public static void main(String args[]){
