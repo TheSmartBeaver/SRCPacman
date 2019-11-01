@@ -1,0 +1,23 @@
+package src.entities.fixed;
+
+import src.entities.moving.Pacman;
+
+/**
+ * Created by Vincent on 01/11/2019.
+ */
+public class Berry extends Fruit implements TileContent {
+
+    public Berry() {
+        super(10);
+    }
+
+    @Override
+    public void execute(Pacman pacman) {
+
+    }
+
+    @Override
+    public String toString() {
+        return "ber";
+    }
+}
