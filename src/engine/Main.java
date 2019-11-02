@@ -4,9 +4,14 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
+import src.Game;
 import src.Level;
+import src.SquareTest;
 import src.loaders.LevelLoader;
 
+import static java.lang.Thread.sleep;
+import static org.lwjgl.Sys.getTime;
+import static org.lwjgl.Sys.getTimerResolution;
 import static org.lwjgl.opengl.GL11.*;
 
 
@@ -17,7 +22,14 @@ public class Main {
     private static int widdth = 720/scale;
     private static int height = 480/scale;
 
+    private static int targetFPS = 60;
+    private static long targetMSPerFrame = 1000 / targetFPS;
+
     DisplayMode mode = new DisplayMode(widdth*scale, height*scale);
+
+    private long getDelta(long start, long end) {
+        return (start - end) * 1000 / getTimerResolution();
+    }
 
     public Main(){
         try {
@@ -59,20 +71,59 @@ public class Main {
     }
 
     public void loop(){
-        while (running == true){
-            if(Display.isCloseRequested()) stop(); /*Si on appuie sur croix fermeture*/
-            Display.update();
+        long lastBeginningFrameTime = 0;
+        long currentBeginningFrameTime = 0;
+        long endFrameTime = 0;
 
-            render();
+        boolean isFirstFrame = true;
+        SquareTest squareTest = new SquareTest();
+
+        while (running){
+            if (isFirstFrame) {
+                squareTest = new SquareTest(50,50, 16);
+            }
+            if(Display.isCloseRequested()) stop(); /*Si on appuie sur croix fermeture*/
+
+            currentBeginningFrameTime = getTime();
+            //TODO : deltaTime va servir à calculer la nouvelle position des entités
+            //TODO : deltaTime en double au lieu de long ?
+            long deltaTime = getDelta(currentBeginningFrameTime, lastBeginningFrameTime);
+            if (isFirstFrame) {
+                deltaTime = 0;
+                isFirstFrame = false;
+            }
+
+            lastBeginningFrameTime = currentBeginningFrameTime;
+
+            Game.update(deltaTime, squareTest);
+
+            render(squareTest);
+
+            endFrameTime = getTime();
+            long timeElapsed = getDelta(endFrameTime, currentBeginningFrameTime);
+
+            if (timeElapsed < targetMSPerFrame) {
+                try {
+                    sleep(targetMSPerFrame - timeElapsed);
+                    //TODO : mettre à 60 FPS si les calculs prennent tout le temps moins de 16ms.
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //TODO : diminuer le nombre de FPS (pas de minimum)
+            }
+
+            Display.update();
+            cleanBuffer();
         }
         exit();
     }
 
-    public void render(){
+    private void render(SquareTest squareTest){
 
-        int x = 16;
-        int y = 16;
-        int size = 16;
+        float x = squareTest.getPosX();
+        float y = squareTest.getPosY();
+        int size = squareTest.getLength();
 
         glBegin(GL_QUADS);
         glColor3f(0.5f,0.2f,0.9f);
@@ -83,11 +134,16 @@ public class Main {
         glEnd();
     }
 
+    private void cleanBuffer() {
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
     public static void main(String args[]){
-        //Main main = new Main();
+        Main main = new Main();
         //TODO : rechercher le dossier maps dans l'arborescence
-        LevelLoader.loadLevels("C:\\Users\\Vincent\\IdeaProjects\\SRCPacman\\maps");
-        System.out.println(LevelLoader.levels.get(0).getTileMap());
-        //main.start();
+        //LevelLoader.loadLevels("C:\\Users\\Vincent\\IdeaProjects\\SRCPacman\\maps");
+        //System.out.println(LevelLoader.levels.get(0).getTileMap());
+        main.start();
     }
 }
