@@ -33,4 +33,16 @@ public class Tile {
             return content.toString();
         }
     }
+
+    public TileContent getContent() {
+        return content;
+    }
+
+    public boolean isWall() {
+        return isWall;
+    }
+
+    public boolean isGhostSpawnTile() {
+        return isGhostSpawnTile;
+    }
 }

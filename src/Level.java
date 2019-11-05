@@ -18,4 +18,8 @@ public class Level {
     public TileMap getTileMap() {
         return tileMap;
     }
+
+    public int getNumeroLevel() {
+        return numeroLevel;
+    }
 }

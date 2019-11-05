@@ -1,14 +1,23 @@
 package src;
 
+import src.engine.graphics.LevelRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
+import src.loaders.LevelLoader;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2f;
 
 /**
  * Created by Vincent on 02/11/2019.
  */
 public class Game {
 
-    public static void update(long deltaTime, SquareTest squareTest) {
+    private static Level oldLevel = null;
+    private static Level currentLevel = null;
+
+    public static void update(double deltaTime, SquareTest squareTest) {
         //CODE DE TEST
         InputGetter.getInputs();
         float lastSquarePosX = squareTest.getPosX();
@@ -20,27 +29,50 @@ public class Game {
         switch(GameInput.getInput()) {
             case UP:
             {
-                newSquarePosY -= (float) ((deltaTime / 1000.0) * squareTest.getSpeed());
+                newSquarePosY -= ((deltaTime / 1000.0) * squareTest.getSpeed());
                 break;
             }
             case DOWN:
             {
-                newSquarePosY += (float) ((deltaTime / 1000.0) * squareTest.getSpeed());
+                newSquarePosY += ((deltaTime / 1000.0) * squareTest.getSpeed());
                 break;
             }
             case LEFT:
             {
-                newSquarePosX -= (float) ((deltaTime / 1000.0) * squareTest.getSpeed());
+                newSquarePosX -= ((deltaTime / 1000.0) * squareTest.getSpeed());
                 break;
             }
             case RIGHT:
             {
-                newSquarePosX += (float) ((deltaTime / 1000.0) * squareTest.getSpeed());
+                newSquarePosX += ((deltaTime / 1000.0) * squareTest.getSpeed());
                 break;
             }
         }
 
         squareTest.setPosX(newSquarePosX);
         squareTest.setPosY(newSquarePosY);
+    }
+
+    public static void render(SquareTest squareTest){
+
+        currentLevel = LevelLoader.levels.get(0);
+        //if (oldLevel != currentLevel) {
+            //render le currentLevel
+            LevelRenderer.renderLevel(currentLevel);
+            oldLevel = currentLevel;
+            //System.out.println(LevelRenderer.dump());
+       // }
+
+        float x = squareTest.getPosX();
+        float y = squareTest.getPosY();
+        int size = squareTest.getLength();
+
+        glBegin(GL_QUADS);
+        glColor3f(0.5f,0.2f,0.9f);
+        glVertex2f(x, y);
+        glVertex2f(x + size, y);
+        glVertex2f(x + size, y + size);
+        glVertex2f(x, y + size);
+        glEnd();
     }
 }
