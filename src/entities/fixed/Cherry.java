@@ -12,6 +12,11 @@ public class Cherry extends Fruit implements TileContent {
     }
 
     @Override
+    public TileContentType getContentType() {
+        return TileContentType.CHERRY;
+    }
+
+    @Override
     public void execute(Pacman pacman) {
         //ajouter this.score au score de Pacman
         //pacman.addScore(super.getScore());

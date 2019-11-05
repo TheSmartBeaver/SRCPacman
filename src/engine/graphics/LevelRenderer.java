@@ -2,6 +2,8 @@ package src.engine.graphics;
 
 import src.Level;
 import src.ScreenParams;
+import src.entities.fixed.TileContentType;
+import src.entities.space.Tile;
 import src.entities.space.TileMap;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -86,7 +88,8 @@ public class LevelRenderer {
                 System.out.println(x);
                 System.out.println(y);
                 System.out.println();
-                if (levelTileMap.get(rowIndex, columnIndex).isWall()) {
+                Tile currentTile = levelTileMap.get(rowIndex, columnIndex);
+                if (currentTile.isWall()) {
                     glColor3f(0.5f,0.5f,0.5f);
                 } else {
                     glColor3f(1.0f,1.0f,1.0f);
@@ -97,6 +100,12 @@ public class LevelRenderer {
                 glVertex2f(x + tileWidth, y + tileHeight);
                 glVertex2f(x, y + tileHeight);
                 glEnd();
+
+                if (currentTile.getContent() != null) {
+                    if (currentTile.getContent().getContentType() == TileContentType.BERRY) {
+                        
+                    }
+                }
                 x += tileWidth;
             }
             x = levelScreenOffsetLeft;

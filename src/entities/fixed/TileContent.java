@@ -7,6 +7,7 @@ import src.entities.moving.Pacman;
  */
 public interface TileContent {
 
+    public TileContentType getContentType();
     public void execute(Pacman pacman);
 
 }

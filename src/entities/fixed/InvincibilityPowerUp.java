@@ -12,6 +12,11 @@ public class InvincibilityPowerUp implements TileContent {
     }
 
     @Override
+    public TileContentType getContentType() {
+        return TileContentType.INVINCIBILITY;
+    }
+
+    @Override
     public String toString() {
         return "inv";
     }

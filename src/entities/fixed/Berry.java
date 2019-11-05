@@ -17,6 +17,11 @@ public class Berry extends Fruit implements TileContent {
     }
 
     @Override
+    public TileContentType getContentType() {
+        return TileContentType.BERRY;
+    }
+
+    @Override
     public String toString() {
         return "ber";
     }
