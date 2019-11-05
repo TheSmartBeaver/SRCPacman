@@ -66,27 +66,32 @@ public class LevelLoader {
                     switch (line.charAt(charNumber)) {
                         case('X'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, true, false);
+                            tiles[lineNumber][charNumber] = new Tile(null, true, false, false);
                             break;
                         }
-                        case('_'):
+                        case('P'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, false, true);
+                            tiles[lineNumber][charNumber] = new Tile(null, false, false, true);
+                            break;
+                        }
+                        case('G'):
+                        {
+                            tiles[lineNumber][charNumber] = new Tile(null, false, true, false);
                             break;
                         }
                         case('.'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(new Berry(), false, false);
+                            tiles[lineNumber][charNumber] = new Tile(new Berry(), false, false, false);
                             break;
                         }
                         case('*'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(new InvincibilityPowerUp(), false, false);
+                            tiles[lineNumber][charNumber] = new Tile(new InvincibilityPowerUp(), false, false, false);
                             break;
                         }
                         default:
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, false, false);
+                            tiles[lineNumber][charNumber] = new Tile(null, false, false, false);
                         }
                     }
                 }

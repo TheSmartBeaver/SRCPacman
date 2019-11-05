@@ -1,5 +1,7 @@
 package src;
 
+import src.engine.graphics.Color;
+import src.engine.graphics.Drawer;
 import src.engine.graphics.LevelRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
@@ -67,12 +69,7 @@ public class Game {
         float y = squareTest.getPosY();
         int size = squareTest.getLength();
 
-        glBegin(GL_QUADS);
-        glColor3f(0.5f,0.2f,0.9f);
-        glVertex2f(x, y);
-        glVertex2f(x + size, y);
-        glVertex2f(x + size, y + size);
-        glVertex2f(x, y + size);
-        glEnd();
+        //TODO : ceci est du code de test: tous les appels à Drawer doivent se faire normalement dans le package engine.graphics
+        Drawer.drawRect((int)x, (int)y, size, size, new Color(0.5f, 0.2f, 0.9f));
     }
 }

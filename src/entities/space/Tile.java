@@ -13,13 +13,15 @@ public class Tile {
     private Image sprite;
     private boolean isWall;
     private boolean isGhostSpawnTile;
+    private boolean isPacmanSpawnTile;
 
-    public Tile(TileContent content, boolean isWall, boolean isGhostSpawnTile) {
-        if (isWall) assert !isGhostSpawnTile;
+    public Tile(TileContent content, boolean isWall, boolean isGhostSpawnTile, boolean isPacmanSpawnTile) {
+        if (isWall) assert !isGhostSpawnTile && !isPacmanSpawnTile;
         if (content != null) assert !isWall && !isGhostSpawnTile;
         this.content = content;
         this.isWall = isWall;
         this.isGhostSpawnTile = isGhostSpawnTile;
+        this.isPacmanSpawnTile = isPacmanSpawnTile;
     }
 
     @Override
@@ -44,5 +46,9 @@ public class Tile {
 
     public boolean isGhostSpawnTile() {
         return isGhostSpawnTile;
+    }
+
+    public boolean isPacmanSpawnTile() {
+        return isPacmanSpawnTile;
     }
 }

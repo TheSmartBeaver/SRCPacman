@@ -2,6 +2,7 @@ package src.engine.graphics;
 
 import src.Level;
 import src.ScreenParams;
+import src.entities.fixed.TileContent;
 import src.entities.fixed.TileContentType;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
@@ -25,6 +26,14 @@ public class LevelRenderer {
 
     private static int maxLevelScreenHeight;
     private static int maxLevelScreenWidth;
+
+    //TODO : remplacer les couleurs par des sprites ? (pour certains objets)
+    private static final Color wallColor = new Color(0.5f, 0.5f, 0.5f);
+    private static final Color corridorColor = new Color(1.0f, 1.0f, 1.0f);
+    private static final Color berryColor = new Color(1.0f, 0.65f, 0.0f);
+    private static final Color invincibilityColor = new Color(1.0f, 0.0f, 0.0f);
+    private static final Color ghostSpawnColor = new Color(0.0f, 0.2f, 0.7f);
+    private static final Color pacmanSpawnColor = new Color(0.75f, 0.75f, 0.0f);
 
     private static void initialize() {
         minLevelScreenOffsetUp = ScreenParams.height / 16;
@@ -85,25 +94,26 @@ public class LevelRenderer {
 
         for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
-                System.out.println(x);
-                System.out.println(y);
-                System.out.println();
                 Tile currentTile = levelTileMap.get(rowIndex, columnIndex);
                 if (currentTile.isWall()) {
-                    glColor3f(0.5f,0.5f,0.5f);
-                } else {
-                    glColor3f(1.0f,1.0f,1.0f);
+                    Drawer.drawRect(x, y, tileWidth, tileHeight, wallColor);
                 }
-                glBegin(GL_QUADS);
-                glVertex2f(x, y);
-                glVertex2f(x + tileWidth, y);
-                glVertex2f(x + tileWidth, y + tileHeight);
-                glVertex2f(x, y + tileHeight);
-                glEnd();
+                else if (currentTile.isGhostSpawnTile()) {
+                    Drawer.drawRect(x, y, tileWidth, tileHeight, ghostSpawnColor);
+                }
+                else if (currentTile.isPacmanSpawnTile()) {
+                    Drawer.drawRect(x, y, tileWidth, tileHeight, pacmanSpawnColor);
+                }
+                else {
+                    Drawer.drawRect(x, y, tileWidth, tileHeight, corridorColor);
+                }
 
                 if (currentTile.getContent() != null) {
                     if (currentTile.getContent().getContentType() == TileContentType.BERRY) {
-                        
+                        Drawer.drawCircle(x + tileWidth / 2, y + tileHeight / 2, 5, 20, berryColor);
+                    }
+                    else if (currentTile.getContent().getContentType() == TileContentType.INVINCIBILITY) {
+                        Drawer.drawCircle(x + tileWidth / 2, y + tileHeight / 2, 8, 20, invincibilityColor);
                     }
                 }
                 x += tileWidth;
