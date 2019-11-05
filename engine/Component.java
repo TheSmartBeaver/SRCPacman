@@ -17,6 +17,12 @@ public class Component {
     private static int widdth = 720/scale;
     private static int height = 480/scale;
 
+    int time = 0;
+
+    public static boolean tick = false;
+    public static boolean render = false;
+
+
     DisplayMode mode = new DisplayMode(widdth*scale, height*scale);
 
     public Component(){
@@ -59,19 +65,61 @@ public class Component {
     }
 
     public void loop(){
+
+        long before = System.nanoTime();
+        double elapsed = 0;
+        double nanoSeconds = 1000000000.0 / 60.0;
+
+        long timer = System.currentTimeMillis();
+
+        int ticks = 0; /*Nombre de fois qu'on update en 1s*/
+        int frames = 0;
+
         while (running == true){
             if(Display.isCloseRequested()) stop(); /*Si on appuie sur croix fermeture*/
             Display.update();
 
-            render();
+            tick = false;
+            render = false;
+
+            long now = System.nanoTime();
+            elapsed = now - before;
+
+            if(elapsed > nanoSeconds){
+                before += nanoSeconds;
+                tick = true;
+                ticks++;
+            } else {
+                render = true;
+                frames++;
+            }
+
+            if(tick) update();
+            if(render) render();
+
+            if (System.currentTimeMillis() - timer > 1000){
+                timer +=1000;
+                Display.setTitle(windows_title+" ticks: " + ticks + "fps: "+ frames);
+                ticks = 0;
+                frames = 0;
+            }
         }
         exit();
     }
 
-    public void render(){
+    public void update() {
+        time++;
+    }
 
-        int x = 16;
-        int y = 16, size = 16;
+    public void render(){
+        glClear(GL_COLOR_BUFFER_BIT); /*On enlève tous les résidus coloré --> clear ?*/
+        glClearColor(0.8f, 0.9f, 1.0f, 1.0f); /*Définit la couleur d'arrière plan du clear*/
+        int x = 16 + time;
+        int y = 16 + time;
+        int size = 16;
+
+        System.out.println("Je render avec "+x +" "+ y);
+        System.out.println("time /1000 = "+ (time /1000));
 
         glBegin(GL_QUADS);
         glColor3f(0.5f,0.2f,0.9f);
