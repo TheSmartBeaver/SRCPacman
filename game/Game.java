@@ -14,7 +14,7 @@ public class Game {
     public static float xScroll, yScroll;
 
     public Game() {
-        level = new Level(Component.width/16,Component.width/16);
+        level = new Level(64,64);
     }
 
     public void init(){
