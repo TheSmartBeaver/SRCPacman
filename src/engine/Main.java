@@ -6,7 +6,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 import src.Game;
 import src.ScreenParams;
-import src.SquareTest;
+import src.entities.moving.SquareTest;
 import src.loaders.LevelLoader;
 
 import java.awt.*;
@@ -64,7 +64,10 @@ public class Main {
     }
 
     public void start(){
-        LevelLoader.loadLevels("C:\\Users\\Vincent\\IdeaProjects\\SRCPacman\\maps");
+        //TODO : rechercher le dossier maps dans l'arborescence
+        System.out.println(System.getProperty("user.home"));
+        //LevelLoader.loadLevels("C:\\Users\\Vincent\\IdeaProjects\\SRCPacman\\maps");
+        LevelLoader.loadLevels("/amuhome/w16002657/IdeaProjects/SRCPacman/maps");
         running = true;
         loop();
     }
@@ -88,7 +91,7 @@ public class Main {
 
         while (running){
             if (isFirstFrame) {
-                squareTest = new SquareTest(50,50, 16);
+                squareTest = new SquareTest(50,50, 16, 100.0f);
             }
             if(Display.isCloseRequested()) stop(); /*Si on appuie sur croix fermeture*/
 
@@ -136,7 +139,6 @@ public class Main {
 
     public static void main(String args[]){
         Main main = new Main();
-        //TODO : rechercher le dossier maps dans l'arborescence
 
         //System.out.println(LevelLoader.levels.get(0).getTileMap());
         main.start();

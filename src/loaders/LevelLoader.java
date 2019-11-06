@@ -27,10 +27,10 @@ public class LevelLoader {
                 if (file.getName().matches(".*\\.txt")) {
                     filenames.add(file.getName());
                 } else {
-                    System.err.println("Les fichiers doivent être des fichiers txt");
+                    System.err.println("Les fichiers doivent ï¿½tre des fichiers txt");
                 }
             } else {
-                System.err.println("Le répertoire des niveaux ne doit contenir que des fichiers");
+                System.err.println("Le rï¿½pertoire des niveaux ne doit contenir que des fichiers");
             }
         }
 
@@ -45,7 +45,7 @@ public class LevelLoader {
 
     public static Level loadLevel(String directoryName, String fileName) {
         try {
-            BufferedReader bf = new BufferedReader(new FileReader(directoryName + "\\" + fileName));
+            BufferedReader bf = new BufferedReader(new FileReader(directoryName + "/" + fileName));
 
             String line;
             int levelWidth = 0;

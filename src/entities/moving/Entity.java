@@ -1,24 +1,23 @@
-package src;
+package src.entities.moving;
 
-/**
- * Created by Vincent on 02/11/2019.
- */
-public class SquareTest {
+public abstract class Entity {
 
     private float posX;
     private float posY;
+
+    private int tileX;
+    private int tileY;
+
     private int length;
+    private float speed;
 
-    private int speed;
+    public Entity() {}
 
-    public SquareTest() {
-    }
-
-    public SquareTest(float posX, float posY, int length) {
+    public Entity(float posX, float posY, int length, float speed) {
         this.posX = posX;
         this.posY = posY;
         this.length = length;
-        speed = 100;
+        this.speed = speed;
     }
 
     public float getPosX() {
@@ -41,7 +40,9 @@ public class SquareTest {
         return length;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
+
+    public abstract EntityType getEntityType();
 }

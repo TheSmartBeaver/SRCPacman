@@ -1,6 +1,10 @@
 package src;
 
+import src.entities.moving.Entity;
 import src.entities.space.TileMap;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Vincent on 01/11/2019.
@@ -9,6 +13,9 @@ public class Level {
 
     private TileMap tileMap;
     private int numeroLevel;
+
+    //ou un HashSet ?
+    private List<Entity> entities = new ArrayList<>();
 
     public Level(TileMap tileMap, int numeroLevel) {
         this.tileMap = tileMap;
