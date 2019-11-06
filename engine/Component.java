@@ -5,8 +5,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 
-import javax.swing.text.html.CSS;
-
 import static org.lwjgl.opengl.GL11.*;
 
 
@@ -14,7 +12,7 @@ public class Component {
     private boolean running = false;
     private static String windows_title = "PACMAN";
     private static int scale = 3; /*Car on aura pas besoin d'aussi grosse résolution ?? */
-    private static int widdth = 720/scale;
+    private static int width = 720/scale;
     private static int height = 480/scale;
 
     int time = 0;
@@ -23,7 +21,8 @@ public class Component {
     public static boolean render = false;
 
 
-    DisplayMode mode = new DisplayMode(widdth*scale, height*scale);
+    DisplayMode mode = new DisplayMode(width *scale, height*scale);
+
 
     public Component(){
         try {
@@ -35,17 +34,20 @@ public class Component {
             Display.setTitle(windows_title);
             Display.create();
 
-            initGL();
+            view2D(width,height);
         }
         catch (LWJGLException e){
             e.printStackTrace();
         }
     }
 
-    private  void initGL() {
+
+
+    private  void view2D(int width, int height) {
+        glViewport(0, 0, width * scale, height * scale);
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        GLU.gluOrtho2D(0,widdth,height,0);
+        GLU.gluOrtho2D(0, width,height,0);
         glMatrixMode(GL_MODELVIEW); /*On revient à la vue d'origine*/
         glLoadIdentity();
     }
@@ -78,6 +80,9 @@ public class Component {
         while (running == true){
             if(Display.isCloseRequested()) stop(); /*Si on appuie sur croix fermeture*/
             Display.update();
+
+            width = Display.getWidth() / scale;
+            height = Display.getHeight() / scale;
 
             tick = false;
             render = false;
@@ -112,10 +117,14 @@ public class Component {
     }
 
     public void render(){
+        width = Display.getWidth() / scale;
+        height = Display.getHeight() / scale;
+        view2D(Display.getWidth() / scale, Display.getHeight() / scale);
+
         glClear(GL_COLOR_BUFFER_BIT); /*On enlève tous les résidus coloré --> clear ?*/
         glClearColor(0.8f, 0.9f, 1.0f, 1.0f); /*Définit la couleur d'arrière plan du clear*/
-        int x = 16 + time;
-        int y = 16 + time;
+        int x = 16 + time/3;
+        int y = 16 + time/3;
         int size = 16;
 
         System.out.println("Je render avec "+x +" "+ y);
