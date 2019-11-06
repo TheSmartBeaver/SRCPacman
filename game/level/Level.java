@@ -20,7 +20,13 @@ public class Level {
     public void generate(){
         for (int x=0;x<width;x++){
             for (int y=0;y<height;y++){
-                tiles.add(new Tile(x,y));
+                tiles.add(new Tile(x,y, Tile.Tiles.WATER));
+                if(Math.random() > 0.8f) {
+                    tiles.add(new Tile(x,y, Tile.Tiles.GRASS));
+                }
+                if(Math.random() > 0.95f) {
+                    tiles.add(new Tile(x,y, Tile.Tiles.ROCK));
+                }
             }
         }
     }

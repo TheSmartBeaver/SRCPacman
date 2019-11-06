@@ -12,13 +12,21 @@ public class Tile {
 
     float[] color;
 
-    Random random = new Random();
+    Tiles tile;
 
-    public Tile(int x, int y) {
+    public enum Tiles {
+        GRASS, ROCK, WATER
+    }
+
+    public Tile(int x, int y, Tiles tile) {
         this.x = x;
         this.y = y;
+        this.tile = tile;
 
-        color = new float[]{random.nextFloat(),random.nextFloat(),random.nextFloat(),1};
+        if(tile == Tiles.GRASS) color = new float[]{0.1f, 0.5f, 0, 1};
+        if(tile == Tiles.ROCK) color = new float[]{0.5f, 0.5f, 0.5f, 1};
+        if(tile == Tiles.WATER) color = new float[]{0.5f, 0.5f, 0.1f, 1};
+
     }
 
     public void render(){
