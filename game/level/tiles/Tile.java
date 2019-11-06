@@ -3,14 +3,17 @@ package SRCPacman.game.level.tiles;
 import SRCPacman.engine.Component;
 import SRCPacman.game.Game;
 import SRCPacman.graphics.Renderer;
+import SRCPacman.graphics.Texture;
+import static org.lwjgl.opengl.GL11.*;
 
 import java.util.Random;
 
 public class Tile {
     public int x, y;
+    int xo = 0 , yo = 0;
     public int size = 16;
 
-    float[] color;
+    float[] color = new float[]{1,1,1,1};
 
     Tiles tile;
 
@@ -23,9 +26,9 @@ public class Tile {
         this.y = y;
         this.tile = tile;
 
-        if(tile == Tiles.GRASS) color = new float[]{0.1f, 0.5f, 0, 1};
-        if(tile == Tiles.ROCK) color = new float[]{0.5f, 0.5f, 0.5f, 1};
-        if(tile == Tiles.WATER) color = new float[]{0.5f, 0.5f, 0.1f, 1};
+        if(tile == Tiles.GRASS) xo = 0;
+        if(tile == Tiles.ROCK) xo = 1;
+        if(tile == Tiles.WATER)xo = 2;
 
     }
 
@@ -39,7 +42,12 @@ public class Tile {
 
         if(x1 < 0 || y1 < 0 || x0 > Component.width/16 || y0 > Component.height/16) return;;
         /*Fin optimisation*/
+        Texture.tiles.bind();
+        glBegin(GL_QUADS);
+            //color = new float[]{1,1,1,1};
+            Renderer.quadData(x*size,y*size,size,size, color, xo, yo);
+            glEnd();
+        Texture.tiles.unbind();
 
-        Renderer.renderQuad(x*size,y*size,size,size, color);
     }
 }
