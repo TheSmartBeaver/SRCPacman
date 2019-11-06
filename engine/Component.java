@@ -1,5 +1,6 @@
 package SRCPacman.engine;
 
+import SRCPacman.game.Game;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -12,8 +13,8 @@ public class Component {
     private boolean running = false;
     private static String windows_title = "PACMAN";
     private static int scale = 3; /*Car on aura pas besoin d'aussi grosse résolution ?? */
-    private static int width = 720/scale;
-    private static int height = 480/scale;
+    public static int width = 720/scale;
+    public static int height = 480/scale;
 
     int time = 0;
 
@@ -23,22 +24,12 @@ public class Component {
 
     DisplayMode mode = new DisplayMode(width *scale, height*scale);
 
+    Game game;
 
     public Component(){
-        try {
+        display();
 
-
-            Display.setDisplayMode(mode);
-            Display.setResizable(true);
-            Display.setFullscreen(false);
-            Display.setTitle(windows_title);
-            Display.create();
-
-            view2D(width,height);
-        }
-        catch (LWJGLException e){
-            e.printStackTrace();
-        }
+        game = new Game();
     }
 
 
@@ -117,26 +108,26 @@ public class Component {
     }
 
     public void render(){
-        width = Display.getWidth() / scale;
-        height = Display.getHeight() / scale;
         view2D(Display.getWidth() / scale, Display.getHeight() / scale);
 
         glClear(GL_COLOR_BUFFER_BIT); /*On enlève tous les résidus coloré --> clear ?*/
-        glClearColor(0.8f, 0.9f, 1.0f, 1.0f); /*Définit la couleur d'arrière plan du clear*/
-        int x = 16 + time/3;
-        int y = 16 + time/3;
-        int size = 16;
 
-        System.out.println("Je render avec "+x +" "+ y);
-        System.out.println("time /1000 = "+ (time /1000));
+        game.render();
+    }
 
-        glBegin(GL_QUADS);
-        glColor3f(0.5f,0.2f,0.9f);
-        glVertex2f(x, y);
-        glVertex2f(x + size, y);
-        glVertex2f(x + size, y + size);
-        glVertex2f(x, y + size);
-        glEnd();
+    public void display(){
+        try {
+            Display.setDisplayMode(mode);
+            Display.setResizable(true);
+            Display.setFullscreen(false);
+            Display.setTitle(windows_title);
+            Display.create();
+
+            view2D(width,height);
+        }
+        catch (LWJGLException e){
+            e.printStackTrace();
+        }
     }
 
     public static void main(String args[]){
