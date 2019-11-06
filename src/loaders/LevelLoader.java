@@ -99,7 +99,9 @@ public class LevelLoader {
             }
 
             int numLevel = Integer.parseInt(fileName.replaceFirst("[.][^.]+$", ""));
-            Level level = new Level(new TileMap(tiles, levelHeight, levelWidth), numLevel);
+            TileMap newTileMap = new TileMap(tiles, levelHeight, levelWidth);
+            newTileMap.loadSprites();
+            Level level = new Level(newTileMap, numLevel);
             return level;
 
         } catch (FileNotFoundException e) {

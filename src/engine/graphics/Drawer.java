@@ -31,4 +31,13 @@ public class Drawer {
         glEnd();
     }
 
+    public static void drawSprite(float x, float y, int widthSprite, int heightSprite, int xSprite, int ySprite) {
+        glBegin(GL_QUADS);
+        glColor4f(1,1,1,1);
+        glTexCoord2f((0 + xSprite) / 32.0f,(0 + ySprite) /32.0f); glVertex2f(x,y); /*1 pour 100% de la texture*/
+        glTexCoord2f((1 + xSprite) / 32.0f,(0 + ySprite) /32.0f); glVertex2f(x+widthSprite,y);
+        glTexCoord2f((1 + xSprite) / 32.0f,(1 + ySprite) /32.0f); glVertex2f(x+widthSprite,y+heightSprite);
+        glTexCoord2f((0 + xSprite) / 32.0f,(1 + ySprite) /32.0f); glVertex2f(x,y+heightSprite);
+        glEnd();
+    }
 }

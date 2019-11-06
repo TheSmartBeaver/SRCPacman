@@ -17,6 +17,16 @@ public class TileMap {
 
     public void loadSprites() {
         //algo pour déterminer quel sprite pour les murs (en fonction de la configuration des murs)
+        for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
+            for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
+                if (tiles[rowIndex][columnIndex].isWall()) {
+                    tiles[rowIndex][columnIndex].setSprite(TileSprite.ROCK);
+                }
+                else {
+                    tiles[rowIndex][columnIndex].setSprite(TileSprite.GRASS);
+                }
+            }
+        }
     }
 
     @Override

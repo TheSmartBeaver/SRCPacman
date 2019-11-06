@@ -2,15 +2,13 @@ package src.entities.space;
 
 import src.entities.fixed.TileContent;
 
-import java.awt.*;
-
 /**
  * Created by Vincent on 01/11/2019.
  */
 public class Tile {
 
     private TileContent content = null;
-    private Image sprite;
+    private TileSprite sprite;
     private boolean isWall;
     private boolean isGhostSpawnTile;
     private boolean isPacmanSpawnTile;
@@ -50,5 +48,13 @@ public class Tile {
 
     public boolean isPacmanSpawnTile() {
         return isPacmanSpawnTile;
+    }
+
+    public TileSprite getSprite() {
+        return sprite;
+    }
+
+    public void setSprite(TileSprite sprite) {
+        this.sprite = sprite;
     }
 }

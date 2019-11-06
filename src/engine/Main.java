@@ -5,7 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 import src.Game;
-import src.ScreenParams;
+import src.UserParams;
 import src.entities.moving.SquareTest;
 import src.loaders.LevelLoader;
 
@@ -22,7 +22,6 @@ public class Main {
     private static String windows_title = "PACMAN";
 
     private static int scale = 2;
-    private static ScreenParams screenParams;
 
     private static int targetFPS = 60;
     private static long targetMSPerFrame = 1000 / targetFPS;
@@ -39,7 +38,10 @@ public class Main {
 
             int width = screenSize.width / scale;
             int height = screenSize.height / scale;
-            screenParams = new ScreenParams(2, width, height);
+            UserParams.resolutionScale = scale;
+            UserParams.screenWidth = width;
+            UserParams.screenHeight = height;
+            UserParams.userDir = System.getProperty("user.dir");
             mode = new DisplayMode(width, height);
 
             Display.setDisplayMode(mode);
@@ -58,16 +60,14 @@ public class Main {
     private  void initGL() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        GLU.gluOrtho2D(0, screenParams.width,screenParams.height,0);
+        GLU.gluOrtho2D(0, UserParams.screenWidth, UserParams.screenHeight,0);
         glMatrixMode(GL_MODELVIEW); /*On revient à la vue d'origine*/
         glLoadIdentity();
+        glEnable(GL_TEXTURE_2D);
     }
 
     public void start(){
-        //TODO : rechercher le dossier maps dans l'arborescence
-        System.out.println(System.getProperty("user.home"));
-        //LevelLoader.loadLevels("C:\\Users\\Vincent\\IdeaProjects\\SRCPacman\\maps");
-        LevelLoader.loadLevels("/amuhome/w16002657/IdeaProjects/SRCPacman/maps");
+        LevelLoader.loadLevels(UserParams.userDir + "/assets/maps");
         running = true;
         loop();
     }
