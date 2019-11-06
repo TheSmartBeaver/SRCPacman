@@ -104,6 +104,7 @@ public class Component {
     }
 
     public void update() {
+        game.update();
         time++;
     }
 
