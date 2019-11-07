@@ -20,4 +20,12 @@ public class Sprite {
     public int getySprite() {
         return ySprite;
     }
+
+    @Override
+    public String toString() {
+        return "Sprite{" +
+                "xSprite=" + xSprite +
+                ", ySprite=" + ySprite +
+                '}';
+    }
 }

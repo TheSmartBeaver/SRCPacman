@@ -41,8 +41,6 @@ public class LevelRenderer {
         maxLevelScreenWidth = UserParams.screenWidth - minLevelScreenOffsetLeft - minLevelScreenOffsetRight;
 
         texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8);
-        System.out.println(texture.getWidth());
-        System.out.println(texture.getHeight());
 
         isInitialized = true;
     }
@@ -100,17 +98,13 @@ public class LevelRenderer {
                 Sprite currentSprite = texture.getSprites().get(currentTile.getSprite().ordinal());
                 texture.bind();
                 Drawer.drawSprite(x, y, tileWidth, tileHeight, currentSprite.getxSprite(), currentSprite.getySprite());
-
-                //TODO : supprimer le if suivant quand on aura des sprites pour les fruits / powerups
-                if (currentTile.getContent() != null) {
-                    if (currentTile.getContent().getContentType() == TileContentType.BERRY) {
-                        Drawer.drawCircle(x + tileWidth / 2, y + tileHeight / 2, 5, 20, berryColor);
-                    }
-                    else if (currentTile.getContent().getContentType() == TileContentType.INVINCIBILITY) {
-                        Drawer.drawCircle(x + tileWidth / 2, y + tileHeight / 2, 8, 20, invincibilityColor);
-                    }
-                }
                 texture.unbind();
+                if (currentTile.getContent() != null) {
+                    Sprite contentSprite = texture.getSprites().get(currentTile.getContent().getSprite().ordinal());
+                    texture.bind();
+                    Drawer.drawSprite(x, y, tileWidth, tileHeight, contentSprite.getxSprite(), contentSprite.getySprite());
+                    texture.unbind();
+                }
                 x += tileWidth;
             }
             x = levelScreenOffsetLeft;

@@ -1,5 +1,7 @@
 package src.entities.space;
 
+import src.entities.fixed.TileContentType;
+
 /**
  * Created by Vincent on 01/11/2019.
  */
@@ -21,30 +23,160 @@ public class TileMap {
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 if (tiles[rowIndex][columnIndex].isWall()) {
                     //TODO : faire les if pour les sprites qui ont le plus de murs adjacents en premier (ordre décroissant de nombre de murs par sprite)
-                    if (columnIndex != 0 && columnIndex != columnCount - 1 && tiles[rowIndex][columnIndex-1].isWall() && tiles[rowIndex][columnIndex+1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.HORIZONTAL_WALL);
+
+                    /*if (rowIndex != 0) {
+                        if (columnIndex != 0) {
+                            if (rowIndex != rowCount - 1) {
+                                if (columnIndex != columnCount - 1) {
+                                    if(tiles[rowIndex][columnIndex-1].isWall()
+                                            && tiles[rowIndex][columnIndex+1].isWall()
+                                            && tiles[rowIndex-1][columnIndex].isWall()
+                                            && tiles[rowIndex+1][columnIndex-1].isWall()) {
+                                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_QUAD_WALL); continue;
+                                    }
+                                }
+                                if(tiles[rowIndex][columnIndex-1].isWall()
+                                        && tiles[rowIndex-1][columnIndex].isWall()
+                                        && tiles[rowIndex+1][columnIndex-1].isWall()) {
+                                    tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_TOP_LEFT_DOWN_WALL);continue;
+                                }
+                            }
+                            if (columnIndex != columnCount - 1) {
+                                if(tiles[rowIndex][columnIndex-1].isWall()
+                                        && tiles[rowIndex][columnIndex+1].isWall()
+                                        && tiles[rowIndex-1][columnIndex].isWall()) {
+                                    tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_RIGHT_TOP_LEFT); continue;
+                                }
+                            }
+                        }
+                    }*/
+
+                    if (
+                            columnIndex != 0 && columnIndex != columnCount - 1 && rowIndex != 0 && rowIndex != rowCount - 1
+                            && tiles[rowIndex][columnIndex-1].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()
+                            && tiles[rowIndex-1][columnIndex].isWall()
+                            && tiles[rowIndex+1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_QUAD_WALL); continue;
                     }
-                    if (rowIndex != 0 && rowIndex != rowCount - 1 && tiles[rowIndex-1][columnIndex].isWall() && tiles[rowIndex+1][columnIndex].isWall() && tiles[rowIndex][columnIndex].getSprite() == null){
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.VERTICAL_WALL);
+
+                    if (rowIndex != 0 && columnIndex != 0 && columnIndex != columnCount - 1
+                            && tiles[rowIndex][columnIndex-1].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()
+                            && tiles[rowIndex-1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_RIGHT_TOP_LEFT_WALL); continue;
                     }
-                    if (rowIndex != 0 && columnIndex != columnCount - 1 && tiles[rowIndex-1][columnIndex].isWall() && tiles[rowIndex][columnIndex+1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_LEFT_CORNER_WALL);
+
+                    if (rowIndex != 0 && rowIndex != rowCount - 1 && columnIndex != 0
+                            && tiles[rowIndex][columnIndex-1].isWall()
+                            && tiles[rowIndex+1][columnIndex].isWall()
+                            && tiles[rowIndex-1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_TOP_LEFT_DOWN_WALL); continue;
                     }
-                    if (rowIndex != 0 && columnIndex != 0 && tiles[rowIndex-1][columnIndex].isWall() && tiles[rowIndex][columnIndex-1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_RIGHT_CORNER_WALL);
+
+                    if (rowIndex != rowCount - 1 && columnIndex != 0 && columnIndex != columnCount - 1
+                            && tiles[rowIndex][columnIndex-1].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()
+                            && tiles[rowIndex+1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_LEFT_DOWN_RIGHT_WALL); continue;
                     }
-                    if (rowIndex != rowCount - 1 && columnIndex != 0 && tiles[rowIndex+1][columnIndex].isWall() && tiles[rowIndex][columnIndex-1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_RIGHT_CORNER_WALL);
+
+                    if (rowIndex != 0 && rowIndex != rowCount - 1 && columnIndex != columnCount - 1
+                            && tiles[rowIndex-1][columnIndex].isWall()
+                            && tiles[rowIndex+1][columnIndex].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_DOWN_RIGHT_TOP_WALL); continue;
                     }
-                    if (rowIndex != rowCount - 1 && columnIndex != columnCount - 1 && tiles[rowIndex+1][columnIndex].isWall() && tiles[rowIndex][columnIndex+1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_LEFT_CORNER_WALL);
+
+                    if (rowIndex != 0 && columnIndex != columnCount - 1
+                            && tiles[rowIndex-1][columnIndex].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()) {
+
+                        if (tiles[rowIndex-1][columnIndex+1].isWall()) {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_LEFT_CORNER_WALL_BIG); continue;
+                        } else {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_LEFT_CORNER_WALL); continue;
+                        }
                     }
-                    if (tiles[rowIndex][columnIndex].getSprite() == null)
-                        tiles[rowIndex][columnIndex].setSprite(TileSprite.ROCK);
+
+                    if (rowIndex != 0 && columnIndex != 0
+                            && tiles[rowIndex-1][columnIndex].isWall()
+                            && tiles[rowIndex][columnIndex-1].isWall()) {
+
+                        if (tiles[rowIndex-1][columnIndex-1].isWall()) {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_RIGHT_CORNER_WALL_BIG); continue;
+                        } else {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_RIGHT_CORNER_WALL); continue;
+                        }
+                    }
+
+                    if (columnIndex != 0 && rowIndex != rowCount - 1
+                            && tiles[rowIndex+1][columnIndex].isWall()
+                            && tiles[rowIndex][columnIndex-1].isWall()) {
+
+                        if (tiles[rowIndex+1][columnIndex-1].isWall()) {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_RIGHT_CORNER_WALL_BIG); continue;
+                        } else {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_RIGHT_CORNER_WALL); continue;
+                        }
+                    }
+
+                    if (rowIndex != rowCount - 1 && columnIndex != columnCount - 1
+                            && tiles[rowIndex+1][columnIndex].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()) {
+
+                        if (tiles[rowIndex+1][columnIndex+1].isWall()) {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_LEFT_CORNER_WALL_BIG); continue;
+                        } else {
+                            tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_LEFT_CORNER_WALL); continue;
+                        }
+                    }
+
+                    if (rowIndex != 0 && rowIndex != rowCount - 1
+                            && tiles[rowIndex-1][columnIndex].isWall()
+                            && tiles[rowIndex+1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.VERTICAL_WALL); continue;
+                    }
+
+                    if (columnIndex != 0 && columnIndex != columnCount - 1
+                            && tiles[rowIndex][columnIndex-1].isWall()
+                            && tiles[rowIndex][columnIndex+1].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.HORIZONTAL_WALL); continue;
+                    }
+
+                    if (columnIndex != columnCount - 1
+                            && tiles[rowIndex][columnIndex+1].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.EXT_LEFT_WALL); continue;
+                    }
+
+                    if (columnIndex != 0
+                            && tiles[rowIndex][columnIndex-1].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.EXT_RIGHT_WALL); continue;
+                    }
+
+                    if (rowIndex != 0
+                            && tiles[rowIndex-1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.EXT_DOWN_WALL); continue;
+                    }
+
+                    if (rowIndex != rowCount - 1
+                            && tiles[rowIndex+1][columnIndex].isWall()) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.EXT_TOP_WALL); continue;
+                    }
+
+                    tiles[rowIndex][columnIndex].setSprite(TileSprite.EMPTY); continue;
 
                 }
                 else {
-                    tiles[rowIndex][columnIndex].setSprite(TileSprite.GRASS);
+                    tiles[rowIndex][columnIndex].setSprite(TileSprite.EMPTY);
+                    if (tiles[rowIndex][columnIndex].getContent() != null) {
+                        if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.BERRY) {
+                            tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.BERRY);
+                        }
+                        else if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.INVINCIBILITY) {
+                            tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.INVINCIBILITY);
+                        }
+                    }
                 }
             }
         }

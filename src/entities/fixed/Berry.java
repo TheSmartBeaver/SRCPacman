@@ -5,7 +5,7 @@ import src.entities.moving.Pacman;
 /**
  * Created by Vincent on 01/11/2019.
  */
-public class Berry extends Fruit implements TileContent {
+public class Berry extends TileContent {
 
     public Berry() {
         super(10);

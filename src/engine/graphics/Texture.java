@@ -32,6 +32,7 @@ public class Texture {
         this.spriteSize = spriteSize;
         loadTexture(pngPath);
         setSprites();
+        System.out.println(sprites);
     }
 
     private void loadTexture(String path) {
@@ -83,7 +84,7 @@ public class Texture {
         for (int spriteIndex = 0 ; spriteIndex < TileSprite.values().length ; ++spriteIndex) {
             sprites.add(new Sprite(x,y));
             ++x;
-            if (x == nbTexturesPerRow - 1) {
+            if (x == nbTexturesPerRow) {
                 x = 0;
                 ++y;
             }
