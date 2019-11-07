@@ -7,6 +7,7 @@ import org.lwjgl.util.glu.GLU;
 import src.Game;
 import src.UserParams;
 import src.entities.moving.SquareTest;
+import src.entities.space.TileSprite;
 import src.loaders.LevelLoader;
 
 import java.awt.*;
