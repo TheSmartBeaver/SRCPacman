@@ -20,7 +20,28 @@ public class TileMap {
         for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 if (tiles[rowIndex][columnIndex].isWall()) {
-                    tiles[rowIndex][columnIndex].setSprite(TileSprite.ROCK);
+                    //TODO : faire les if pour les sprites qui ont le plus de murs adjacents en premier (ordre décroissant de nombre de murs par sprite)
+                    if (columnIndex != 0 && columnIndex != columnCount - 1 && tiles[rowIndex][columnIndex-1].isWall() && tiles[rowIndex][columnIndex+1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.HORIZONTAL_WALL);
+                    }
+                    if (rowIndex != 0 && rowIndex != rowCount - 1 && tiles[rowIndex-1][columnIndex].isWall() && tiles[rowIndex+1][columnIndex].isWall() && tiles[rowIndex][columnIndex].getSprite() == null){
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.VERTICAL_WALL);
+                    }
+                    if (rowIndex != 0 && columnIndex != columnCount - 1 && tiles[rowIndex-1][columnIndex].isWall() && tiles[rowIndex][columnIndex+1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_LEFT_CORNER_WALL);
+                    }
+                    if (rowIndex != 0 && columnIndex != 0 && tiles[rowIndex-1][columnIndex].isWall() && tiles[rowIndex][columnIndex-1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.BOT_RIGHT_CORNER_WALL);
+                    }
+                    if (rowIndex != rowCount - 1 && columnIndex != 0 && tiles[rowIndex+1][columnIndex].isWall() && tiles[rowIndex][columnIndex-1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_RIGHT_CORNER_WALL);
+                    }
+                    if (rowIndex != rowCount - 1 && columnIndex != columnCount - 1 && tiles[rowIndex+1][columnIndex].isWall() && tiles[rowIndex][columnIndex+1].isWall() && tiles[rowIndex][columnIndex].getSprite() == null) {
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.TOP_LEFT_CORNER_WALL);
+                    }
+                    if (tiles[rowIndex][columnIndex].getSprite() == null)
+                        tiles[rowIndex][columnIndex].setSprite(TileSprite.ROCK);
+
                 }
                 else {
                     tiles[rowIndex][columnIndex].setSprite(TileSprite.GRASS);
