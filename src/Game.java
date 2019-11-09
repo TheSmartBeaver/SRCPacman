@@ -70,7 +70,7 @@ public class Game {
         }
 
         //TODO: idée : la classe Level possède une liste d'entités propres à elle.
-        currentLevel = LevelLoader.levels.get(0);
+        currentLevel = LevelLoader.levels.get(1);
         //TODO : idée : faire une classe GlobalRenderer qui prend tous les paramètres qu'il faut et appeler dedans les sous-renderers ?
         LevelRenderer.renderLevel(currentLevel);
         //oldLevel = currentLevel;

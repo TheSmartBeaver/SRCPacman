@@ -144,7 +144,7 @@ public class TileMap {
                         tiles[rowIndex][columnIndex].setSprite(TileSprite.EXT_TOP_WALL); continue;
                     }
 
-                    tiles[rowIndex][columnIndex].setSprite(TileSprite.EMPTY); continue;
+                    tiles[rowIndex][columnIndex].setSprite(TileSprite.LONE_WALL); continue;
 
                 }
                 else {
