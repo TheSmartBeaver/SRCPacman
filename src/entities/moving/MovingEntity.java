@@ -1,6 +1,6 @@
 package src.entities.moving;
 
-public abstract class Entity {
+public abstract class MovingEntity {
 
     private float posX;
     private float posY;
@@ -11,9 +11,9 @@ public abstract class Entity {
     private int length;
     private float speed;
 
-    public Entity() {}
+    public MovingEntity() {}
 
-    public Entity(float posX, float posY, int length, float speed) {
+    public MovingEntity(float posX, float posY, int length, float speed) {
         this.posX = posX;
         this.posY = posY;
         this.length = length;
@@ -44,5 +44,5 @@ public abstract class Entity {
         return speed;
     }
 
-    public abstract EntityType getEntityType();
+    public abstract MovingEntityType getEntityType();
 }

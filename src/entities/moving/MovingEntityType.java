@@ -1,6 +1,6 @@
 package src.entities.moving;
 
-public enum EntityType {
+public enum MovingEntityType {
 
     PACMAN,
     GHOST,

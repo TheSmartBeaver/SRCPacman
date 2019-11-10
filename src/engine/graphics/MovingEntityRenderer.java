@@ -1,11 +1,9 @@
 package src.engine.graphics;
 
 import src.Level;
-import src.entities.moving.Entity;
+import src.entities.moving.MovingEntity;
 
-import java.util.List;
-
-public class EntityRenderer {
+public class MovingEntityRenderer {
 
     public static void initEntities(Level level) {
 
@@ -15,7 +13,7 @@ public class EntityRenderer {
 
     }
 
-    private static void renderEntity(Entity entity) {
+    private static void renderEntity(MovingEntity movingEntity) {
 
     }
 

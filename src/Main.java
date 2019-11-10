@@ -1,13 +1,10 @@
-package src.engine;
+package src;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
-import src.Game;
-import src.UserParams;
 import src.entities.moving.SquareTest;
-import src.entities.space.TileSprite;
 import src.loaders.LevelLoader;
 
 import java.awt.*;
@@ -107,9 +104,9 @@ public class Main {
 
             lastBeginningFrameTime = currentBeginningFrameTime;
 
-            Game.update(deltaTime, squareTest);
+            GameMain.update(deltaTime, squareTest);
 
-            Game.render(squareTest);
+            GameMain.render(squareTest);
 
             endFrameTime = getTime();
             double timeElapsed = getDelta(endFrameTime, currentBeginningFrameTime);
