@@ -4,6 +4,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
+import src.engine.graphics.GameRenderer;
 import src.entities.moving.SquareTest;
 import src.loaders.LevelLoader;
 
@@ -66,6 +67,7 @@ public class Main {
 
     public void start(){
         LevelLoader.loadLevels(UserParams.userDir + "/assets/maps");
+        GameRenderer.initialize();
         running = true;
         loop();
     }

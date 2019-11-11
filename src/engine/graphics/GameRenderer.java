@@ -3,15 +3,17 @@ package src.engine.graphics;
 import src.Level;
 import src.UserParams;
 import src.entities.fixed.TileContentType;
+import src.entities.moving.MovingEntity;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
+
+import java.util.List;
 
 /**
  * Created by Vincent on 05/11/2019.
  */
-public class LevelRenderer {
+public class GameRenderer {
 
-    private static boolean isInitialized = false;
     //TODO : voir si on garantit pas un certain nombre de pixels minimum pour les offsets si jamais on veut afficher
     //TODO : des infos à gauche, à droite et en bas (vérifier par ex que minLevelScreenOffsetUp >= 50 pour afficher score et vies)
     private static int minLevelScreenOffsetUp;
@@ -32,7 +34,7 @@ public class LevelRenderer {
     private static final Color ghostSpawnColor = new Color(0.0f, 0.2f, 0.7f);
     private static final Color pacmanSpawnColor = new Color(0.75f, 0.75f, 0.0f);
 
-    private static void initialize() {
+    public static void initialize() {
         minLevelScreenOffsetUp = UserParams.screenHeight / 16;
         minLevelScreenOffsetDown = UserParams.screenHeight / 64;
         minLevelScreenOffsetLeft = UserParams.screenWidth / 64;
@@ -42,14 +44,12 @@ public class LevelRenderer {
 
         texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8);
 
-        isInitialized = true;
     }
 
-    public static void renderLevel(Level level) {
-        if (!isInitialized) {
-            initialize();
-        }
+    public static void renderLevel(Level level, List<MovingEntity> entities) {
 
+        //TODO : mettre toute la première partie de cette fonction (avant le for) dans une autre fonction car on a pas besoin de recalculer ça à chaque fois
+        //TODO : (seulement quand on démarre un nouveau niveau)
         int levelScreenOffsetUp = minLevelScreenOffsetUp;
         int levelScreenOffsetDown = minLevelScreenOffsetDown;
         int levelScreenOffsetLeft = minLevelScreenOffsetLeft;

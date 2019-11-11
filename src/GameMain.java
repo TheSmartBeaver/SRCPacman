@@ -3,7 +3,7 @@ package src;
 import src.engine.graphics.Color;
 import src.engine.graphics.Drawer;
 import src.engine.graphics.MovingEntityRenderer;
-import src.engine.graphics.LevelRenderer;
+import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
 import src.entities.moving.MovingEntity;
@@ -18,15 +18,10 @@ import java.util.List;
  */
 public class GameMain {
 
-    private static Level oldLevel = null;
-    private static Level currentLevel = null;
-    //TODO : booléen de test, à enlever plus tard certainement
-    private static boolean newLevel = true;
-
-    //TODO : idée : la liste d'entités serait dans la classe Level (chaque level a ses propres entités)
-    private static List<MovingEntity> entities = new ArrayList<>();
-
     public static void update(double deltaTime, SquareTest squareTest) {
+
+        GameState.currentLevelPlayed = LevelLoader.levels.get(1);
+
         //CODE DE TEST
         InputGetter.getInputs();
         float lastSquarePosX = squareTest.getPosX();
@@ -64,17 +59,8 @@ public class GameMain {
 
     public static void render(SquareTest squareTest){
 
-        if (newLevel) {
-            entities.add(squareTest);
-            newLevel = false;
-        }
-
-        //TODO: idée : la classe Level possède une liste d'entités propres à elle.
-        currentLevel = LevelLoader.levels.get(1);
         //TODO : idée : faire une classe GlobalRenderer qui prend tous les paramètres qu'il faut et appeler dedans les sous-renderers ?
-        LevelRenderer.renderLevel(currentLevel);
-        //oldLevel = currentLevel;
-        MovingEntityRenderer.renderEntities(currentLevel);
+        GameRenderer.renderLevel(GameState.currentLevelPlayed, GameState.currentEntities);
 
         float x = squareTest.getPosX();
         float y = squareTest.getPosY();
