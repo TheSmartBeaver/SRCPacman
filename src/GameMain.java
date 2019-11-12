@@ -6,8 +6,10 @@ import src.engine.graphics.MovingEntityRenderer;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
+import src.engine.physics.MovementPhysics;
 import src.entities.moving.MovingEntity;
 import src.entities.moving.MovingEntityType;
+import src.entities.moving.Pacman;
 import src.entities.moving.SquareTest;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
@@ -29,10 +31,10 @@ public class GameMain {
         int rowCount = tileMap.getRowCount();
         int columnCount = tileMap.getColumnCount();
         for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
-            for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnCount) {
+            for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 if (tileMap.get(rowIndex, columnIndex).isPacmanSpawnTile()) {
                     for (MovingEntity movingEntity : GameState.currentEntities) {
-                        if (movingEntity.getEntityType() == MovingEntityType.TEST) {
+                        if (movingEntity.getEntityType() == MovingEntityType.PACMAN) {
                             movingEntity.setTileX(columnIndex);
                             movingEntity.setTileY(rowIndex);
                             movingEntity.setPosX(
@@ -45,6 +47,9 @@ public class GameMain {
                                     GameState.currentLevelPlayed.getTileHeight() * rowIndex +
                                     GameState.currentLevelPlayed.getTileHeight() / 2
                             );
+                            movingEntity.setTileX(columnIndex);
+                            movingEntity.setTileY(rowIndex);
+                            System.out.println(movingEntity.getPosX() + " " + movingEntity.getPosY());
                         }
                     }
                 }
@@ -55,49 +60,13 @@ public class GameMain {
     public static void update(double deltaTime, SquareTest squareTest) {
 
         if (newLevel) {
-
-            GameState.currentLevelPlayed = LevelLoader.levels.get(1);
-            GameState.currentEntities.add(new SquareTest());
+            GameState.currentLevelPlayed = LevelLoader.levels.get(0);
+            GameState.currentEntities.add(new Pacman(0,0, 20,20));
+            initEntitiesPosition();
             newLevel = false;
         }
 
-        //TODO : faire un objet GameState au lieu d'un truc statique pour passer en paramètre les entités à cette fonction ?
-        //initEntitiesPosition();
-
-
-        //CODE DE TEST
-        InputGetter.getInputs();
-        float lastSquarePosX = squareTest.getPosX();
-        float lastSquarePosY = squareTest.getPosY();
-
-        float newSquarePosX = lastSquarePosX;
-        float newSquarePosY = lastSquarePosY;
-
-        switch(GameInput.getInput()) {
-            case UP:
-            {
-                newSquarePosY -= ((deltaTime / 1000.0) * squareTest.getSpeed());
-                break;
-            }
-            case DOWN:
-            {
-                newSquarePosY += ((deltaTime / 1000.0) * squareTest.getSpeed());
-                break;
-            }
-            case LEFT:
-            {
-                newSquarePosX -= ((deltaTime / 1000.0) * squareTest.getSpeed());
-                break;
-            }
-            case RIGHT:
-            {
-                newSquarePosX += ((deltaTime / 1000.0) * squareTest.getSpeed());
-                break;
-            }
-        }
-
-        squareTest.setPosX(newSquarePosX);
-        squareTest.setPosY(newSquarePosY);
+        MovementPhysics.updateEntitiesPositions(deltaTime, GameState.currentEntities, GameState.currentLevelPlayed);
     }
 
     public static void render(SquareTest squareTest){

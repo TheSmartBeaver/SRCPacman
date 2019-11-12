@@ -5,4 +5,8 @@ public class Pacman extends MovingEntity{
     public MovingEntityType getEntityType() {
         return MovingEntityType.PACMAN;
     }
+
+    public Pacman(float posX, float posY, int length, float speed) {
+        super(posX, posY, length, speed);
+    }
 }

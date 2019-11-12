@@ -41,7 +41,7 @@ public class Level {
         if (tileWidth < tileHeight) {
             tileHeight = tileWidth;
             levelScreenHeight = tileHeight * tileMap.getRowCount();
-            //TODO: vérif si il ne faut pas quand même que le offsetDown soit plus petit que le offsetUp
+            //TODO: vï¿½rif si il ne faut pas quand mï¿½me que le offsetDown soit plus petit que le offsetUp
             levelScreenOffsetUp = (UserParams.maxLevelScreenHeight - levelScreenHeight) / 2;
             levelScreenOffsetDown = (UserParams.maxLevelScreenHeight - levelScreenHeight) / 2;
         } else if (tileHeight < tileWidth) {

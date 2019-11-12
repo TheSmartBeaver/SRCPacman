@@ -47,7 +47,7 @@ public class GameRenderer {
         for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 Tile currentTile = levelTileMap.get(rowIndex, columnIndex);
-                //TODO : voir si la technique avec le .ordinal() pose problème
+                //TODO : voir si la technique avec le .ordinal() pose problï¿½me
                 Sprite currentSprite = UserParams.texture.getSprites().get(currentTile.getSprite().ordinal());
                 UserParams.texture.bind();
                 Drawer.drawSprite(x, y, tileWidth, tileHeight, currentSprite.getxSprite(), currentSprite.getySprite());
@@ -64,6 +64,10 @@ public class GameRenderer {
             y += tileHeight;
         }
 
-
+        for (MovingEntity entity : entities) {
+            UserParams.texture.bind();
+            Drawer.drawRect((int)entity.getPosX() - entity.getLength() / 2, (int)entity.getPosY() - entity.getLength() / 2, entity.getLength(), entity.getLength(), pacmanSpawnColor);
+            UserParams.texture.unbind();
+        }
     }
 }

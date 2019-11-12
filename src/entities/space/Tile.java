@@ -20,6 +20,8 @@ public class Tile {
     public String toString() {
         if (tileType == TileType.GHOST_SPAWN) {
             return "gho";
+        } else if (tileType == TileType.PACMAN_SPAWN) {
+            return "pac";
         }
         else if (content == null) {
             return tileType == TileType.WALL ? "wal" : "emp";

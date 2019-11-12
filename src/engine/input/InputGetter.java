@@ -24,20 +24,7 @@ public class InputGetter {
                     GameInput.setInput(Input.RIGHT);
                 }
 
-            }  /*else {
-                if (Keyboard.getEventKey() == InputKeys.keyUp) {
-                    GameInput.setInput(Input.UP);
-                }
-                if (Keyboard.getEventKey() == InputKeys.keyDown) {
-                    GameInput.setInput(Input.DOWN);
-                }
-                if (Keyboard.getEventKey() == InputKeys.keyLeft) {
-                    GameInput.setInput(Input.LEFT);
-                }
-                if (Keyboard.getEventKey() == InputKeys.keyRight) {
-                    GameInput.setInput(Input.RIGHT);
-                }
-            }*/
+            }
         }
     }
 

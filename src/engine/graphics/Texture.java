@@ -3,7 +3,6 @@ package src.engine.graphics;
 /**
  * Created by Vincent on 06/11/2019.
  */
-import javafx.util.Pair;
 import org.lwjgl.BufferUtils;
 import src.UserParams;
 import src.entities.space.TileSprite;
@@ -101,7 +100,7 @@ public class Texture {
     }
 
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, id); /*Placer texture par rapport à des coordonnées ?*/
+        glBindTexture(GL_TEXTURE_2D, id); /*Placer texture par rapport ï¿½ des coordonnï¿½es ?*/
     }
 
     public void unbind() {
