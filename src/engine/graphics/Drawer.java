@@ -8,6 +8,13 @@ import static org.lwjgl.opengl.GL11.glEnd;
  */
 public class Drawer {
 
+    public static void debugDrawPoint(int x, int y, Color color) {
+        glColor3f(color.r, color.g, color.b);
+        glBegin(GL_POINTS);
+        glVertex2f(x,y);
+        glEnd();
+    }
+
     public static void drawRect(int x, int y, int width, int height, Color color) {
         glColor3f(color.r, color.g, color.b);
         glBegin(GL_QUADS);

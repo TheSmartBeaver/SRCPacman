@@ -68,6 +68,9 @@ public class GameRenderer {
             UserParams.texture.bind();
             Drawer.drawRect((int)entity.getPosX() - entity.getLength() / 2, (int)entity.getPosY() - entity.getLength() / 2, entity.getLength(), entity.getLength(), pacmanSpawnColor);
             UserParams.texture.unbind();
+            UserParams.texture.bind();
+            Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));
+            UserParams.texture.unbind();
         }
     }
 }
