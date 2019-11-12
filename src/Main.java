@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 import src.engine.graphics.GameRenderer;
+import src.engine.graphics.Texture;
 import src.entities.moving.SquareTest;
 import src.loaders.LevelLoader;
 
@@ -41,6 +42,15 @@ public class Main {
             UserParams.screenWidth = width;
             UserParams.screenHeight = height;
             UserParams.userDir = System.getProperty("user.dir");
+
+            UserParams.minLevelScreenOffsetUp = UserParams.screenHeight / 16;
+            UserParams.minLevelScreenOffsetDown = UserParams.screenHeight / 64;
+            UserParams.minLevelScreenOffsetLeft = UserParams.screenWidth / 64;
+            UserParams.minLevelScreenOffsetRight = UserParams.screenWidth / 64;
+
+            UserParams.maxLevelScreenHeight = UserParams.screenHeight -  UserParams.minLevelScreenOffsetUp -  UserParams.minLevelScreenOffsetDown;
+            UserParams.maxLevelScreenWidth = UserParams.screenWidth -  UserParams.minLevelScreenOffsetLeft -  UserParams.minLevelScreenOffsetRight;
+
             mode = new DisplayMode(width, height);
 
             Display.setDisplayMode(mode);
@@ -50,6 +60,7 @@ public class Main {
             Display.create();
 
             initGL();
+            UserParams.texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8);
         }
         catch (LWJGLException e){
             e.printStackTrace();
@@ -67,7 +78,6 @@ public class Main {
 
     public void start(){
         LevelLoader.loadLevels(UserParams.userDir + "/assets/maps");
-        GameRenderer.initialize();
         running = true;
         loop();
     }

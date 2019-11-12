@@ -7,7 +7,10 @@ import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
 import src.entities.moving.MovingEntity;
+import src.entities.moving.MovingEntityType;
 import src.entities.moving.SquareTest;
+import src.entities.space.Tile;
+import src.entities.space.TileMap;
 import src.loaders.LevelLoader;
 
 import java.util.ArrayList;
@@ -18,9 +21,49 @@ import java.util.List;
  */
 public class GameMain {
 
+    private static boolean newLevel = true;
+
+    //TODO : méthode de test, à mettre autre part ou à enlever
+    private static void initEntitiesPosition() {
+        TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
+        int rowCount = tileMap.getRowCount();
+        int columnCount = tileMap.getColumnCount();
+        for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
+            for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnCount) {
+                if (tileMap.get(rowIndex, columnIndex).isPacmanSpawnTile()) {
+                    for (MovingEntity movingEntity : GameState.currentEntities) {
+                        if (movingEntity.getEntityType() == MovingEntityType.TEST) {
+                            movingEntity.setTileX(columnIndex);
+                            movingEntity.setTileY(rowIndex);
+                            movingEntity.setPosX(
+                                    GameState.currentLevelPlayed.getLevelScreenOffsetLeft() +
+                                    GameState.currentLevelPlayed.getTileWidth() * columnIndex +
+                                    GameState.currentLevelPlayed.getTileWidth() / 2
+                            );
+                            movingEntity.setPosY(
+                                    GameState.currentLevelPlayed.getLevelScreenOffsetUp() +
+                                    GameState.currentLevelPlayed.getTileHeight() * rowIndex +
+                                    GameState.currentLevelPlayed.getTileHeight() / 2
+                            );
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static void update(double deltaTime, SquareTest squareTest) {
 
-        GameState.currentLevelPlayed = LevelLoader.levels.get(1);
+        if (newLevel) {
+
+            GameState.currentLevelPlayed = LevelLoader.levels.get(1);
+            GameState.currentEntities.add(new SquareTest());
+            newLevel = false;
+        }
+
+        //TODO : faire un objet GameState au lieu d'un truc statique pour passer en paramètre les entités à cette fonction ?
+        //initEntitiesPosition();
+
 
         //CODE DE TEST
         InputGetter.getInputs();

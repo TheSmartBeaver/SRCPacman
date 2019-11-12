@@ -36,6 +36,22 @@ public abstract class MovingEntity {
         this.posY = posY;
     }
 
+    public int getTileX() {
+        return tileX;
+    }
+
+    public void setTileX(int tileX) {
+        this.tileX = tileX;
+    }
+
+    public int getTileY() {
+        return tileY;
+    }
+
+    public void setTileY(int tileY) {
+        this.tileY = tileY;
+    }
+
     public int getLength() {
         return length;
     }

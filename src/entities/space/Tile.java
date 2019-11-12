@@ -43,4 +43,12 @@ public class Tile {
     public boolean isWall() {
         return tileType == TileType.WALL;
     }
+
+    public boolean isPacmanSpawnTile() {
+        return tileType == TileType.PACMAN_SPAWN;
+    }
+
+    public boolean isGhostSpawnTile() {
+        return tileType == TileType.GHOST_SPAWN;
+    }
 }

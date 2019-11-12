@@ -38,6 +38,7 @@ public class Texture {
     private void loadTexture(String path) {
         BufferedImage image = null;
         try {
+            System.out.println(path);
             image = ImageIO.read(new File(path));
         } catch (IOException e) {
             e.printStackTrace();

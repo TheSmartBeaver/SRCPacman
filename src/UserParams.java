@@ -15,15 +15,15 @@ public class UserParams {
 
     //TODO : voir si on garantit pas un certain nombre de pixels minimum pour les offsets si jamais on veut afficher
     //TODO : des infos à gauche, à droite et en bas (vérifier par ex que minLevelScreenOffsetUp >= 50 pour afficher score et vies)
-    public static int minLevelScreenOffsetUp = UserParams.screenHeight / 16;
-    public static int minLevelScreenOffsetDown = UserParams.screenHeight / 64;
-    public static int minLevelScreenOffsetLeft = UserParams.screenWidth / 64;
-    public static int minLevelScreenOffsetRight = UserParams.screenWidth / 64;
+    public static int minLevelScreenOffsetUp;
+    public static int minLevelScreenOffsetDown;
+    public static int minLevelScreenOffsetLeft;
+    public static int minLevelScreenOffsetRight;
 
-    public static int maxLevelScreenHeight  = UserParams.screenHeight - minLevelScreenOffsetUp - minLevelScreenOffsetDown;
-    public static int maxLevelScreenWidth  = UserParams.screenWidth - minLevelScreenOffsetLeft - minLevelScreenOffsetRight;
+    public static int maxLevelScreenHeight;
+    public static int maxLevelScreenWidth;
 
-    public static Texture texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8);
+    public static Texture texture;
 
     public static String dump() {
         //TODO : enrichir pour tous les autres paramètres
