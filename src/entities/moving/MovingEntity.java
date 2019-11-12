@@ -11,6 +11,9 @@ public abstract class MovingEntity {
     private int length;
     private float speed;
 
+    private Direction currentDirection = Direction.NONE;
+    private Direction nextDirection = Direction.NONE;
+
     public MovingEntity() {}
 
     public MovingEntity(float posX, float posY, int length, float speed) {
@@ -58,6 +61,22 @@ public abstract class MovingEntity {
 
     public float getSpeed() {
         return speed;
+    }
+
+    public Direction getCurrentDirection() {
+        return currentDirection;
+    }
+
+    public void setCurrentDirection(Direction currentDirection) {
+        this.currentDirection = currentDirection;
+    }
+
+    public Direction getNextDirection() {
+        return nextDirection;
+    }
+
+    public void setNextDirection(Direction nextDirection) {
+        this.nextDirection = nextDirection;
     }
 
     public abstract MovingEntityType getEntityType();
