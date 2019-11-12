@@ -5,6 +5,7 @@ import src.entities.fixed.Berry;
 import src.entities.fixed.InvincibilityPowerUp;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
+import src.entities.space.TileType;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -66,32 +67,32 @@ public class LevelLoader {
                     switch (line.charAt(charNumber)) {
                         case('X'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, true, false, false);
+                            tiles[lineNumber][charNumber] = new Tile(null, TileType.WALL);
                             break;
                         }
                         case('P'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, false, false, true);
+                            tiles[lineNumber][charNumber] = new Tile(null, TileType.PACMAN_SPAWN);
                             break;
                         }
                         case('G'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, false, true, false);
+                            tiles[lineNumber][charNumber] = new Tile(null, TileType.GHOST_SPAWN);
                             break;
                         }
                         case('.'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(new Berry(), false, false, false);
+                            tiles[lineNumber][charNumber] = new Tile(new Berry(), TileType.CORRIDOR);
                             break;
                         }
                         case('*'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(new InvincibilityPowerUp(), false, false, false);
+                            tiles[lineNumber][charNumber] = new Tile(new InvincibilityPowerUp(), TileType.CORRIDOR);
                             break;
                         }
                         default:
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, false, false, false);
+                            tiles[lineNumber][charNumber] = new Tile(null, TileType.CORRIDOR);
                         }
                     }
                 }

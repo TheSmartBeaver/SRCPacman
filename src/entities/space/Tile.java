@@ -9,26 +9,20 @@ public class Tile {
 
     private TileContent content = null;
     private TileSprite sprite;
-    private boolean isWall;
-    private boolean isGhostSpawnTile;
-    private boolean isPacmanSpawnTile;
+    private TileType tileType;
 
-    public Tile(TileContent content, boolean isWall, boolean isGhostSpawnTile, boolean isPacmanSpawnTile) {
-        if (isWall) assert !isGhostSpawnTile && !isPacmanSpawnTile;
-        if (content != null) assert !isWall && !isGhostSpawnTile;
+    public Tile(TileContent content, TileType tileType) {
         this.content = content;
-        this.isWall = isWall;
-        this.isGhostSpawnTile = isGhostSpawnTile;
-        this.isPacmanSpawnTile = isPacmanSpawnTile;
+        this.tileType = tileType;
     }
 
     @Override
     public String toString() {
-        if (isGhostSpawnTile) {
+        if (tileType == TileType.GHOST_SPAWN) {
             return "gho";
         }
         else if (content == null) {
-            return isWall ? "wal" : "emp";
+            return tileType == TileType.WALL ? "wal" : "emp";
         } else {
             return content.toString();
         }
@@ -38,23 +32,15 @@ public class Tile {
         return content;
     }
 
-    public boolean isWall() {
-        return isWall;
-    }
-
-    public boolean isGhostSpawnTile() {
-        return isGhostSpawnTile;
-    }
-
-    public boolean isPacmanSpawnTile() {
-        return isPacmanSpawnTile;
-    }
-
     public TileSprite getSprite() {
         return sprite;
     }
 
     public void setSprite(TileSprite sprite) {
         this.sprite = sprite;
+    }
+
+    public boolean isWall() {
+        return tileType == TileType.WALL;
     }
 }
