@@ -24,6 +24,24 @@ public class MovementPhysics {
         return null;
     }
 
+    private static Integer absoluteToRelativePosX(float newPacmanPosX, int offsetLeft, int tileWidth, Direction direction) {
+        if (direction == Direction.LEFT) {
+            return (int)(newPacmanPosX - offsetLeft + tileWidth / 2) / tileWidth;
+        } else if (direction == Direction.RIGHT){
+            return (int)(newPacmanPosX - offsetLeft - tileWidth / 2) / tileWidth;
+        }
+        return null;
+    }
+
+    private static Integer absoluteToRelativePosY(float newPacmanPosY, int offsetUp, int tileHeight, Direction direction) {
+        if (direction == Direction.UP) {
+            return (int)(newPacmanPosY - offsetUp + tileHeight / 2) / tileHeight;
+        } else if (direction == Direction.DOWN) {
+            return (int)(newPacmanPosY - offsetUp - tileHeight / 2) / tileHeight;
+        }
+        return null;
+    }
+
     //TODO : voir si on peut pas utiliser la même méthode pour toutes les entités mouvantes ?
     private static void updatePosition(Pacman pacman, double deltaTime, Integer offsetLeft, Integer offsetUp, Integer tileWidth, Integer tileHeight) {
         float newPacmanPosX = pacman.getPosX();
@@ -34,25 +52,25 @@ public class MovementPhysics {
             case UP :
             {
                 newPacmanPosY -= ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileY = (int)(newPacmanPosY - offsetUp + tileHeight / 2) / tileHeight;
+                newTileY = absoluteToRelativePosY(newPacmanPosY, offsetUp, tileHeight, Direction.UP);
                 break;
             }
             case DOWN :
             {
                 newPacmanPosY += ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileY = (int)(newPacmanPosY - offsetUp - tileHeight / 2) / tileHeight;
+                newTileY = absoluteToRelativePosY(newPacmanPosY, offsetUp, tileHeight, Direction.DOWN);
                 break;
             }
             case LEFT :
             {
                 newPacmanPosX -= ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileX = (int)(newPacmanPosX - offsetLeft + tileWidth / 2) / tileWidth;
+                newTileX = absoluteToRelativePosX(newPacmanPosX, offsetLeft, tileWidth, Direction.LEFT);
                 break;
             }
             case RIGHT :
             {
                 newPacmanPosX += ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileX = (int)(newPacmanPosX - offsetLeft - tileWidth / 2) / tileWidth;
+                newTileX = absoluteToRelativePosX(newPacmanPosX, offsetLeft, tileWidth, Direction.RIGHT);
                 break;
             }
         }
@@ -144,11 +162,11 @@ public class MovementPhysics {
 
     }
 
-    private static void wallCollisionChecking(List<MovingEntity> entities, TileMap tileMap) {
+    private static void wallCollisionChecking(List<MovingEntity> entities, TileMap tileMap, Integer offsetLeft, Integer offsetUp, Integer tileWidth, Integer tileHeight) {
         //TODO : idée : faire 2 sous fonctions pour les collisions de pacman et des fantomes
         MovingEntity pacman = findPacman(entities);
-        int pacmanTileX = pacman.getTileX();
-        int pacmanTileY = pacman.getTileY();
+        int pacmanTileX = (int)(pacman.getPosX() - offsetLeft + tileWidth) / tileWidth;
+        int pacmanTileY = (int)(pacman.getPosY() - offsetUp + tileHeight) / tileHeight;;
         System.out.println(pacmanTileX + " " + pacmanTileY);
         switch (pacman.getCurrentDirection()) {
             case UP :
@@ -188,7 +206,6 @@ public class MovementPhysics {
                 break;
             }
         }
-
     }
 
     public static void updateEntitiesPositions(double deltaTime, List<MovingEntity> entities, Level levelPlayed) {
@@ -196,6 +213,6 @@ public class MovementPhysics {
         updatePacmanPosition(deltaTime, levelPlayed.getTileMap(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileWidth(), levelPlayed.getTileHeight());
         updateGhostsPositions(deltaTime);
         ghostCollisionChecking();
-        //wallCollisionChecking(entities, levelPlayed.getTileMap());
+        //wallCollisionChecking(entities, levelPlayed.getTileMap(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileWidth(), levelPlayed.getTileHeight());
     }
 }
