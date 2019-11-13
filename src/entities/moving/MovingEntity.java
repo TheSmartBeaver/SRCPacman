@@ -63,6 +63,10 @@ public abstract class MovingEntity {
         return speed;
     }
 
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
     public Direction getCurrentDirection() {
         return currentDirection;
     }

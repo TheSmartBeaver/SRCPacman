@@ -58,8 +58,13 @@ public class MovementPhysics {
         }
         pacman.setPosX(newPacmanPosX);
         pacman.setPosY(newPacmanPosY);
-        pacman.setTileX(newTileX);
-        pacman.setTileY(newTileY);
+        if (pacman.isHasChangedDirection() && newTileX == pacman.getTileX() && newTileY == pacman.getTileY()) {
+            pacman.setHasChangedDirection(false);
+        }
+        if (!pacman.isHasChangedDirection()) {
+            pacman.setTileX(newTileX);
+            pacman.setTileY(newTileY);
+        }
     }
 
     private static void updatePacmanPosition(double deltaTime, TileMap tileMap, Integer offsetLeft, Integer offsetUp, Integer tileWidth, Integer tileHeight) {
@@ -76,29 +81,53 @@ public class MovementPhysics {
         switch(GameInput.getInput()) {
             case UP:
             {
-                if (!tileMap.get(pacmanPosTileY - 1, pacmanPosTileX).isWall()) {
-                    pacman.setCurrentDirection(Direction.UP);
+                if (!pacman.isHasChangedDirection() || oldDirection == Direction.DOWN) {
+                    if (!tileMap.get(pacmanPosTileY - 1, pacmanPosTileX).isWall()) {
+                        if (oldDirection != Direction.UP) {
+                            pacman.setHasChangedDirection(true);
+                            pacman.setTileY(pacmanPosTileY - 1);
+                            pacman.setCurrentDirection(Direction.UP);
+                        }
+                    }
                 }
                 break;
             }
             case DOWN:
             {
-                if (!tileMap.get(pacmanPosTileY + 1, pacmanPosTileX).isWall()) {
-                    pacman.setCurrentDirection(Direction.DOWN);
+                if (!pacman.isHasChangedDirection() || oldDirection == Direction.UP) {
+                    if (!tileMap.get(pacmanPosTileY + 1, pacmanPosTileX).isWall()) {
+                        if (oldDirection != Direction.DOWN) {
+                            pacman.setHasChangedDirection(true);
+                            pacman.setTileY(pacmanPosTileY + 1);
+                            pacman.setCurrentDirection(Direction.DOWN);
+                        }
+                    }
                 }
                 break;
             }
             case LEFT:
             {
-                if (!tileMap.get(pacmanPosTileY, pacmanPosTileX - 1).isWall()) {
-                    pacman.setCurrentDirection(Direction.LEFT);
+                if (!pacman.isHasChangedDirection() || oldDirection == Direction.RIGHT) {
+                    if (!tileMap.get(pacmanPosTileY, pacmanPosTileX - 1).isWall()) {
+                        if (oldDirection != Direction.LEFT) {
+                            pacman.setHasChangedDirection(true);
+                            pacman.setTileX(pacmanPosTileX - 1);
+                            pacman.setCurrentDirection(Direction.LEFT);
+                        }
+                    }
                 }
                 break;
             }
             case RIGHT:
             {
-                if (!tileMap.get(pacmanPosTileY, pacmanPosTileX + 1).isWall()) {
-                    pacman.setCurrentDirection(Direction.RIGHT);
+                if (!pacman.isHasChangedDirection() || oldDirection == Direction.LEFT) {
+                    if (!tileMap.get(pacmanPosTileY, pacmanPosTileX + 1).isWall()) {
+                        if (oldDirection != Direction.RIGHT) {
+                            pacman.setHasChangedDirection(true);
+                            pacman.setTileX(pacmanPosTileX + 1);
+                            pacman.setCurrentDirection(Direction.RIGHT);
+                        }
+                    }
                 }
                 break;
             }
@@ -115,10 +144,50 @@ public class MovementPhysics {
 
     }
 
-    private static void wallCollisionChecking(List<MovingEntity> entities) {
+    private static void wallCollisionChecking(List<MovingEntity> entities, TileMap tileMap) {
         //TODO : idée : faire 2 sous fonctions pour les collisions de pacman et des fantomes
-        MovingEntity pacman = findPacman(GameState.currentEntities);
-
+        MovingEntity pacman = findPacman(entities);
+        int pacmanTileX = pacman.getTileX();
+        int pacmanTileY = pacman.getTileY();
+        System.out.println(pacmanTileX + " " + pacmanTileY);
+        switch (pacman.getCurrentDirection()) {
+            case UP :
+            {
+                if (tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) {
+                    pacman.setSpeed(0);
+                } else {
+                    pacman.setSpeed(60.0f);
+                }
+                break;
+            }
+            case DOWN :
+            {
+                if (tileMap.get(pacmanTileY + 1, pacmanTileX).isWall()) {
+                    pacman.setSpeed(0);
+                } else {
+                    pacman.setSpeed(60.0f);
+                }
+                break;
+            }
+            case LEFT :
+            {
+                if (tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) {
+                    pacman.setSpeed(0);
+                } else {
+                    pacman.setSpeed(60.0f);
+                }
+                break;
+            }
+            case RIGHT :
+            {
+                if (tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) {
+                    pacman.setSpeed(0);
+                } else {
+                    pacman.setSpeed(60.0f);
+                }
+                break;
+            }
+        }
 
     }
 
@@ -127,6 +196,6 @@ public class MovementPhysics {
         updatePacmanPosition(deltaTime, levelPlayed.getTileMap(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileWidth(), levelPlayed.getTileHeight());
         updateGhostsPositions(deltaTime);
         ghostCollisionChecking();
-        wallCollisionChecking(entities);
+        //wallCollisionChecking(entities, levelPlayed.getTileMap());
     }
 }
