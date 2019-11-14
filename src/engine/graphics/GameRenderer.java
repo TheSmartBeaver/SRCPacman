@@ -21,6 +21,7 @@ public class GameRenderer {
     private static final Color invincibilityColor = new Color(1.0f, 0.0f, 0.0f);
     private static final Color ghostSpawnColor = new Color(0.0f, 0.2f, 0.7f);
     private static final Color pacmanSpawnColor = new Color(0.75f, 0.75f, 0.0f);
+    private static final Color debugRectColor = new Color(1.0f, 1.0f, 1.0f);
 
 
     public static void renderLevel(Level level, List<MovingEntity> entities) {
@@ -70,6 +71,11 @@ public class GameRenderer {
             UserParams.texture.unbind();
             UserParams.texture.bind();
             Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));
+            UserParams.texture.unbind();
+            int xRectDebug = level.getLevelScreenOffsetLeft() + entity.getTileX() * tileWidth;
+            int yRectDebug = level.getLevelScreenOffsetUp() + entity.getTileY() * tileHeight;
+            UserParams.texture.bind();
+            Drawer.drawRect(xRectDebug, yRectDebug, tileWidth, tileHeight, debugRectColor);
             UserParams.texture.unbind();
         }
     }

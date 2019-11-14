@@ -9,10 +9,16 @@ public abstract class MovingEntity {
     private int tileY;
 
     private int length;
-    private float speed;
 
     private Direction currentDirection = Direction.NONE;
     private Direction nextDirection = Direction.NONE;
+
+    //en ms
+    private float speed;
+    public double tileTravelTime;
+
+    private int nbPixelsMoved;
+    private boolean inMiddleOfTile = true;
 
     public MovingEntity() {}
 
@@ -21,6 +27,7 @@ public abstract class MovingEntity {
         this.posY = posY;
         this.length = length;
         this.speed = speed;
+        tileTravelTime = 1000.0d / this.speed;
     }
 
     public float getPosX() {
@@ -65,6 +72,22 @@ public abstract class MovingEntity {
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public int getNbPixelsMoved() {
+        return nbPixelsMoved;
+    }
+
+    public void setNbPixelsMoved(int nbPixelsMoved) {
+        this.nbPixelsMoved = nbPixelsMoved;
+    }
+
+    public boolean isInMiddleOfTile() {
+        return inMiddleOfTile;
+    }
+
+    public void setInMiddleOfTile(boolean inMiddleOfTile) {
+        this.inMiddleOfTile = inMiddleOfTile;
     }
 
     public Direction getCurrentDirection() {

@@ -60,8 +60,8 @@ public class GameMain {
     public static void update(double deltaTime, SquareTest squareTest) {
 
         if (newLevel) {
-            GameState.currentLevelPlayed = LevelLoader.levels.get(3);
-            GameState.currentEntities.add(new Pacman(0,0, 20,60.0f));
+            GameState.currentLevelPlayed = LevelLoader.levels.get(0);
+            GameState.currentEntities.add(new Pacman(0,0, 20,3.0f));
             initEntitiesPosition();
             newLevel = false;
         }

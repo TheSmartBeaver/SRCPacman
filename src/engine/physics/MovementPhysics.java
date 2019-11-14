@@ -2,7 +2,6 @@ package src.engine.physics;
 
 import src.GameState;
 import src.Level;
-import src.UserParams;
 import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
 import src.entities.moving.Direction;
@@ -24,134 +23,128 @@ public class MovementPhysics {
         return null;
     }
 
-    private static Integer absoluteToRelativePosX(float newPacmanPosX, int offsetLeft, int tileWidth, Direction direction) {
-        if (direction == Direction.LEFT) {
-            return (int)(newPacmanPosX - offsetLeft + tileWidth / 2) / tileWidth;
-        } else if (direction == Direction.RIGHT){
-            return (int)(newPacmanPosX - offsetLeft - tileWidth / 2) / tileWidth;
-        }
-        return null;
+    private static Integer absoluteToRelativePosX(float posX, Integer tileWidth, Integer offsetLeft) {
+        return (int)(posX - offsetLeft) / tileWidth;
     }
 
-    private static Integer absoluteToRelativePosY(float newPacmanPosY, int offsetUp, int tileHeight, Direction direction) {
-        if (direction == Direction.UP) {
-            return (int)(newPacmanPosY - offsetUp + tileHeight / 2) / tileHeight;
-        } else if (direction == Direction.DOWN) {
-            return (int)(newPacmanPosY - offsetUp - tileHeight / 2) / tileHeight;
-        }
-        return null;
+    private static Integer absoluteToRelativePosY(float posY, Integer tileHeight, Integer offsetUp) {
+        return (int)(posY - offsetUp) / tileHeight;
     }
 
-    //TODO : voir si on peut pas utiliser la même méthode pour toutes les entités mouvantes ?
-    private static void updatePosition(Pacman pacman, double deltaTime, Integer offsetLeft, Integer offsetUp, Integer tileWidth, Integer tileHeight) {
-        float newPacmanPosX = pacman.getPosX();
-        float newPacmanPosY = pacman.getPosY();
-        int newTileX = pacman.getTileX();
-        int newTileY = pacman.getTileY();
-        switch (pacman.getCurrentDirection()) {
-            case UP :
-            {
-                newPacmanPosY -= ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileY = absoluteToRelativePosY(newPacmanPosY, offsetUp, tileHeight, Direction.UP);
-                break;
-            }
-            case DOWN :
-            {
-                newPacmanPosY += ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileY = absoluteToRelativePosY(newPacmanPosY, offsetUp, tileHeight, Direction.DOWN);
-                break;
-            }
-            case LEFT :
-            {
-                newPacmanPosX -= ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileX = absoluteToRelativePosX(newPacmanPosX, offsetLeft, tileWidth, Direction.LEFT);
-                break;
-            }
-            case RIGHT :
-            {
-                newPacmanPosX += ((deltaTime / 1000.0) * pacman.getSpeed());
-                newTileX = absoluteToRelativePosX(newPacmanPosX, offsetLeft, tileWidth, Direction.RIGHT);
-                break;
-            }
-        }
-        pacman.setPosX(newPacmanPosX);
-        pacman.setPosY(newPacmanPosY);
-        if (pacman.isHasChangedDirection() && newTileX == pacman.getTileX() && newTileY == pacman.getTileY()) {
-            pacman.setHasChangedDirection(false);
-        }
-        if (!pacman.isHasChangedDirection()) {
-            pacman.setTileX(newTileX);
-            pacman.setTileY(newTileY);
-        }
-    }
-
-    private static void updatePacmanPosition(double deltaTime, TileMap tileMap, Integer offsetLeft, Integer offsetUp, Integer tileWidth, Integer tileHeight) {
+    private static void updatePacmanPosition(double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp, TileMap tileMap) {
         InputGetter.getInputs();
         Pacman pacman = findPacman(GameState.currentEntities);
         if (pacman == null) {
             System.err.println("Pas de pacman sur la map");
+            return;
         }
-        int pacmanPosTileX = pacman.getTileX();
-        int pacmanPosTileY = pacman.getTileY();
-        System.out.println(pacman.getPosX() + " " + pacman.getPosY() + " " + pacmanPosTileX + " " + pacmanPosTileY);
 
-        Direction oldDirection = pacman.getCurrentDirection();
-        switch(GameInput.getInput()) {
+        Integer nbPixelsMoved = pacman.getNbPixelsMoved();
+        Direction currentDirection = pacman.getCurrentDirection();
+        switch (currentDirection) {
             case UP:
-            {
-                if (!pacman.isHasChangedDirection() || oldDirection == Direction.DOWN) {
-                    if (!tileMap.get(pacmanPosTileY - 1, pacmanPosTileX).isWall()) {
-                        if (oldDirection != Direction.UP) {
-                            pacman.setHasChangedDirection(true);
-                            pacman.setTileY(pacmanPosTileY - 1);
-                            pacman.setCurrentDirection(Direction.UP);
-                        }
-                    }
-                }
-                break;
-            }
             case DOWN:
             {
-                if (!pacman.isHasChangedDirection() || oldDirection == Direction.UP) {
-                    if (!tileMap.get(pacmanPosTileY + 1, pacmanPosTileX).isWall()) {
-                        if (oldDirection != Direction.DOWN) {
-                            pacman.setHasChangedDirection(true);
-                            pacman.setTileY(pacmanPosTileY + 1);
-                            pacman.setCurrentDirection(Direction.DOWN);
-                        }
+                int nbPixelsToMove = (int)((deltaTime / pacman.tileTravelTime) * tileHeight);
+                //TODO : ce if juste dessous est une aberration si par exemple on joue à 120FPS, on ira 2 fois plus vite à la vitesse minimale !
+                //TODO : idée pour corriger ça : sauf pour la première frame, on lui dit de se déplacer de la valeur en int de (nbPixelsDeplaces
+                //TODO : de la frame courante EN FLOAT + nbPixelsDeplaces de l'ancienne EN FLOAT) - l'ancienne valeur en int de nbPixelsDeplaces
+                //TODO : Pourquoi ? parce que si le calcul ci-dessus avant le cast donne 1.99 à chaque frame, ca se castera en 1 à chaque fois.
+                //TODO : Donc, ce qu'on peut faire, pour minimiser ça, c'est (int)(1.99 + 1.99) = 3. Cumulé sur beaucoup de frames, je pense que ça passe.
+                if (nbPixelsToMove == 0) {
+                    nbPixelsToMove = 1;
+                }
+                int newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
+                if (newNbPixelsMoved >= tileHeight) {
+                    pacman.setInMiddleOfTile(true);
+                    pacman.setNbPixelsMoved(0);
+                    if (currentDirection == Direction.UP) {
+                        pacman.setPosY(pacman.getPosY() - (tileHeight - nbPixelsMoved));
+                    } else {
+                        pacman.setPosY(pacman.getPosY() + (tileHeight - nbPixelsMoved));
+                    }
+                    pacman.setTileY(absoluteToRelativePosY(pacman.getPosY(), tileHeight, offsetUp));
+
+                } else {
+                    pacman.setInMiddleOfTile(false);
+                    pacman.setNbPixelsMoved(nbPixelsMoved + nbPixelsToMove);
+                    if (currentDirection == Direction.UP) {
+                        pacman.setPosY(pacman.getPosY() - nbPixelsToMove);
+                    } else {
+                        pacman.setPosY(pacman.getPosY() + nbPixelsToMove);
                     }
                 }
+
                 break;
             }
             case LEFT:
-            {
-                if (!pacman.isHasChangedDirection() || oldDirection == Direction.RIGHT) {
-                    if (!tileMap.get(pacmanPosTileY, pacmanPosTileX - 1).isWall()) {
-                        if (oldDirection != Direction.LEFT) {
-                            pacman.setHasChangedDirection(true);
-                            pacman.setTileX(pacmanPosTileX - 1);
-                            pacman.setCurrentDirection(Direction.LEFT);
-                        }
-                    }
-                }
-                break;
-            }
             case RIGHT:
             {
-                if (!pacman.isHasChangedDirection() || oldDirection == Direction.LEFT) {
-                    if (!tileMap.get(pacmanPosTileY, pacmanPosTileX + 1).isWall()) {
-                        if (oldDirection != Direction.RIGHT) {
-                            pacman.setHasChangedDirection(true);
-                            pacman.setTileX(pacmanPosTileX + 1);
-                            pacman.setCurrentDirection(Direction.RIGHT);
-                        }
+                int nbPixelsToMove = (int)((deltaTime / pacman.tileTravelTime) * tileWidth);
+                if (nbPixelsToMove == 0) {
+                    nbPixelsToMove = 1;
+                }
+                int newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
+                if (newNbPixelsMoved >= tileWidth) {
+                    pacman.setInMiddleOfTile(true);
+                    pacman.setNbPixelsMoved(0);
+                    //on recale la position de PacMan au centre de la case
+                    if (currentDirection == Direction.LEFT) {
+                        pacman.setPosX(pacman.getPosX() - (tileWidth - nbPixelsMoved));
+                    } else {
+                        pacman.setPosX(pacman.getPosX() + (tileWidth - nbPixelsMoved));
+                    }
+                    pacman.setTileX(absoluteToRelativePosX(pacman.getPosX(), tileWidth, offsetLeft));
+
+                } else {
+                    pacman.setInMiddleOfTile(false);
+                    pacman.setNbPixelsMoved(nbPixelsMoved + nbPixelsToMove);
+                    //on recale la position de PacMan au centre de la case
+                    if (currentDirection == Direction.LEFT) {
+                        pacman.setPosX(pacman.getPosX() - nbPixelsToMove);
+                    } else {
+                        pacman.setPosX(pacman.getPosX() + nbPixelsToMove);
                     }
                 }
+
                 break;
             }
         }
 
-        updatePosition(pacman, deltaTime, offsetLeft, offsetUp, tileWidth, tileHeight);
+        if (pacman.isInMiddleOfTile()) {
+            switch (GameInput.getInput()) {
+                case UP:
+                {
+                    if (!tileMap.get(pacman.getTileY() - 1, pacman.getTileX()).isWall()) {
+                        pacman.setCurrentDirection(Direction.UP);
+                    }
+                    break;
+                }
+                case DOWN:
+                {
+                    if (!tileMap.get(pacman.getTileY() + 1, pacman.getTileX()).isWall()) {
+                        pacman.setCurrentDirection(Direction.DOWN);
+                    }
+                    break;
+                }
+                case LEFT:
+                {
+                    if (!tileMap.get(pacman.getTileY(), pacman.getTileX() - 1).isWall()) {
+                        pacman.setCurrentDirection(Direction.LEFT);
+                    }
+                    break;
+                }
+                case RIGHT:
+                {
+                    if (!tileMap.get(pacman.getTileY(), pacman.getTileX() + 1).isWall()) {
+                        pacman.setCurrentDirection(Direction.RIGHT);
+                    }
+                    break;
+                }
+            }
+        }
+
+        System.out.println(pacman.getPosX() + " " + pacman.getPosY() + " " + pacman.getTileX() + " " + pacman.getTileY() + " " + pacman.getNbPixelsMoved() + " " + pacman.isInMiddleOfTile() + " " + deltaTime);
     }
 
     private static void updateGhostsPositions(double deltaTime) {
@@ -163,54 +156,12 @@ public class MovementPhysics {
     }
 
     private static void wallCollisionChecking(List<MovingEntity> entities, TileMap tileMap, Integer offsetLeft, Integer offsetUp, Integer tileWidth, Integer tileHeight) {
-        //TODO : idée : faire 2 sous fonctions pour les collisions de pacman et des fantomes
-        MovingEntity pacman = findPacman(entities);
-        int pacmanTileX = (int)(pacman.getPosX() - offsetLeft + tileWidth) / tileWidth;
-        int pacmanTileY = (int)(pacman.getPosY() - offsetUp + tileHeight) / tileHeight;;
-        System.out.println(pacmanTileX + " " + pacmanTileY);
-        switch (pacman.getCurrentDirection()) {
-            case UP :
-            {
-                if (tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) {
-                    pacman.setSpeed(0);
-                } else {
-                    pacman.setSpeed(60.0f);
-                }
-                break;
-            }
-            case DOWN :
-            {
-                if (tileMap.get(pacmanTileY + 1, pacmanTileX).isWall()) {
-                    pacman.setSpeed(0);
-                } else {
-                    pacman.setSpeed(60.0f);
-                }
-                break;
-            }
-            case LEFT :
-            {
-                if (tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) {
-                    pacman.setSpeed(0);
-                } else {
-                    pacman.setSpeed(60.0f);
-                }
-                break;
-            }
-            case RIGHT :
-            {
-                if (tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) {
-                    pacman.setSpeed(0);
-                } else {
-                    pacman.setSpeed(60.0f);
-                }
-                break;
-            }
-        }
+
     }
 
     public static void updateEntitiesPositions(double deltaTime, List<MovingEntity> entities, Level levelPlayed) {
         //CODE DE TEST
-        updatePacmanPosition(deltaTime, levelPlayed.getTileMap(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileWidth(), levelPlayed.getTileHeight());
+        updatePacmanPosition(deltaTime, levelPlayed.getTileWidth(), levelPlayed.getTileHeight(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileMap());
         updateGhostsPositions(deltaTime);
         ghostCollisionChecking();
         //wallCollisionChecking(entities, levelPlayed.getTileMap(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileWidth(), levelPlayed.getTileHeight());
