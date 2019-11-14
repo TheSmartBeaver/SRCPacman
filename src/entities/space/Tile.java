@@ -34,6 +34,10 @@ public class Tile {
         return content;
     }
 
+    public void setContent(TileContent content) {
+        this.content = content;
+    }
+
     public TileSprite getSprite() {
         return sprite;
     }
