@@ -11,10 +11,10 @@ public abstract class MovingEntity {
     private int length;
 
     private Direction currentDirection = Direction.NONE;
-    private Direction nextDirection = Direction.NONE;
 
     //en ms
     private float speed;
+    private boolean isMoving = false;
     public float tileTravelTime;
 
     private float nbPixelsMoved;
@@ -98,12 +98,12 @@ public abstract class MovingEntity {
         this.currentDirection = currentDirection;
     }
 
-    public Direction getNextDirection() {
-        return nextDirection;
+    public boolean isMoving() {
+        return isMoving;
     }
 
-    public void setNextDirection(Direction nextDirection) {
-        this.nextDirection = nextDirection;
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 
     public abstract MovingEntityType getEntityType();

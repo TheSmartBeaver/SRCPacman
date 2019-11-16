@@ -6,6 +6,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 import src.engine.graphics.GameRenderer;
 import src.engine.graphics.Texture;
+import src.engine.input.InputGetter;
 import src.entities.moving.SquareTest;
 import src.loaders.LevelLoader;
 
@@ -116,6 +117,7 @@ public class Main {
 
             lastBeginningFrameTime = currentBeginningFrameTime;
 
+            InputGetter.getInputs();
             GameMain.update(deltaTime, squareTest);
 
             GameMain.render(squareTest);

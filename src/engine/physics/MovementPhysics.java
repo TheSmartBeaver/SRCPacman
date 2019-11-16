@@ -32,7 +32,6 @@ public class MovementPhysics {
     }
 
     private static void updatePacmanPosition(double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp, TileMap tileMap) {
-        InputGetter.getInputs();
         Pacman pacman = findPacman(GameState.currentEntities);
         if (pacman == null) {
             System.err.println("Pas de pacman sur la map");
@@ -44,32 +43,34 @@ public class MovementPhysics {
             //TODO : pour mettre en place la généricité pour toutes les MovingEntity, remplacer switch (GameInput.getInput())
             //TODO : par un switch(movingEntity.getInput()) ===> la prochaine direction souhaitée de l'entité = l'input clavier
             //TODO : pour le joueur et la prochaine valeur du tableau d'inputs pour le fantôme (tableau rempli par l'algo)
+            int pacmanTileY = pacman.getTileY();
+            int pacmanTileX = pacman.getTileX();
             switch (GameInput.getInput()) {
                 case UP:
                 {
-                    if (!tileMap.get(pacman.getTileY() - 1, pacman.getTileX()).isWall()) {
-                        pacman.setSpeed(3.0f);
+                    if (!tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) {
+                        pacman.setMoving(true);
                         pacman.setCurrentDirection(Direction.UP);
                     } else {
                         if (
-                                (oldDirection == Direction.LEFT && tileMap.get(pacman.getTileY(), pacman.getTileX() - 1).isWall()) ||
-                                (oldDirection == Direction.RIGHT && tileMap.get(pacman.getTileY(), pacman.getTileX() + 1).isWall()) ||
-                                (oldDirection == Direction.UP && tileMap.get(pacman.getTileY() - 1, pacman.getTileX()).isWall()))
-                        pacman.setSpeed(0);
+                                (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
+                                        (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
+                                        (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()))
+                            pacman.setMoving(false);
                     }
                     break;
                 }
                 case DOWN:
                 {
-                    if (!tileMap.get(pacman.getTileY() + 1, pacman.getTileX()).isWall()) {
-                        pacman.setSpeed(3.0f);
+                    if (!tileMap.get(pacmanTileY + 1, pacmanTileX).isWall()) {
+                        pacman.setMoving(true);
                         pacman.setCurrentDirection(Direction.DOWN);
                     } else {
                         if (
-                                (oldDirection == Direction.LEFT && tileMap.get(pacman.getTileY(), pacman.getTileX() - 1).isWall()) ||
-                                (oldDirection == Direction.RIGHT && tileMap.get(pacman.getTileY(), pacman.getTileX() + 1).isWall()) ||
-                                (oldDirection == Direction.DOWN && tileMap.get(pacman.getTileY() + 1, pacman.getTileX()).isWall())) {
-                            pacman.setSpeed(0);
+                                (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
+                                        (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
+                                        (oldDirection == Direction.DOWN && tileMap.get(pacmanTileY + 1, pacmanTileX).isWall())) {
+                            pacman.setMoving(false);
                         }
 
                     }
@@ -77,15 +78,15 @@ public class MovementPhysics {
                 }
                 case LEFT:
                 {
-                    if (!tileMap.get(pacman.getTileY(), pacman.getTileX() - 1).isWall()) {
-                        pacman.setSpeed(3.0f);
+                    if (!tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) {
+                        pacman.setMoving(true);
                         pacman.setCurrentDirection(Direction.LEFT);
                     } else {
                         if (
-                                (oldDirection == Direction.LEFT && tileMap.get(pacman.getTileY(), pacman.getTileX() - 1).isWall()) ||
-                                (oldDirection == Direction.UP && tileMap.get(pacman.getTileY() - 1, pacman.getTileX()).isWall()) ||
-                                (oldDirection == Direction.DOWN && tileMap.get(pacman.getTileY() + 1, pacman.getTileX()).isWall())) {
-                            pacman.setSpeed(0);
+                                (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
+                                        (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) ||
+                                        (oldDirection == Direction.DOWN && tileMap.get(pacmanTileY + 1, pacmanTileX).isWall())) {
+                            pacman.setMoving(false);
                         }
 
                     }
@@ -93,21 +94,21 @@ public class MovementPhysics {
                 }
                 case RIGHT:
                 {
-                    if (!tileMap.get(pacman.getTileY(), pacman.getTileX() + 1).isWall()) {
-                        pacman.setSpeed(3.0f);
+                    if (!tileMap.get(pacmanTileY, pacman.getTileX() + 1).isWall()) {
+                        pacman.setMoving(true);
                         pacman.setCurrentDirection(Direction.RIGHT);
                     } else {
                         if (
-                                (oldDirection == Direction.RIGHT && tileMap.get(pacman.getTileY(), pacman.getTileX() + 1).isWall()) ||
-                                (oldDirection == Direction.UP && tileMap.get(pacman.getTileY() - 1, pacman.getTileX()).isWall()) ||
-                                (oldDirection == Direction.DOWN && tileMap.get(pacman.getTileY() + 1, pacman.getTileX()).isWall()))
-                        pacman.setSpeed(0);
+                                (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
+                                        (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) ||
+                                        (oldDirection == Direction.DOWN && tileMap.get(pacmanTileY + 1, pacmanTileX).isWall()))
+                            pacman.setMoving(false);
                     }
                     break;
                 }
             }
             //TODO : a changer de place, ceci n'a rien a faire dans le moteur physique, c'est juste pour tester
-            tileMap.get(pacman.getTileY(), pacman.getTileX()).setContent(null);
+            tileMap.get(pacmanTileY,pacmanTileX).setContent(null);
         }
 
         //TODO : si on veut qu'on puisse faire demi-tour instantanément, mon idée est de séparer chaque case un par un du switch
@@ -117,28 +118,20 @@ public class MovementPhysics {
         //TODO : même si comme ça je vois pas trop pourquoi ni comment
         float nbPixelsMoved = pacman.getNbPixelsMoved();
         Direction currentDirection = pacman.getCurrentDirection();
-        if (pacman.getSpeed() != 0) {
+        if (pacman.isMoving()) {
             switch (currentDirection) {
                 case UP:
                 case DOWN:
                 {
                     float nbPixelsToMove = (float)((deltaTime / pacman.tileTravelTime) * tileHeight);
-                    //TODO : ce if juste dessous est une aberration si par exemple on joue à 120FPS, on ira 2 fois plus vite à la vitesse minimale !
-                    //TODO : idée pour corriger ça : sauf pour la première frame, on lui dit de se déplacer de la valeur en int de (nbPixelsDeplaces
-                    //TODO : de la frame courante EN FLOAT + nbPixelsDeplaces de l'ancienne EN FLOAT) - l'ancienne valeur en int de nbPixelsDeplaces
-                    //TODO : Pourquoi ? parce que si le calcul ci-dessus avant le cast donne 1.99 à chaque frame, ca se castera en 1 à chaque fois.
-                    //TODO : Donc, ce qu'on peut faire, pour minimiser ça, c'est (int)(1.99 + 1.99) = 3. Cumulé sur beaucoup de frames, je pense que ça passe.
-                    if (nbPixelsToMove == 0) {
-                        nbPixelsToMove = 1;
-                    }
                     float newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
                     if (newNbPixelsMoved >= tileHeight) {
                         pacman.setInMiddleOfTile(true);
                         pacman.setNbPixelsMoved(0);
                         if (currentDirection == Direction.UP) {
-                            pacman.setPosY(pacman.getPosY() - (tileHeight - nbPixelsMoved));
+                            pacman.setPosY(Math.round(pacman.getPosY() - (tileHeight - nbPixelsMoved)));
                         } else {
-                            pacman.setPosY(pacman.getPosY() + (tileHeight - nbPixelsMoved));
+                            pacman.setPosY(Math.round(pacman.getPosY() + (tileHeight - nbPixelsMoved)));
                         }
                         pacman.setTileY(absoluteToRelativePosY(pacman.getPosY(), tileHeight, offsetUp));
 
@@ -158,18 +151,15 @@ public class MovementPhysics {
                 case RIGHT:
                 {
                     float nbPixelsToMove = (float)((deltaTime / pacman.tileTravelTime) * tileWidth);
-                    if (nbPixelsToMove == 0) {
-                        nbPixelsToMove = 1;
-                    }
                     float newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
                     if (newNbPixelsMoved >= tileWidth) {
                         pacman.setInMiddleOfTile(true);
                         pacman.setNbPixelsMoved(0);
                         //on recale la position de PacMan au centre de la case
                         if (currentDirection == Direction.LEFT) {
-                            pacman.setPosX(pacman.getPosX() - (tileWidth - nbPixelsMoved));
+                            pacman.setPosX(Math.round(pacman.getPosX() - (tileWidth - nbPixelsMoved)));
                         } else {
-                            pacman.setPosX(pacman.getPosX() + (tileWidth - nbPixelsMoved));
+                            pacman.setPosX(Math.round(pacman.getPosX() + (tileWidth - nbPixelsMoved)));
                         }
                         pacman.setTileX(absoluteToRelativePosX(pacman.getPosX(), tileWidth, offsetLeft));
 
