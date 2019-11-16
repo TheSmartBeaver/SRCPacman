@@ -1,4 +1,4 @@
-package src.engine.physics;
+/*package src.engine.physics;
 
 import src.GameState;
 import src.Level;
@@ -236,4 +236,4 @@ public class MovementPhysicsOld {
         ghostCollisionChecking();
         //wallCollisionChecking(entities, levelPlayed.getTileMap(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileWidth(), levelPlayed.getTileHeight());
     }
-}
+}*/

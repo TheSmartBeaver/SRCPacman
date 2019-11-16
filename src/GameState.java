@@ -16,6 +16,7 @@ public class GameState {
     public static Integer levelStreak;
     //TODO : voir si le score n'est pas plutôt spécifique à un objet PacMan si on veut faire un mode compétitif, multijoueur...
     public static Integer score;
+    public static Integer nbJoueurs;
     public static GameDifficulty difficulty;
     public static List<MovingEntity> currentEntities = new ArrayList<>();
 }

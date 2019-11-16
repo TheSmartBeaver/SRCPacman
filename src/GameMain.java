@@ -53,6 +53,27 @@ public class GameMain {
                         }
                     }
                 }
+                else if (tileMap.get(rowIndex, columnIndex).isGhostSpawnTile()) {
+                    for (MovingEntity movingEntity : GameState.currentEntities) {
+                        if (movingEntity.getEntityType() == MovingEntityType.GHOST) {
+                            movingEntity.setTileX(columnIndex);
+                            movingEntity.setTileY(rowIndex);
+                            movingEntity.setPosX(
+                                    GameState.currentLevelPlayed.getLevelScreenOffsetLeft() +
+                                            GameState.currentLevelPlayed.getTileWidth() * columnIndex +
+                                            GameState.currentLevelPlayed.getTileWidth() / 2
+                            );
+                            movingEntity.setPosY(
+                                    GameState.currentLevelPlayed.getLevelScreenOffsetUp() +
+                                            GameState.currentLevelPlayed.getTileHeight() * rowIndex +
+                                            GameState.currentLevelPlayed.getTileHeight() / 2
+                            );
+                            movingEntity.setTileX(columnIndex);
+                            movingEntity.setTileY(rowIndex);
+                            System.out.println(movingEntity.getPosX() + " " + movingEntity.getPosY());
+                        }
+                    }
+                }
             }
         }
     }
@@ -65,6 +86,10 @@ public class GameMain {
             initEntitiesPosition();
             newLevel = false;
         }
+
+        Pacman pacman = MovingEntity.findPacman(GameState.currentEntities);
+        if (pacman == null) return;
+        pacman.setInput(GameInput.getInput());
 
         MovementPhysics.updateEntitiesPositions(deltaTime, GameState.currentEntities, GameState.currentLevelPlayed);
     }

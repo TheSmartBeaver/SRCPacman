@@ -1,5 +1,9 @@
 package src.entities.moving;
 
+import src.engine.input.Input;
+
+import java.util.List;
+
 public abstract class MovingEntity {
 
     private float posX;
@@ -19,6 +23,8 @@ public abstract class MovingEntity {
 
     private float nbPixelsMoved;
     private boolean inMiddleOfTile = true;
+
+    private Input input;
 
     public MovingEntity() {}
 
@@ -104,6 +110,23 @@ public abstract class MovingEntity {
 
     public void setMoving(boolean moving) {
         isMoving = moving;
+    }
+
+    public Input getInput() {
+        return input;
+    }
+
+    public void setInput(Input input) {
+        this.input = input;
+    }
+
+    public static Pacman findPacman(List<MovingEntity> entities) {
+        for (MovingEntity entity : entities) {
+            if (entity.getEntityType() == MovingEntityType.PACMAN) {
+                return (Pacman)entity;
+            }
+        }
+        return null;
     }
 
     public abstract MovingEntityType getEntityType();

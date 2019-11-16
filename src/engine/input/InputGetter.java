@@ -23,9 +23,7 @@ public class InputGetter {
                 else if (Keyboard.getEventKey() == InputKeys.keyRight) {
                     GameInput.setInput(Input.RIGHT);
                 }
-
             }
         }
     }
-
 }
