@@ -5,15 +5,24 @@ package src.engine.input;
  */
 public class GameInput {
 
-    private static Input input = Input.NONE;
+    private static Input inputFirst = Input.NONE;
+    private static Input inputSecond = Input.NONE;
     private static boolean pauseKeyDown;
 
-    public static Input getInput() {
-        return input;
+    public static Input getInputFirst() {
+        return inputFirst;
     }
 
-    public static void setInput(Input input) {
-        GameInput.input = input;
+    public static void setInputFirst(Input inputFirst) {
+        GameInput.inputFirst = inputFirst;
+    }
+
+    public static Input getInputSecond() {
+        return inputSecond;
+    }
+
+    public static void setInputSecond(Input inputSecond) {
+        GameInput.inputSecond = inputSecond;
     }
 
     public static boolean isPauseKeyDown() {

@@ -2,17 +2,19 @@ package src.entities.moving;
 
 import src.engine.input.Input;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class MovingEntity {
 
-    private float posX;
-    private float posY;
+    private float posX = 0;
+    private float posY = 0;
 
     private int tileX;
     private int tileY;
 
-    private int length;
+    //TODO : attribut à supprimer, il sert juste à débug
+    private int length = 20;
 
     private Direction currentDirection = Direction.NONE;
 
@@ -28,10 +30,16 @@ public abstract class MovingEntity {
 
     public MovingEntity() {}
 
+    //CONSTRUCTEUR DE DEBUG
     public MovingEntity(float posX, float posY, int length, float speed) {
         this.posX = posX;
         this.posY = posY;
         this.length = length;
+        this.speed = speed;
+    }
+
+    //CONSTRUCTEUR OFFICIEL
+    public MovingEntity(float speed) {
         this.speed = speed;
         tileTravelTime = 1000.0f / this.speed;
     }
@@ -120,13 +128,14 @@ public abstract class MovingEntity {
         this.input = input;
     }
 
-    public static Pacman findPacman(List<MovingEntity> entities) {
+    public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) {
+        List<Pacman> pacmans = new ArrayList<>();
         for (MovingEntity entity : entities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
-                return (Pacman)entity;
+                pacmans.add((Pacman)entity);
             }
         }
-        return null;
+        return pacmans;
     }
 
     public abstract MovingEntityType getEntityType();

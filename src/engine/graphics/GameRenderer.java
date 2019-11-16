@@ -4,6 +4,7 @@ import src.Level;
 import src.UserParams;
 import src.entities.fixed.TileContentType;
 import src.entities.moving.MovingEntity;
+import src.entities.moving.Pacman;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
 
@@ -65,9 +66,10 @@ public class GameRenderer {
             y += tileHeight;
         }
 
+        int movingEntitySpriteLength = (int)(tileWidth * 0.75);
         for (MovingEntity entity : entities) {
             UserParams.texture.bind();
-            Drawer.drawRect((int)entity.getPosX() - entity.getLength() / 2, (int)entity.getPosY() - entity.getLength() / 2, entity.getLength(), entity.getLength(), pacmanSpawnColor);
+            Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
             UserParams.texture.unbind();
             /*UserParams.texture.bind();
             Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));

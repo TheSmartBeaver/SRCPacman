@@ -98,12 +98,8 @@ public class Main {
         long endFrameTime = 0;
 
         boolean isFirstFrame = true;
-        SquareTest squareTest = new SquareTest();
 
         while (running){
-            if (isFirstFrame) {
-                squareTest = new SquareTest(50,50, 16, 100.0f);
-            }
             if(Display.isCloseRequested()) stop(); /*Si on appuie sur croix fermeture*/
 
             currentBeginningFrameTime = getTime();
@@ -118,9 +114,9 @@ public class Main {
             lastBeginningFrameTime = currentBeginningFrameTime;
 
             InputGetter.getInputs();
-            GameMain.update(deltaTime, squareTest);
+            GameMain.update(deltaTime);
 
-            GameMain.render(squareTest);
+            GameMain.render();
 
             endFrameTime = getTime();
             double timeElapsed = getDelta(endFrameTime, currentBeginningFrameTime);

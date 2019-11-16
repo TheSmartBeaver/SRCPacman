@@ -7,24 +7,45 @@ import org.lwjgl.input.Keyboard;
  */
 public class InputKeys {
 
-    static int keyUp = Keyboard.KEY_Z;
-    static int keyDown = Keyboard.KEY_S;
-    static int keyLeft = Keyboard.KEY_Q;
-    static int keyRight = Keyboard.KEY_D;
+    static int keyUpFirst = Keyboard.KEY_Z;
+    static int keyDownFirst = Keyboard.KEY_S;
+    static int keyLeftFirst = Keyboard.KEY_Q;
+    static int keyRightFirst = Keyboard.KEY_D;
 
-    private static void setKeyUp(int keyUp) {
-        InputKeys.keyUp = keyUp;
+    static int keyUpSecond = Keyboard.KEY_UP;
+    static int keyDownSecond = Keyboard.KEY_DOWN;
+    static int keyLeftSecond = Keyboard.KEY_LEFT;
+    static int keyRightSecond = Keyboard.KEY_RIGHT;
+
+    private static void setKeyUpFirst(int keyUpFirst) {
+        InputKeys.keyUpFirst = keyUpFirst;
     }
 
-    private static void setKeyDown(int keyDown) {
-        InputKeys.keyDown = keyDown;
+    private static void setKeyDownFirst(int keyDownFirst) {
+        InputKeys.keyDownFirst = keyDownFirst;
     }
 
-    private static void setKeyLeft(int keyLeft) {
-        InputKeys.keyLeft = keyLeft;
+    private static void setKeyLeftFirst(int keyLeftFirst) {
+        InputKeys.keyLeftFirst = keyLeftFirst;
     }
 
-    private static void setKeyRight(int keyRight) {
-        InputKeys.keyRight = keyRight;
+    private static void setKeyRightFirst(int keyRightFirst) {
+        InputKeys.keyRightFirst = keyRightFirst;
+    }
+
+    public static void setKeyUpSecond(int keyUpSecond) {
+        InputKeys.keyUpSecond = keyUpSecond;
+    }
+
+    public static void setKeyDownSecond(int keyDownSecond) {
+        InputKeys.keyDownSecond = keyDownSecond;
+    }
+
+    public static void setKeyLeftSecond(int keyLeftSecond) {
+        InputKeys.keyLeftSecond = keyLeftSecond;
+    }
+
+    public static void setKeyRightSecond(int keyRightSecond) {
+        InputKeys.keyRightSecond = keyRightSecond;
     }
 }

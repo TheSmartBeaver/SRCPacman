@@ -2,20 +2,16 @@ package src;
 
 import src.engine.graphics.Color;
 import src.engine.graphics.Drawer;
-import src.engine.graphics.MovingEntityRenderer;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
-import src.engine.input.InputGetter;
 import src.engine.physics.MovementPhysics;
 import src.entities.moving.MovingEntity;
 import src.entities.moving.MovingEntityType;
 import src.entities.moving.Pacman;
 import src.entities.moving.SquareTest;
-import src.entities.space.Tile;
 import src.entities.space.TileMap;
 import src.loaders.LevelLoader;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -78,32 +74,33 @@ public class GameMain {
         }
     }
 
-    public static void update(double deltaTime, SquareTest squareTest) {
+    public static void update(double deltaTime) {
 
         if (newLevel) {
             GameState.currentLevelPlayed = LevelLoader.levels.get(0);
-            GameState.currentEntities.add(new Pacman(0,0, 20,3.0f));
+            GameState.currentEntities.add(new Pacman(1,3.0f));
+            GameState.currentEntities.add(new Pacman(2,3.0f));
             initEntitiesPosition();
             newLevel = false;
         }
 
-        Pacman pacman = MovingEntity.findPacman(GameState.currentEntities);
-        if (pacman == null) return;
-        pacman.setInput(GameInput.getInput());
+        List<Pacman> pacmans = MovingEntity.findPacmanEntities(GameState.currentEntities);
+        for (Pacman pacman : pacmans) {
+            if (pacman.getId() == 1) {
+                pacman.setInput(GameInput.getInputFirst());
+            }
+            else if (pacman.getId() == 2) {
+                pacman.setInput(GameInput.getInputSecond());
+            }
+        }
 
         MovementPhysics.updateEntitiesPositions(deltaTime, GameState.currentEntities, GameState.currentLevelPlayed);
     }
 
-    public static void render(SquareTest squareTest){
+    public static void render(){
 
         //TODO : idée : faire une classe GlobalRenderer qui prend tous les paramètres qu'il faut et appeler dedans les sous-renderers ?
         GameRenderer.renderLevel(GameState.currentLevelPlayed, GameState.currentEntities);
 
-        float x = squareTest.getPosX();
-        float y = squareTest.getPosY();
-        int size = squareTest.getLength();
-
-        //TODO : ceci est du code de test: tous les appels � Drawer doivent se faire normalement dans le package engine.graphics
-        Drawer.drawRect((int)x, (int)y, size, size, new Color(0.5f, 0.2f, 0.9f));
     }
 }

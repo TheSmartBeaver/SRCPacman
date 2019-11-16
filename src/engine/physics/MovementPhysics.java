@@ -158,7 +158,7 @@ public class MovementPhysics {
             }
         }
 
-        System.out.println(entity.getPosX() + " " + entity.getPosY() + " " + entity.getTileX() + " " + entity.getTileY() + " " + entity.getNbPixelsMoved() + " " + entity.isInMiddleOfTile() + " " + deltaTime);
+        //System.out.println(entity.getPosX() + " " + entity.getPosY() + " " + entity.getTileX() + " " + entity.getTileY() + " " + entity.getNbPixelsMoved() + " " + entity.isInMiddleOfTile() + " " + deltaTime);
     }
 
     private static void updateGhostsPositions(double deltaTime) {
