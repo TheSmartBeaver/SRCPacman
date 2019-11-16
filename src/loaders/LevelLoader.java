@@ -3,9 +3,7 @@ package src.loaders;
 import src.Level;
 import src.entities.fixed.Berry;
 import src.entities.fixed.InvincibilityPowerUp;
-import src.entities.space.Tile;
-import src.entities.space.TileMap;
-import src.entities.space.TileType;
+import src.entities.space.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import java.util.List;
 public class LevelLoader {
 
     public static List<Level> levels = new ArrayList<>();
+    private final static int MAX_NB_OF_TP = 10;
 
     public static void loadLevels(String directoryName) {
 
@@ -62,37 +61,51 @@ public class LevelLoader {
 
             Tile[][] tiles = new Tile[levelHeight][levelWidth];
             int lineNumber = 0;
+            TileTeleport[] tilesTeleportFound = new TileTeleport[MAX_NB_OF_TP];
             while((line = bf.readLine()) != null) {
                 for (int charNumber = 0 ; charNumber < levelWidth ; ++charNumber) {
-                    switch (line.charAt(charNumber)) {
+                    Character currentChar = line.charAt(charNumber);
+                    switch (currentChar) {
                         case('X'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, TileType.WALL);
+                            tiles[lineNumber][charNumber] = new TileWall();
                             break;
                         }
                         case('P'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, TileType.PACMAN_SPAWN);
+                            tiles[lineNumber][charNumber] = new TilePacmanSpawn();
                             break;
                         }
                         case('G'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, TileType.GHOST_SPAWN);
+                            tiles[lineNumber][charNumber] = new TileGhostSpawn();
                             break;
                         }
                         case('.'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(new Berry(), TileType.CORRIDOR);
+                            tiles[lineNumber][charNumber] = new TileCorridor(new Berry());
                             break;
                         }
                         case('*'):
                         {
-                            tiles[lineNumber][charNumber] = new Tile(new InvincibilityPowerUp(), TileType.CORRIDOR);
+                            tiles[lineNumber][charNumber] = new TileCorridor(new InvincibilityPowerUp());
                             break;
                         }
                         default:
                         {
-                            tiles[lineNumber][charNumber] = new Tile(null, TileType.CORRIDOR);
+                            if ((int)currentChar >= 48 && (int)currentChar <= 57) {
+                                int idTileTeleport = Integer.parseInt(String.valueOf(currentChar));
+                                if (tilesTeleportFound[idTileTeleport] == null) {
+                                    tiles[lineNumber][charNumber] = new TileTeleport(null);
+                                    tilesTeleportFound[idTileTeleport] = (TileTeleport)tiles[lineNumber][charNumber];
+                                } else {
+                                    TileTeleport tileTeleport = tilesTeleportFound[idTileTeleport];
+                                    tiles[lineNumber][charNumber] = new TileTeleport(tileTeleport);
+                                    tileTeleport.setTileDest((TileTeleport)tiles[lineNumber][charNumber]);
+                                }
+                            } else {
+                                tiles[lineNumber][charNumber] = new TileCorridor(null);
+                            }
                         }
                     }
                 }

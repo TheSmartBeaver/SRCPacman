@@ -8,6 +8,7 @@ public enum TileType {
     CORRIDOR,
     WALL,
     PACMAN_SPAWN,
-    GHOST_SPAWN
+    GHOST_SPAWN,
+    TELEPORT
 
 }

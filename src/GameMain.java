@@ -9,7 +9,9 @@ import src.entities.moving.MovingEntity;
 import src.entities.moving.MovingEntityType;
 import src.entities.moving.Pacman;
 import src.entities.moving.SquareTest;
+import src.entities.space.Tile;
 import src.entities.space.TileMap;
+import src.entities.space.TileTeleport;
 import src.loaders.LevelLoader;
 
 import java.util.List;
@@ -78,6 +80,17 @@ public class GameMain {
 
         if (newLevel) {
             GameState.currentLevelPlayed = LevelLoader.levels.get(0);
+            //DEBUG DEBUT
+            TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
+            for (int i = 0 ; i < tileMap.getRowCount() ; ++i) {
+                for (int j = 0 ; j < tileMap.getColumnCount() ; ++j) {
+                    if (tileMap.get(i,j).isTeleportTile()) {
+                        TileTeleport tile = (TileTeleport)tileMap.get(i,j);
+                        System.out.println(tile.hashCode() + " " + i + " " + j + " " + tile.getTileDest().hashCode());
+                    }
+                }
+            }
+            //DEBUG FIN
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
             initEntitiesPosition();

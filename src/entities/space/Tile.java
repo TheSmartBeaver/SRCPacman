@@ -5,7 +5,7 @@ import src.entities.fixed.TileContent;
 /**
  * Created by Vincent on 01/11/2019.
  */
-public class Tile {
+public abstract class Tile {
 
     private TileContent content = null;
     private TileSprite sprite;
@@ -57,4 +57,7 @@ public class Tile {
     public boolean isGhostSpawnTile() {
         return tileType == TileType.GHOST_SPAWN;
     }
+
+    public boolean isTeleportTile() {return tileType == TileType.TELEPORT;}
+
 }

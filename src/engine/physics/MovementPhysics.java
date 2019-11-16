@@ -22,6 +22,7 @@ public class MovementPhysics {
 
         Direction oldDirection = entity.getCurrentDirection();
         if (entity.isInMiddleOfTile()) {
+
             int entityTileY = entity.getTileY();
             int entityTileX = entity.getTileX();
             switch (entity.getInput()) {
