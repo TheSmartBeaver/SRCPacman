@@ -1,9 +1,11 @@
 package src.engine.physics;
 
+import javafx.util.Pair;
 import src.Level;
 import src.entities.moving.Direction;
 import src.entities.moving.MovingEntity;
 import src.entities.space.TileMap;
+import src.entities.space.TileTeleport;
 
 import java.util.List;
 
@@ -22,69 +24,81 @@ public class MovementPhysics {
 
         Direction oldDirection = entity.getCurrentDirection();
         if (entity.isInMiddleOfTile()) {
-
             int entityTileY = entity.getTileY();
             int entityTileX = entity.getTileX();
-            switch (entity.getInput()) {
-                case UP:
-                {
-                    if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
-                        entity.setMoving(true);
-                        entity.setCurrentDirection(Direction.UP);
-                    } else {
-                        if (
-                                (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                        (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                        (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()))
-                            entity.setMoving(false);
-                    }
-                    break;
-                }
-                case DOWN:
-                {
-                    if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
-                        entity.setMoving(true);
-                        entity.setCurrentDirection(Direction.DOWN);
-                    } else {
-                        if (
-                                (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                        (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                        (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
-                            entity.setMoving(false);
+            if (tileMap.get(entityTileY, entityTileX).isTeleportTile()) {
+                System.out.println(entityTileX + " " + entityTileY);
+                TileTeleport tileSrc = (TileTeleport)tileMap.get(entityTileY, entityTileX);
+                TileTeleport tileDest = tileSrc.getTileDest();
+                Pair<Integer, Integer> tileDestIndexes = tileMap.findTilePos(tileDest);
+                entity.setTileY(tileDestIndexes.getKey());
+                entity.setTileX(tileDestIndexes.getValue());
+                entity.setPosY(offsetUp + tileHeight * tileDestIndexes.getKey() + tileHeight / 2);
+                entity.setPosX(offsetLeft + tileWidth * tileDestIndexes.getValue() + tileWidth / 2);
+                //entity.setNbPixelsMoved(0);
+            }
+            else {
+                switch (entity.getInput()) {
+                    case UP:
+                    {
+                        if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
+                            entity.setMoving(true);
+                            entity.setCurrentDirection(Direction.UP);
+                        } else {
+                            if (
+                                    (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
+                                            (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
+                                            (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()))
+                                entity.setMoving(false);
                         }
-
+                        break;
                     }
-                    break;
-                }
-                case LEFT:
-                {
-                    if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
-                        entity.setMoving(true);
-                        entity.setCurrentDirection(Direction.LEFT);
-                    } else {
-                        if (
-                                (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                        (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
-                                        (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
-                            entity.setMoving(false);
+                    case DOWN:
+                    {
+                        if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
+                            entity.setMoving(true);
+                            entity.setCurrentDirection(Direction.DOWN);
+                        } else {
+                            if (
+                                    (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
+                                            (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
+                                            (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
+                                entity.setMoving(false);
+                            }
+
                         }
+                        break;
+                    }
+                    case LEFT:
+                    {
+                        if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
+                            entity.setMoving(true);
+                            entity.setCurrentDirection(Direction.LEFT);
+                        } else {
+                            if (
+                                    (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
+                                            (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
+                                            (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
+                                entity.setMoving(false);
+                            }
 
+                        }
+                        break;
                     }
-                    break;
-                }
-                case RIGHT:
-                {
-                    if (!tileMap.get(entityTileY, entity.getTileX() + 1).isWall()) {
-                        entity.setMoving(true);
-                        entity.setCurrentDirection(Direction.RIGHT);
-                    } else {
-                        if (
-                                (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                        (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
-                                        (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall()))
-                            entity.setMoving(false);
+                    case RIGHT:
+                    {
+                        if (!tileMap.get(entityTileY, entity.getTileX() + 1).isWall()) {
+                            entity.setMoving(true);
+                            entity.setCurrentDirection(Direction.RIGHT);
+                        } else {
+                            if (
+                                    (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
+                                            (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
+                                            (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall()))
+                                entity.setMoving(false);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             //TODO : a changer de place, ceci n'a rien a faire dans le moteur physique, c'est juste pour tester

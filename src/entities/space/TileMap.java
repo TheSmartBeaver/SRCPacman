@@ -1,5 +1,6 @@
 package src.entities.space;
 
+import javafx.util.Pair;
 import src.entities.fixed.TileContentType;
 
 /**
@@ -184,5 +185,16 @@ public class TileMap {
 
     public Tile get(int i, int j) {
         return tiles[i][j];
+    }
+
+    public Pair<Integer, Integer> findTilePos(Tile tile) {
+        for (int i = 0 ; i < rowCount ; ++i) {
+            for (int j = 0 ; j < columnCount ; ++j) {
+                if (get(i,j) == tile) {
+                    return new Pair<>(i,j);
+                }
+            }
+        }
+        return null;
     }
 }
