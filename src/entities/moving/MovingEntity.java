@@ -15,9 +15,9 @@ public abstract class MovingEntity {
 
     //en ms
     private float speed;
-    public double tileTravelTime;
+    public float tileTravelTime;
 
-    private int nbPixelsMoved;
+    private float nbPixelsMoved;
     private boolean inMiddleOfTile = true;
 
     public MovingEntity() {}
@@ -27,7 +27,7 @@ public abstract class MovingEntity {
         this.posY = posY;
         this.length = length;
         this.speed = speed;
-        tileTravelTime = 1000.0d / this.speed;
+        tileTravelTime = 1000.0f / this.speed;
     }
 
     public float getPosX() {
@@ -74,11 +74,11 @@ public abstract class MovingEntity {
         this.speed = speed;
     }
 
-    public int getNbPixelsMoved() {
+    public float getNbPixelsMoved() {
         return nbPixelsMoved;
     }
 
-    public void setNbPixelsMoved(int nbPixelsMoved) {
+    public void setNbPixelsMoved(float nbPixelsMoved) {
         this.nbPixelsMoved = nbPixelsMoved;
     }
 

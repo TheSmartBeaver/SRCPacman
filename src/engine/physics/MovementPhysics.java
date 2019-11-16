@@ -115,14 +115,14 @@ public class MovementPhysics {
         //TODO : que son attribut nbPixelsMoved diminue jusqu'à 0 ou moins pour le recaler sur la case d'avant
         //TODO : PROBLEMES DE CETTE SOLUTION : ça complique le code et ça risque de mettre en péril la généricité
         //TODO : même si comme ça je vois pas trop pourquoi ni comment
-        Integer nbPixelsMoved = pacman.getNbPixelsMoved();
+        float nbPixelsMoved = pacman.getNbPixelsMoved();
         Direction currentDirection = pacman.getCurrentDirection();
         if (pacman.getSpeed() != 0) {
             switch (currentDirection) {
                 case UP:
                 case DOWN:
                 {
-                    int nbPixelsToMove = (int)((deltaTime / pacman.tileTravelTime) * tileHeight);
+                    float nbPixelsToMove = (float)((deltaTime / pacman.tileTravelTime) * tileHeight);
                     //TODO : ce if juste dessous est une aberration si par exemple on joue à 120FPS, on ira 2 fois plus vite à la vitesse minimale !
                     //TODO : idée pour corriger ça : sauf pour la première frame, on lui dit de se déplacer de la valeur en int de (nbPixelsDeplaces
                     //TODO : de la frame courante EN FLOAT + nbPixelsDeplaces de l'ancienne EN FLOAT) - l'ancienne valeur en int de nbPixelsDeplaces
@@ -131,7 +131,7 @@ public class MovementPhysics {
                     if (nbPixelsToMove == 0) {
                         nbPixelsToMove = 1;
                     }
-                    int newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
+                    float newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
                     if (newNbPixelsMoved >= tileHeight) {
                         pacman.setInMiddleOfTile(true);
                         pacman.setNbPixelsMoved(0);
@@ -157,11 +157,11 @@ public class MovementPhysics {
                 case LEFT:
                 case RIGHT:
                 {
-                    int nbPixelsToMove = (int)((deltaTime / pacman.tileTravelTime) * tileWidth);
+                    float nbPixelsToMove = (float)((deltaTime / pacman.tileTravelTime) * tileWidth);
                     if (nbPixelsToMove == 0) {
                         nbPixelsToMove = 1;
                     }
-                    int newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
+                    float newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
                     if (newNbPixelsMoved >= tileWidth) {
                         pacman.setInMiddleOfTile(true);
                         pacman.setNbPixelsMoved(0);
