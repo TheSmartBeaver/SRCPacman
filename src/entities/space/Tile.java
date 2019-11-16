@@ -1,5 +1,6 @@
 package src.entities.space;
 
+import src.engine.graphics.Color;
 import src.entities.fixed.TileContent;
 
 /**

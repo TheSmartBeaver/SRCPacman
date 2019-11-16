@@ -7,6 +7,7 @@ import src.entities.moving.MovingEntity;
 import src.entities.moving.Pacman;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
+import src.entities.space.TileTeleport;
 
 import java.util.List;
 
@@ -51,9 +52,15 @@ public class GameRenderer {
                 Tile currentTile = levelTileMap.get(rowIndex, columnIndex);
                 //TODO : voir si la technique avec le .ordinal() pose probl�me
                 Sprite currentSprite = UserParams.texture.getSprites().get(currentTile.getSprite().ordinal());
-                UserParams.texture.bind();
-                Drawer.drawSprite(x, y, tileWidth, tileHeight, currentSprite.getxSprite(), currentSprite.getySprite());
-                UserParams.texture.unbind();
+                if (currentTile.isTeleportTile()) {
+                    Drawer.drawRect(x, y, tileWidth, tileHeight, ((TileTeleport)currentTile).getColor());
+                }
+                else {
+                    UserParams.texture.bind();
+                    Drawer.drawSprite(x, y, tileWidth, tileHeight, currentSprite.getxSprite(), currentSprite.getySprite());
+                    UserParams.texture.unbind();
+                }
+
                 if (currentTile.getContent() != null) {
                     Sprite contentSprite = UserParams.texture.getSprites().get(currentTile.getContent().getSprite().ordinal());
                     UserParams.texture.bind();
@@ -68,9 +75,7 @@ public class GameRenderer {
 
         int movingEntitySpriteLength = (int)(tileWidth * 0.75);
         for (MovingEntity entity : entities) {
-            UserParams.texture.bind();
             Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
-            UserParams.texture.unbind();
             /*UserParams.texture.bind();
             Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));
             UserParams.texture.unbind();

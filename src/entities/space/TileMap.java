@@ -25,33 +25,6 @@ public class TileMap {
                 if (tiles[rowIndex][columnIndex].isWall()) {
                     //TODO : faire les if pour les sprites qui ont le plus de murs adjacents en premier (ordre décroissant de nombre de murs par sprite)
 
-                    /*if (rowIndex != 0) {
-                        if (columnIndex != 0) {
-                            if (rowIndex != rowCount - 1) {
-                                if (columnIndex != columnCount - 1) {
-                                    if(tiles[rowIndex][columnIndex-1].isWall()
-                                            && tiles[rowIndex][columnIndex+1].isWall()
-                                            && tiles[rowIndex-1][columnIndex].isWall()
-                                            && tiles[rowIndex+1][columnIndex-1].isWall()) {
-                                        tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_QUAD_WALL); continue;
-                                    }
-                                }
-                                if(tiles[rowIndex][columnIndex-1].isWall()
-                                        && tiles[rowIndex-1][columnIndex].isWall()
-                                        && tiles[rowIndex+1][columnIndex-1].isWall()) {
-                                    tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_TOP_LEFT_DOWN_WALL);continue;
-                                }
-                            }
-                            if (columnIndex != columnCount - 1) {
-                                if(tiles[rowIndex][columnIndex-1].isWall()
-                                        && tiles[rowIndex][columnIndex+1].isWall()
-                                        && tiles[rowIndex-1][columnIndex].isWall()) {
-                                    tiles[rowIndex][columnIndex].setSprite(TileSprite.INT_RIGHT_TOP_LEFT); continue;
-                                }
-                            }
-                        }
-                    }*/
-
                     if (
                             columnIndex != 0 && columnIndex != columnCount - 1 && rowIndex != 0 && rowIndex != rowCount - 1
                             && tiles[rowIndex][columnIndex-1].isWall()

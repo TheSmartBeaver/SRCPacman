@@ -1,6 +1,7 @@
 package src.loaders;
 
 import src.Level;
+import src.engine.graphics.Color;
 import src.entities.fixed.Berry;
 import src.entities.fixed.InvincibilityPowerUp;
 import src.entities.space.*;
@@ -8,6 +9,7 @@ import src.entities.space.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Vincent on 01/11/2019.
@@ -96,11 +98,14 @@ public class LevelLoader {
                             if ((int)currentChar >= 48 && (int)currentChar <= 57) {
                                 int idTileTeleport = Integer.parseInt(String.valueOf(currentChar));
                                 if (tilesTeleportFound[idTileTeleport] == null) {
-                                    tiles[lineNumber][charNumber] = new TileTeleport(null);
+                                    tiles[lineNumber][charNumber] = new TileTeleport(null, new Color(
+                                            ThreadLocalRandom.current().nextFloat(),
+                                            ThreadLocalRandom.current().nextFloat(),
+                                            ThreadLocalRandom.current().nextFloat()));
                                     tilesTeleportFound[idTileTeleport] = (TileTeleport)tiles[lineNumber][charNumber];
                                 } else {
                                     TileTeleport tileTeleport = tilesTeleportFound[idTileTeleport];
-                                    tiles[lineNumber][charNumber] = new TileTeleport(tileTeleport);
+                                    tiles[lineNumber][charNumber] = new TileTeleport(tileTeleport, tileTeleport.getColor());
                                     tileTeleport.setTileDest((TileTeleport)tiles[lineNumber][charNumber]);
                                 }
                             } else {
