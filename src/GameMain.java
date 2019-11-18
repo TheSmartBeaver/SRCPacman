@@ -4,16 +4,16 @@ import src.engine.graphics.Color;
 import src.engine.graphics.Drawer;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
+import src.engine.input.Input;
 import src.engine.physics.MovementPhysics;
-import src.entities.moving.MovingEntity;
-import src.entities.moving.MovingEntityType;
-import src.entities.moving.Pacman;
-import src.entities.moving.SquareTest;
+import src.engine.physics.MovingRandom;
+import src.entities.moving.*;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
 import src.entities.space.TileTeleport;
 import src.loaders.LevelLoader;
 
+import java.util.ArrayDeque;
 import java.util.List;
 
 /**
@@ -68,7 +68,11 @@ public class GameMain {
                             );
                             movingEntity.setTileX(columnIndex);
                             movingEntity.setTileY(rowIndex);
-                            System.out.println(movingEntity.getPosX() + " " + movingEntity.getPosY());
+                            //TODO : WARNING CODE DE TEST A PARTIR DE MAINTENANT A ENLEVER IMPERATIVEMENT PLUS TARD
+                            movingEntity.setCurrentDirection(Direction.LEFT);
+                            ArrayDeque<Input> inputInitPourTest = new ArrayDeque<>();
+                            inputInitPourTest.push(Input.UP);
+                            ((Ghost)movingEntity).setInputs(inputInitPourTest);
                         }
                     }
                 }
@@ -79,7 +83,7 @@ public class GameMain {
     public static void update(double deltaTime) {
 
         if (newLevel) {
-            GameState.currentLevelPlayed = LevelLoader.levels.get(0);
+            GameState.currentLevelPlayed = LevelLoader.levels.get(1);
             //DEBUG DEBUT
             TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
             for (int i = 0 ; i < tileMap.getRowCount() ; ++i) {
@@ -93,6 +97,7 @@ public class GameMain {
             //DEBUG FIN
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
+            GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             initEntitiesPosition();
             newLevel = false;
         }

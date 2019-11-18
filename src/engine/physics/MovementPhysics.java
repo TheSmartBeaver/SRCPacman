@@ -2,32 +2,250 @@ package src.engine.physics;
 
 import javafx.util.Pair;
 import src.Level;
+import src.engine.input.Input;
 import src.entities.moving.Direction;
+import src.entities.moving.Ghost;
 import src.entities.moving.MovingEntity;
+import src.entities.moving.MovingEntityType;
 import src.entities.space.TileMap;
 import src.entities.space.TileTeleport;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovementPhysics {
 
-    private static Integer absoluteToRelativePosX(float posX, Integer tileWidth, Integer offsetLeft) {
+    static Integer absoluteToRelativePosX(float posX, Integer tileWidth, Integer offsetLeft) {
         return (int)(posX - offsetLeft) / tileWidth;
     }
 
-    private static Integer absoluteToRelativePosY(float posY, Integer tileHeight, Integer offsetUp) {
+    static Integer absoluteToRelativePosY(float posY, Integer tileHeight, Integer offsetUp) {
         return (int)(posY - offsetUp) / tileHeight;
+    }
+
+    static List<Input> determinePossibleDirections(Ghost ghost, TileMap tileMap) {
+        List<Input> possibleInputs = new ArrayList<>();
+        int tileXGhost = ghost.getTileX();
+        int tileYGhost = ghost.getTileY();
+        switch (ghost.getCurrentDirection()) {
+            case UP:
+            {
+                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                    possibleInputs.add(Input.UP);
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                    possibleInputs.add(Input.LEFT);
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                    possibleInputs.add(Input.RIGHT);
+                }
+                break;
+            }
+            case DOWN:
+            {
+                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                    possibleInputs.add(Input.DOWN);
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                    possibleInputs.add(Input.LEFT);
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                    possibleInputs.add(Input.RIGHT);
+                }
+                break;
+            }
+            case LEFT:
+            {
+                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                    possibleInputs.add(Input.DOWN);
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                    possibleInputs.add(Input.LEFT);
+                }
+                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                    possibleInputs.add(Input.UP);
+                }
+                break;
+            }
+            case RIGHT:
+            {
+                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                    possibleInputs.add(Input.UP);
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                    possibleInputs.add(Input.RIGHT);
+                }
+                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                    possibleInputs.add(Input.DOWN);
+                }
+                break;
+            }
+        }
+        return possibleInputs;
+    }
+
+    static Direction convertInputToDirection(Input input) {
+        switch (input) {
+            case UP:
+            {
+                return Direction.UP;
+            }
+            case DOWN:
+            {
+                return Direction.DOWN;
+            }
+            case LEFT:
+            {
+                return Direction.LEFT;
+            }
+            case RIGHT:
+            {
+                return Direction.RIGHT;
+            }
+            default:
+                return null;
+        }
+    }
+
+    static boolean isEntityAtIntersection(MovingEntity entity, TileMap tileMap) {
+        int entityTileX = entity.getTileX();
+        int entityTileY = entity.getTileY();
+        switch (entity.getCurrentDirection()) {
+            case UP:
+            case DOWN:
+            {
+                if (!tileMap.get(entityTileY, entityTileX - 1).isWall() || !tileMap.get(entityTileY, entityTileX + 1).isWall()) {
+                    return true;
+                }
+                break;
+            }
+            case LEFT:
+            case RIGHT:
+            {
+                if (!tileMap.get(entityTileY - 1, entityTileX).isWall() || !tileMap.get(entityTileY + 1, entityTileX).isWall()) {
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
+    }
+
+    private static void determineGhostPath(Ghost ghost, List<Input> possibleInputs) {
+        //pas besoin de recalculer l'algo s'il n'y a qu'un seul chemin à prendre
+        if (possibleInputs.size() == 1) {
+            ArrayDeque<Input> nextMandatoryInput = new ArrayDeque<>();
+            nextMandatoryInput.push(possibleInputs.get(0));
+            ghost.setInputs(nextMandatoryInput);
+        }
+        //s'il y a plusieurs chemins à cette intersection, on refait l'algo
+        else {
+            ghost.getContext().executeStrategy();
+        }
+    }
+
+    private static void reverseEntityPosition(MovingEntity movingEntity) {
+        switch (movingEntity.getCurrentDirection()) {
+            case UP:
+            {
+                movingEntity.setCurrentDirection(Direction.DOWN);
+                break;
+            }
+            case DOWN:
+            {
+                movingEntity.setCurrentDirection(Direction.UP);
+                break;
+            }
+            case LEFT:
+            {
+                movingEntity.setCurrentDirection(Direction.RIGHT);
+                break;
+            }
+            case RIGHT:
+            {
+                movingEntity.setCurrentDirection(Direction.LEFT);
+                break;
+            }
+        }
+    }
+
+    private static void determineNextPacmanDirection(MovingEntity pacman, TileMap tileMap) {
+        Direction oldDirection = pacman.getCurrentDirection();
+        int pacmanTileY = pacman.getTileY();
+        int pacmanTileX = pacman.getTileX();
+        switch (pacman.getInput()) {
+            case UP:
+            {
+                if (!tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) {
+                    pacman.setMoving(true);
+                    pacman.setCurrentDirection(Direction.UP);
+                } else {
+                    if (
+                            (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
+                                    (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
+                                    (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()))
+                        pacman.setMoving(false);
+                }
+                break;
+            }
+            case DOWN:
+            {
+                if (!tileMap.get(pacmanTileY + 1, pacmanTileX).isWall()) {
+                    pacman.setMoving(true);
+                    pacman.setCurrentDirection(Direction.DOWN);
+                } else {
+                    if (
+                            (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
+                                    (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
+                                    (oldDirection == Direction.DOWN && tileMap.get(pacmanTileY + 1, pacmanTileX).isWall())) {
+                        pacman.setMoving(false);
+                    }
+
+                }
+                break;
+            }
+            case LEFT:
+            {
+                if (!tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) {
+                    pacman.setMoving(true);
+                    pacman.setCurrentDirection(Direction.LEFT);
+                } else {
+                    if (
+                            (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
+                                    (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) ||
+                                    (oldDirection == Direction.DOWN && tileMap.get(pacmanTileY + 1, pacmanTileX).isWall())) {
+                        pacman.setMoving(false);
+                    }
+
+                }
+                break;
+            }
+            case RIGHT:
+            {
+                if (!tileMap.get(pacmanTileY, pacman.getTileX() + 1).isWall()) {
+                    pacman.setMoving(true);
+                    pacman.setCurrentDirection(Direction.RIGHT);
+                } else {
+                    if (
+                            (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
+                                    (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) ||
+                                    (oldDirection == Direction.DOWN && tileMap.get(pacmanTileY + 1, pacmanTileX).isWall()))
+                        pacman.setMoving(false);
+                }
+                break;
+            }
+        }
     }
 
     //TODO : voir si on sépare cette fonction en 2 sous-fonctions : le 1er switch = détection collision, le 2e = update position
     private static void updateEntityPosition(MovingEntity entity, double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp, TileMap tileMap) {
 
-        Direction oldDirection = entity.getCurrentDirection();
         if (entity.isInMiddleOfTile()) {
             int entityTileY = entity.getTileY();
             int entityTileX = entity.getTileX();
+            //si l'entité est sur une case de téléportation
             if (tileMap.get(entityTileY, entityTileX).isTeleportTile()) {
-                System.out.println(entityTileX + " " + entityTileY);
                 TileTeleport tileSrc = (TileTeleport)tileMap.get(entityTileY, entityTileX);
                 TileTeleport tileDest = tileSrc.getTileDest();
                 Pair<Integer, Integer> tileDestIndexes = tileMap.findTilePos(tileDest);
@@ -38,68 +256,33 @@ public class MovementPhysics {
                 //entity.setNbPixelsMoved(0);
             }
             else {
-                switch (entity.getInput()) {
-                    case UP:
-                    {
-                        if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
-                            entity.setMoving(true);
-                            entity.setCurrentDirection(Direction.UP);
-                        } else {
-                            if (
-                                    (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                            (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                            (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()))
-                                entity.setMoving(false);
-                        }
-                        break;
+                //si l'entité est pacman
+                if (entity.getEntityType() == MovingEntityType.PACMAN) {
+                    determineNextPacmanDirection(entity, tileMap);
+                //si l'entité est un fantôme
+                } else if (entity.getEntityType() == MovingEntityType.GHOST) {
+                    Ghost ghost = (Ghost)entity;
+                    List<Input> possibleInputs = determinePossibleDirections(ghost, tileMap);
+                    if (possibleInputs.size() == 0) {
+                        reverseEntityPosition(ghost);
                     }
-                    case DOWN:
-                    {
-                        if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
-                            entity.setMoving(true);
-                            entity.setCurrentDirection(Direction.DOWN);
-                        } else {
-                            if (
-                                    (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                            (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                            (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
-                                entity.setMoving(false);
-                            }
+                    //si le fantôme est à une intersection
+                    else if (isEntityAtIntersection(ghost, tileMap)) {
+                        //si il a encore des inputs en mémoire, il va dans la direction adéquate
+                        if (!ghost.getInputs().isEmpty()) {
+                            ghost.setCurrentDirection(convertInputToDirection(ghost.getInputs().poll()));
+                        }
+                        //si sa liste d'inputs est vide, on la recalcule en réexécutant son algo
+                        else {
+                            determineGhostPath(ghost, possibleInputs);
+                            ghost.setCurrentDirection(convertInputToDirection(ghost.getInputs().poll()));
+                        }
+                    }
 
-                        }
-                        break;
-                    }
-                    case LEFT:
-                    {
-                        if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
-                            entity.setMoving(true);
-                            entity.setCurrentDirection(Direction.LEFT);
-                        } else {
-                            if (
-                                    (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                            (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
-                                            (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
-                                entity.setMoving(false);
-                            }
-
-                        }
-                        break;
-                    }
-                    case RIGHT:
-                    {
-                        if (!tileMap.get(entityTileY, entity.getTileX() + 1).isWall()) {
-                            entity.setMoving(true);
-                            entity.setCurrentDirection(Direction.RIGHT);
-                        } else {
-                            if (
-                                    (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                            (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
-                                            (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall()))
-                                entity.setMoving(false);
-                        }
-                        break;
-                    }
+                } else {
+                    System.err.println("MAIS WTF LES AMIS");
                 }
+
             }
             //TODO : a changer de place, ceci n'a rien a faire dans le moteur physique, c'est juste pour tester
             tileMap.get(entityTileY,entityTileX).setContent(null);
