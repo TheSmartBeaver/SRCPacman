@@ -8,6 +8,7 @@ import org.lwjgl.input.Keyboard;
 public class InputGetter {
 
     public static void getInputs() {
+        //First et second : imputs pour 2 joueurs
 
         while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) {

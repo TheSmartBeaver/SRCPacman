@@ -19,11 +19,11 @@ public class TileMap {
     }
 
     public void loadSprites() {
-        //algo pour déterminer quel sprite pour les murs (en fonction de la configuration des murs)
+        //algo pour dï¿½terminer quel sprite pour les murs (en fonction de la configuration des murs)
         for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 if (tiles[rowIndex][columnIndex].isWall()) {
-                    //TODO : faire les if pour les sprites qui ont le plus de murs adjacents en premier (ordre décroissant de nombre de murs par sprite)
+                    //TODO : faire les if pour les sprites qui ont le plus de murs adjacents en premier (ordre dï¿½croissant de nombre de murs par sprite)
 
                     if (
                             columnIndex != 0 && columnIndex != columnCount - 1 && rowIndex != 0 && rowIndex != rowCount - 1
@@ -120,7 +120,7 @@ public class TileMap {
 
                     tiles[rowIndex][columnIndex].setSprite(TileSprite.LONE_WALL); continue;
 
-                }
+                } /*Traitement des corridor avec fruits*/
                 else {
                     tiles[rowIndex][columnIndex].setSprite(TileSprite.EMPTY);
                     if (tiles[rowIndex][columnIndex].getContent() != null) {
@@ -160,7 +160,7 @@ public class TileMap {
         return tiles[i][j];
     }
 
-    public Pair<Integer, Integer> findTilePos(Tile tile) {
+    public Pair<Integer, Integer> findTilePos(Tile tile) { /*Revoie pos de la tyle en argument*/
         for (int i = 0 ; i < rowCount ; ++i) {
             for (int j = 0 ; j < columnCount ; ++j) {
                 if (get(i,j) == tile) {

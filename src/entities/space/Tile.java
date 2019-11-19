@@ -33,7 +33,7 @@ public abstract class Tile {
 
     public TileContent getContent() {
         return content;
-    }
+    } /*Contenu de la tuile, un fruit ou pas ?*/
 
     public void setContent(TileContent content) {
         this.content = content;

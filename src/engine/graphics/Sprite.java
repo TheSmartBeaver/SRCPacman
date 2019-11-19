@@ -8,6 +8,7 @@ public class Sprite {
     private int xSprite;
     private int ySprite;
 
+    /*On donne coordonnées orthonormées du png de la sprite*/
     public Sprite(int xSprite, int ySprite) {
         this.xSprite = xSprite;
         this.ySprite = ySprite;

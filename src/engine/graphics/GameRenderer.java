@@ -40,29 +40,30 @@ public class GameRenderer {
         System.out.println(levelScreenOffsetRight);
         System.out.println();*/
 
-        int levelScreenOffsetLeft = level.getLevelScreenOffsetLeft();
+        int levelScreenOffsetLeft = level.getLevelScreenOffsetLeft(); /*Coin gauche du level?*/
         int x = levelScreenOffsetLeft;
-        int y = level.getLevelScreenOffsetUp();
+        int y = level.getLevelScreenOffsetUp(); /*y haut du level*/
         TileMap levelTileMap = level.getTileMap();
-        int rowCount = levelTileMap.getRowCount();
+        int rowCount = levelTileMap.getRowCount(); /*nb lignes level*/
         int columnCount = levelTileMap.getColumnCount();
-        int tileWidth = level.getTileWidth();
+        int tileWidth = level.getTileWidth(); /*largeur tuile/case*/
         int tileHeight = level.getTileHeight();
 
-        for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
+        for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) { /*On parcourt toutes les lignes, colonnes de TileMap*/
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
-                Tile currentTile = levelTileMap.get(rowIndex, columnIndex);
+                Tile currentTile = levelTileMap.get(rowIndex, columnIndex); /*case en cours de traitement*/
                 //TODO : voir si la technique avec le .ordinal() pose probl�me
-                Sprite currentSprite = UserParams.texture.getSprites().get(currentTile.getSprite().ordinal());
+                Sprite currentSprite = UserParams.texture.getSprites().get(currentTile.getSprite().ordinal()); /*récup sprite correspondant au contenu de la la Tile*/
                 if (currentTile.isTeleportTile()) {
                     Drawer.drawRect(x, y, tileWidth, tileHeight, ((TileTeleport)currentTile).getColor());
                 }
-                else {
+                else { /*Si pas case téléportation, bind sprite correspondante*/
                     UserParams.texture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, currentSprite.getxSprite(), currentSprite.getySprite());
                     UserParams.texture.unbind();
                 }
 
+                /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
                     Sprite contentSprite = UserParams.texture.getSprites().get(currentTile.getContent().getSprite().ordinal());
                     UserParams.texture.bind();
@@ -75,8 +76,9 @@ public class GameRenderer {
             y += tileHeight;
         }
 
-        int movingEntitySpriteLength = (int)(tileWidth * 0.75);
-        for (MovingEntity entity : entities) {
+        /*MOVING entities*/
+        int movingEntitySpriteLength = (int)(tileWidth * 0.75); /*Taille du carré PACMAN*/
+        for (MovingEntity entity : entities) { /*On dessine toutes les entités*/
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {

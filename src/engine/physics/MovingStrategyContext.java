@@ -5,6 +5,8 @@ import src.entities.moving.Ghost;
 /**
  * Created by Vincent on 18/11/2019.
  */
+
+/*Stratégie mouvement fantôme, une random pour l'instant*/
 public class MovingStrategyContext {
 
     private MovingStrategy movingStrategy;

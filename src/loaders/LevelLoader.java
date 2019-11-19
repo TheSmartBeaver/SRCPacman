@@ -24,7 +24,7 @@ public class LevelLoader {
 
         List<String> filenames = new ArrayList<>();
         File folder = new File(directoryName);
-        for (File file : folder.listFiles()) {
+        for (File file : folder.listFiles()) { /*On récupère toutes les maps de niveaux*/
             if (file.isFile()) {
                 if (file.getName().matches(".*\\.txt")) {
                     filenames.add(file.getName());
@@ -37,7 +37,7 @@ public class LevelLoader {
         }
 
 
-        for (String filename : filenames) {
+        for (String filename : filenames) { /*On ajoute les niveaux à la liste*/
             Level newLevel = loadLevel(directoryName, filename);
             if (newLevel != null) {
                 levels.add(newLevel);
@@ -64,7 +64,7 @@ public class LevelLoader {
             Tile[][] tiles = new Tile[levelHeight][levelWidth];
             int lineNumber = 0;
             TileTeleport[] tilesTeleportFound = new TileTeleport[MAX_NB_OF_TP];
-            while((line = bf.readLine()) != null) {
+            while((line = bf.readLine()) != null) { /*On associe caractères à objets du jeu*/
                 for (int charNumber = 0 ; charNumber < levelWidth ; ++charNumber) {
                     Character currentChar = line.charAt(charNumber);
                     switch (currentChar) {
@@ -95,7 +95,7 @@ public class LevelLoader {
                         }
                         default:
                         {
-                            if ((int)currentChar >= 48 && (int)currentChar <= 57) {
+                            if ((int)currentChar >= 48 && (int)currentChar <= 57) { /*Si caractère téléportation*/
                                 int idTileTeleport = Integer.parseInt(String.valueOf(currentChar));
                                 if (tilesTeleportFound[idTileTeleport] == null) {
                                     tiles[lineNumber][charNumber] = new TileTeleport(null, new Color(
@@ -108,7 +108,7 @@ public class LevelLoader {
                                     tiles[lineNumber][charNumber] = new TileTeleport(tileTeleport, tileTeleport.getColor());
                                     tileTeleport.setTileDest((TileTeleport)tiles[lineNumber][charNumber]);
                                 }
-                            } else {
+                            } else { /*Si Corridor sans content*/
                                 tiles[lineNumber][charNumber] = new TileCorridor(null);
                             }
                         }

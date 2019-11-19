@@ -16,6 +16,7 @@ import java.util.List;
 
 public class MovementPhysics {
 
+    /*A quoi correspond relative et absolute*/
     static Integer absoluteToRelativePosX(float posX, Integer tileWidth, Integer offsetLeft) {
         return (int)(posX - offsetLeft) / tileWidth;
     }
@@ -24,13 +25,17 @@ public class MovementPhysics {
         return (int)(posY - offsetUp) / tileHeight;
     }
 
+    //TODO:FIXER entités passant sur case de téléportation
+
     static List<Input> determinePossibleDirections(Ghost ghost, TileMap tileMap) {
         List<Input> possibleInputs = new ArrayList<>();
+        /*Récup coordonnées de la Tile sur laquelle est le fantôme*/
         int tileXGhost = ghost.getTileX();
         int tileYGhost = ghost.getTileY();
         switch (ghost.getCurrentDirection()) {
             case UP:
             {
+                /*Pour chaque direction prise par fantôme, test si case direct dans autre direction est vide pour ajouter une possible autre dirction*/
                 if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
                     possibleInputs.add(Input.UP);
                 }
@@ -85,6 +90,7 @@ public class MovementPhysics {
         return possibleInputs;
     }
 
+    /*Input très similaire à Direction*/
     static Direction convertInputToDirection(Input input) {
         switch (input) {
             case UP:
@@ -108,6 +114,8 @@ public class MovementPhysics {
         }
     }
 
+    //TODO:Pourquoi up et left vide ? TileX,TileY
+    /*Renvoie true si l'entité se trouve à une intersection*/
     static boolean isEntityAtIntersection(MovingEntity entity, TileMap tileMap) {
         int entityTileX = entity.getTileX();
         int entityTileY = entity.getTileY();
@@ -134,17 +142,18 @@ public class MovementPhysics {
 
     private static void determineGhostPath(Ghost ghost, List<Input> possibleInputs) {
         //pas besoin de recalculer l'algo s'il n'y a qu'un seul chemin à prendre
-        if (possibleInputs.size() == 1) {
+        if (possibleInputs.size() == 1) { /*Possibles directions prise par fantômes*/
             ArrayDeque<Input> nextMandatoryInput = new ArrayDeque<>();
             nextMandatoryInput.push(possibleInputs.get(0));
-            ghost.setInputs(nextMandatoryInput);
+            ghost.setInputs(nextMandatoryInput); /*Insert direction OBLIGATOIRE à prendre pour fantôme ?*/
         }
         //s'il y a plusieurs chemins à cette intersection, on refait l'algo
         else {
-            ghost.getContext().executeStrategy();
+            ghost.getContext().executeStrategy(); /*On lance cet algo jusqu'à ce possibleInputs.size() == 1 ??????*/
         }
     }
 
+    /*UP <--> DOWN    LEFT <--> RIGHT*/
     private static void reverseEntityPosition(MovingEntity movingEntity) {
         switch (movingEntity.getCurrentDirection()) {
             case UP:
@@ -177,15 +186,16 @@ public class MovementPhysics {
         switch (pacman.getInput()) {
             case UP:
             {
+                /*si case du haut vide, aller directement en haut ????*/
                 if (!tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()) {
-                    pacman.setMoving(true);
+                    pacman.setMoving(true); /*Pacman peut bouger ??*/
                     pacman.setCurrentDirection(Direction.UP);
                 } else {
                     if (
                             (oldDirection == Direction.LEFT && tileMap.get(pacmanTileY, pacmanTileX - 1).isWall()) ||
                                     (oldDirection == Direction.RIGHT && tileMap.get(pacmanTileY, pacmanTileX + 1).isWall()) ||
                                     (oldDirection == Direction.UP && tileMap.get(pacmanTileY - 1, pacmanTileX).isWall()))
-                        pacman.setMoving(false);
+                        pacman.setMoving(false);/*Si Pacman ne peut pas tourner à cause d'un mur, set Moving à false*/
                 }
                 break;
             }
@@ -239,19 +249,20 @@ public class MovementPhysics {
     }
 
     //TODO : voir si on sépare cette fonction en 2 sous-fonctions : le 1er switch = détection collision, le 2e = update position
+    //TODO : Régler problème téléportation entité, crash
     private static void updateEntityPosition(MovingEntity entity, double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp, TileMap tileMap) {
 
-        if (entity.isInMiddleOfTile()) {
+        if (entity.isInMiddleOfTile()) { /*Test si entité au centre de la tile*/
             int entityTileY = entity.getTileY();
             int entityTileX = entity.getTileX();
-            //si l'entité est sur une case de téléportation
+            //si l'entité est sur une case de TELEPORTATION
             if (tileMap.get(entityTileY, entityTileX).isTeleportTile()) {
                 TileTeleport tileSrc = (TileTeleport)tileMap.get(entityTileY, entityTileX);
                 TileTeleport tileDest = tileSrc.getTileDest();
                 Pair<Integer, Integer> tileDestIndexes = tileMap.findTilePos(tileDest);
-                entity.setTileY(tileDestIndexes.getKey());
-                entity.setTileX(tileDestIndexes.getValue());
-                entity.setPosY(offsetUp + tileHeight * tileDestIndexes.getKey() + tileHeight / 2);
+                entity.setTileY(tileDestIndexes.getKey()); /*getKey ET/OU getValue*/
+                entity.setTileX(tileDestIndexes.getValue()); /*On set nouvelle tile après téléportation*/
+                entity.setPosY(offsetUp + tileHeight * tileDestIndexes.getKey() + tileHeight / 2); /*On set nouvelle pos XY de l'entité*/
                 entity.setPosX(offsetLeft + tileWidth * tileDestIndexes.getValue() + tileWidth / 2);
                 //entity.setNbPixelsMoved(0);
             }
@@ -264,7 +275,7 @@ public class MovementPhysics {
                     Ghost ghost = (Ghost)entity;
                     List<Input> possibleInputs = determinePossibleDirections(ghost, tileMap);
                     if (possibleInputs.size() == 0) {
-                        reverseEntityPosition(ghost);
+                        reverseEntityPosition(ghost); /*Si fantôme bloqué ??*/
                     }
                     //si le fantôme est à une intersection
                     else if (isEntityAtIntersection(ghost, tileMap)) {
@@ -303,12 +314,13 @@ public class MovementPhysics {
                     float nbPixelsToMove = (float)((deltaTime / entity.tileTravelTime) * tileHeight);
                     float newNbPixelsMoved = nbPixelsMoved + nbPixelsToMove;
                     if (newNbPixelsMoved >= tileHeight) {
-                        entity.setInMiddleOfTile(true);
+                        entity.setInMiddleOfTile(true); /*L'entité est considéré comme entré dans la tile si newNbPixelsMoved >= taille de la Tile précédente ??????*/
                         entity.setNbPixelsMoved(0);
                         if (currentDirection == Direction.UP) {
+                            /*CONDITION INATEIGNABLE toujours DOWN ? ???*/
                             entity.setPosY(Math.round(entity.getPosY() - (tileHeight - nbPixelsMoved)));
                         } else {
-                            entity.setPosY(Math.round(entity.getPosY() + (tileHeight - nbPixelsMoved)));
+                            entity.setPosY(Math.round(entity.getPosY() + (tileHeight - nbPixelsMoved))); /*Calcule new Y*/
                         }
                         entity.setTileY(absoluteToRelativePosY(entity.getPosY(), tileHeight, offsetUp));
 

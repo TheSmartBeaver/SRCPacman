@@ -33,9 +33,9 @@ public class GameMain {
                 if (tileMap.get(rowIndex, columnIndex).isPacmanSpawnTile()) {
                     for (MovingEntity movingEntity : GameState.currentEntities) {
                         if (movingEntity.getEntityType() == MovingEntityType.PACMAN) {
-                            movingEntity.setTileX(columnIndex);
+                            movingEntity.setTileX(columnIndex); /*Coordonnées entité par rapport à tile*/
                             movingEntity.setTileY(rowIndex);
-                            movingEntity.setPosX(
+                            movingEntity.setPosX( /*Coordonnées entité X en pixel ??*/
                                     GameState.currentLevelPlayed.getLevelScreenOffsetLeft() +
                                     GameState.currentLevelPlayed.getTileWidth() * columnIndex +
                                     GameState.currentLevelPlayed.getTileWidth() / 2
@@ -45,7 +45,7 @@ public class GameMain {
                                     GameState.currentLevelPlayed.getTileHeight() * rowIndex +
                                     GameState.currentLevelPlayed.getTileHeight() / 2
                             );
-                            movingEntity.setTileX(columnIndex);
+                            movingEntity.setTileX(columnIndex); //TODO : REDONDANT ?
                             movingEntity.setTileY(rowIndex);
                             System.out.println(movingEntity.getPosX() + " " + movingEntity.getPosY());
                         }
@@ -69,7 +69,8 @@ public class GameMain {
                             movingEntity.setTileX(columnIndex);
                             movingEntity.setTileY(rowIndex);
                             //TODO : WARNING CODE DE TEST A PARTIR DE MAINTENANT A ENLEVER IMPERATIVEMENT PLUS TARD
-                            movingEntity.setCurrentDirection(Direction.LEFT);
+
+                            movingEntity.setCurrentDirection(Direction.LEFT); /*Direction initiale du fantôme*/
                             ArrayDeque<Input> inputInitPourTest = new ArrayDeque<>();
                             inputInitPourTest.push(Input.UP);
                             ((Ghost)movingEntity).setInputs(inputInitPourTest);
@@ -82,8 +83,8 @@ public class GameMain {
 
     public static void update(double deltaTime) {
 
-        if (newLevel) {
-            GameState.currentLevelPlayed = LevelLoader.levels.get(1);
+        if (newLevel) { /*TODO : A quoi sert newLevel ??*/
+            GameState.currentLevelPlayed = LevelLoader.levels.get(1); /*Ici on récup level courant ???*/
             //DEBUG DEBUT
             TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
             for (int i = 0 ; i < tileMap.getRowCount() ; ++i) {
@@ -102,7 +103,7 @@ public class GameMain {
             newLevel = false;
         }
 
-        List<Pacman> pacmans = MovingEntity.findPacmanEntities(GameState.currentEntities);
+        List<Pacman> pacmans = MovingEntity.findPacmanEntities(GameState.currentEntities); /*Direction initiale du Pacman, Immobile par défaut ??*/
         for (Pacman pacman : pacmans) {
             if (pacman.getId() == 1) {
                 pacman.setInput(GameInput.getInputFirst());

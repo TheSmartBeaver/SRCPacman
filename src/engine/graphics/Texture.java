@@ -25,14 +25,15 @@ public class Texture {
     private int id;
     private int spriteSize;
 
-    private List<Sprite> sprites = new ArrayList<>();
+    private List<Sprite> sprites = new ArrayList<>(); /*liste contenant toutes les coordonnées de sprites*/
 
     public Texture(String pngPath, int spriteSize) {
         this.spriteSize = spriteSize;
-        loadTexture(pngPath);
-        setSprites();
-        System.out.println(sprites);
+        loadTexture(pngPath); /*load png sprite*/
+        setSprites(); /*remplit liste "sprites"*/
+        System.out.println(sprites); //aff coordonnées orthonormées
     }
+
 
     private void loadTexture(String path) {
         BufferedImage image = null;
@@ -77,6 +78,7 @@ public class Texture {
 
     }
 
+    /*Parcours toutes les sprites, celles décrites dans enum TileSprite*/
     private void setSprites() {
         int x = 0;
         int y = 0;

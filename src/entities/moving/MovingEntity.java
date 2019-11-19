@@ -13,7 +13,7 @@ public abstract class MovingEntity {
     private int tileX;
     private int tileY;
 
-    //TODO : attribut à supprimer, il sert juste à débug
+    //TODO : attribut ï¿½ supprimer, il sert juste ï¿½ dï¿½bug
     private int length = 20;
 
     private Direction currentDirection = Direction.NONE;
@@ -128,7 +128,7 @@ public abstract class MovingEntity {
         this.input = input;
     }
 
-    public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) {
+    public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) { /*Retourne toutes les instances de PacMan*/
         List<Pacman> pacmans = new ArrayList<>();
         for (MovingEntity entity : entities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {

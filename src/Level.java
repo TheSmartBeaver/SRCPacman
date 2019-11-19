@@ -38,6 +38,7 @@ public class Level {
         tileWidth = UserParams.maxLevelScreenWidth / tileMap.getColumnCount();
         tileHeight = UserParams.maxLevelScreenHeight / tileMap.getRowCount();
 
+        /*AJUSTEMENT dimension width et Height ??*/
         if (tileWidth < tileHeight) {
             tileHeight = tileWidth;
             levelScreenHeight = tileHeight * tileMap.getRowCount();

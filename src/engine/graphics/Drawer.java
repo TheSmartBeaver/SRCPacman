@@ -15,6 +15,7 @@ public class Drawer {
         glEnd();
     }
 
+    /*Draw Rectangle*/
     public static void drawRect(int x, int y, int width, int height, Color color) {
         glColor3f(color.r, color.g, color.b);
         glBegin(GL_QUADS);
@@ -38,6 +39,7 @@ public class Drawer {
         glEnd();
     }
 
+    /*xSprite, ySprite coordonnées orthonormées sprite dans png*/
     public static void drawSprite(float x, float y, int widthSprite, int heightSprite, int xSprite, int ySprite) {
         glBegin(GL_QUADS);
         glColor4f(1,1,1,1);

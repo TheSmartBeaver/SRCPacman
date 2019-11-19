@@ -3,6 +3,8 @@ package src.entities.fixed;
 /**
  * Created by Vincent on 01/11/2019.
  */
+
+/*Jamais utilisé*/
 public abstract class Fruit {
 
     private int score;

@@ -5,8 +5,8 @@ package src.engine.input;
  */
 public class GameInput {
 
-    private static Input inputFirst = Input.NONE;
-    private static Input inputSecond = Input.NONE;
+    private static Input inputFirst = Input.NONE; /*1er imput*/
+    private static Input inputSecond = Input.NONE; /*2ème imput*/
     private static boolean pauseKeyDown;
 
     public static Input getInputFirst() {

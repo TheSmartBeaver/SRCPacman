@@ -23,13 +23,15 @@ public class MovingRandom extends MovingStrategy {
         assert ghost.getInputs().isEmpty();
         List<Input> possibleInputs = MovementPhysics.determinePossibleDirections(ghost, getTileMap());
         int nbPossibilities = possibleInputs.size();
-        assert nbPossibilities >=2 && nbPossibilities <= 3;
+        assert nbPossibilities >=2 && nbPossibilities <= 3; /*assert si = 2 ou 3*/
         ArrayDeque<Input> nextInput = new ArrayDeque<>();
         /*if (nbPossibilities == 1) {
             nextInput.add(possibleInputs.get(0));
             ghost.setInputs(nextInput);
             return;
         }*/
+
+        /*Si nbPossibilité == 2 ou 3 on choisit aléatoirement l'une d'entre elle*/
         float probability = 1.0f / nbPossibilities;
         float rand = ThreadLocalRandom.current().nextFloat();
         if (nbPossibilities == 2) {
@@ -48,6 +50,6 @@ public class MovingRandom extends MovingStrategy {
                 nextInput.push(possibleInputs.get(2));
             }
         }
-        ghost.setInputs(nextInput);
+        ghost.setInputs(nextInput); /*On met la prochaine direction retenu dans imput fantomes*/
     }
 }

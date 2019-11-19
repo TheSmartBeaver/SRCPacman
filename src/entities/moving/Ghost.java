@@ -12,18 +12,18 @@ import java.util.ArrayDeque;
 public class Ghost extends MovingEntity {
 
     private Pacman pacman;
-    private ArrayDeque<Input> inputs;
+    private ArrayDeque<Input> inputs; /*Toujours de taille 1 ??*/
 
-    private MovingStrategyContext context;
+    private MovingStrategyContext context; /*Stratégie du fantôme*/
 
     public Ghost(float speed, Pacman pacman, MovingStrategy movingStrategy) {
-        super(speed);
+        super(speed); /*VITESSE*/
         this.pacman = pacman;
         this.context = new MovingStrategyContext(movingStrategy, this);
         setMoving(true);
     }
 
-    public Pacman getPacman() {
+    public Pacman getPacman() { /*Le Pacman qu'il cible ?*/
         return pacman;
     }
 
