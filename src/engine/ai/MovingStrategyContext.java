@@ -1,5 +1,6 @@
-package src.engine.physics;
+package src.engine.ai;
 
+import src.engine.ai.MovingStrategy;
 import src.entities.moving.Ghost;
 
 /**

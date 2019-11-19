@@ -1,8 +1,8 @@
 package src.entities.moving;
 
 import src.engine.input.Input;
-import src.engine.physics.MovingStrategy;
-import src.engine.physics.MovingStrategyContext;
+import src.engine.ai.MovingStrategy;
+import src.engine.ai.MovingStrategyContext;
 
 import java.util.ArrayDeque;
 

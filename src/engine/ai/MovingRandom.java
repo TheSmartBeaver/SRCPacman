@@ -1,11 +1,10 @@
-package src.engine.physics;
+package src.engine.ai;
 
 import src.engine.input.Input;
 import src.entities.moving.Ghost;
 import src.entities.space.TileMap;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -21,7 +20,7 @@ public class MovingRandom extends MovingStrategy {
     @Override
     public void computeInputList(Ghost ghost) {
         assert ghost.getInputs().isEmpty();
-        List<Input> possibleInputs = MovementPhysics.determinePossibleDirections(ghost, getTileMap());
+        List<Input> possibleInputs = AIUtil.determinePossibleDirections(ghost, getTileMap());
         int nbPossibilities = possibleInputs.size();
         assert nbPossibilities >=2 && nbPossibilities <= 3; /*assert si = 2 ou 3*/
         ArrayDeque<Input> nextInput = new ArrayDeque<>();

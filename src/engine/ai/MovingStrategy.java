@@ -1,4 +1,4 @@
-package src.engine.physics;
+package src.engine.ai;
 
 import src.entities.moving.Ghost;
 import src.entities.space.TileMap;
