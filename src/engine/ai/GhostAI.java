@@ -21,7 +21,7 @@ public class GhostAI {
         }
         //s'il y a plusieurs chemins à cette intersection, on refait l'algo
         else {
-            ghost.getContext().executeStrategy();
+            ghost.getState().executeStrategy(ghost);
         }
     }
 

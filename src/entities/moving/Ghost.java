@@ -2,7 +2,6 @@ package src.entities.moving;
 
 import src.engine.input.Input;
 import src.engine.ai.MovingStrategy;
-import src.engine.ai.MovingStrategyContext;
 
 import java.util.ArrayDeque;
 
@@ -14,12 +13,15 @@ public class Ghost extends MovingEntity {
     private Pacman pacman;
     private ArrayDeque<Input> inputs; /*Toujours de taille 1 ??*/
 
-    private MovingStrategyContext context; /*Stratégie du fantôme*/
+    private MovingStrategy movingStrategy; /*Stratégie du fantôme*/
+    private GhostState state;
 
     public Ghost(float speed, Pacman pacman, MovingStrategy movingStrategy) {
         super(speed); /*VITESSE*/
         this.pacman = pacman;
-        this.context = new MovingStrategyContext(movingStrategy, this);
+        this.movingStrategy = movingStrategy;
+        //state = new GhostStateWaiting(movingStrategy.getTileMap());
+        state = new GhostStateNormal(movingStrategy);
         setMoving(true);
     }
 
@@ -35,8 +37,16 @@ public class Ghost extends MovingEntity {
         this.inputs = inputs;
     }
 
-    public MovingStrategyContext getContext() {
-        return context;
+    public MovingStrategy getMovingStrategy() {
+        return movingStrategy;
+    }
+
+    public GhostState getState() {
+        return state;
+    }
+
+    public void setState(GhostState state) {
+        this.state = state;
     }
 
     @Override
