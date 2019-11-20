@@ -9,5 +9,6 @@ public enum TileContentType {
     CHERRY,
     STRAWBERRY,
     INVINCIBILITY,
+    NOTHING
 
 }

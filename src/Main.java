@@ -27,7 +27,7 @@ public class Main {
 
     private static int scale = 2;
 
-    private static int targetFPS = 60;
+    private static int targetFPS = 30;
     private static long targetMSPerFrame = 1000 / targetFPS;
     public static int time;
 

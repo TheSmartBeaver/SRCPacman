@@ -3,6 +3,7 @@ package src.entities.moving;
 public class Pacman extends MovingEntity{
 
     int id;
+    private int score = 0;
 
     @Override
     public MovingEntityType getEntityType() {
@@ -16,5 +17,13 @@ public class Pacman extends MovingEntity{
 
     public int getId() {
         return id;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
     }
 }

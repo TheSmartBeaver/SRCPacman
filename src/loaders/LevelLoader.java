@@ -4,6 +4,7 @@ import src.Level;
 import src.engine.graphics.Color;
 import src.entities.fixed.Berry;
 import src.entities.fixed.InvincibilityPowerUp;
+import src.entities.fixed.Nothing;
 import src.entities.space.*;
 
 import java.io.*;
@@ -109,7 +110,8 @@ public class LevelLoader {
                                     tileTeleport.setTileDest((TileTeleport)tiles[lineNumber][charNumber]);
                                 }
                             } else { /*Si Corridor sans content*/
-                                tiles[lineNumber][charNumber] = new TileCorridor(null);
+                                tiles[lineNumber][charNumber] = new TileCorridor(new Nothing());
+                                break;
                             }
                         }
                     }

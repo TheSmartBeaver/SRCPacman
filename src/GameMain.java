@@ -5,13 +5,19 @@ import src.engine.input.GameInput;
 import src.engine.input.Input;
 import src.engine.physics.MovementPhysics;
 import src.engine.ai.MovingRandom;
+import src.entities.fixed.Cherry;
+import src.entities.fixed.Strawberry;
+import src.entities.fixed.TileContent;
 import src.entities.moving.*;
 import src.entities.space.TileMap;
+import src.entities.space.TileSprite;
 import src.entities.space.TileTeleport;
 import src.loaders.LevelLoader;
 
 import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Created by Vincent on 02/11/2019.
@@ -19,6 +25,8 @@ import java.util.List;
 public class GameMain {
 
     private static boolean newLevel = true;
+    private static float time=0;
+    private static int presedentStrawberry=0;
 
     //TODO : méthode de test, à mettre autre part ou à enlever
     private static void initEntitiesPosition() {
@@ -102,6 +110,49 @@ public class GameMain {
         }
 
         MovementPhysics.updateEntitiesPositions(deltaTime, GameState.currentEntities, GameState.currentLevelPlayed);
+
+        //TODO : a voir ou on met ce code
+        TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
+        for (MovingEntity entity : GameState.currentEntities) {
+            if (entity.getEntityType() == MovingEntityType.PACMAN) {
+                if (entity.isInMiddleOfTile()) {
+                    TileContent tileContent = tileMap.get(entity.getTileY(), entity.getTileX()).getContent();
+                    if (tileContent != null) {
+                        tileContent.execute((Pacman)entity);
+                        System.out.println(((Pacman)entity).getScore());
+                        tileMap.get(entity.getTileY(), entity.getTileX()).setContent(null);
+                    }
+                }
+            }
+        }
+        time += deltaTime;
+        if (time>50){
+            Vector<Pair> case_vides=new Vector<Pair>();
+            for (int i=0;i<tileMap.getRowCount();i++) {
+                for (int j = 0; j < tileMap.getColumnCount(); j++) {
+                    if (!tileMap.get(i, j).isGhostSpawnTile() && !tileMap.get(i, j).isTeleportTile() && !tileMap.get(i, j).isWall() && tileMap.get(i, j).getContent() == null) {
+                        case_vides.add(new Pair(i, j));
+                    }
+                }
+            }
+            Random rand=new Random();
+
+            if (case_vides.size() != 0) {
+                int nb_rand = rand.nextInt(case_vides.size());
+                Pair pair_choisi=case_vides.get(nb_rand);
+                if (presedentStrawberry<3) {
+                    tileMap.get(pair_choisi.getX(), pair_choisi.getY()).setContent(new Strawberry());
+                    tileMap.get(pair_choisi.getX(), pair_choisi.getY()).getContent().setSprite(TileSprite.STRAWBERRY);
+                    presedentStrawberry++;
+                }
+                else{
+                    tileMap.get(pair_choisi.getX(), pair_choisi.getY()).setContent(new Cherry());
+                    tileMap.get(pair_choisi.getX(), pair_choisi.getY()).getContent().setSprite(TileSprite.CHERRY);
+                    presedentStrawberry=0;
+                }
+            }
+        }
+        time=0;
     }
 
     public static void render(){

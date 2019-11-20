@@ -1,6 +1,6 @@
 package src.entities.space;
 
-import javafx.util.Pair;
+import src.Pair;
 import src.entities.fixed.TileContentType;
 
 /**
@@ -124,11 +124,14 @@ public class TileMap {
                 else {
                     tiles[rowIndex][columnIndex].setSprite(TileSprite.EMPTY);
                     if (tiles[rowIndex][columnIndex].getContent() != null) {
-                        if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.BERRY) {
-                            tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.BERRY);
-                        }
-                        else if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.INVINCIBILITY) {
-                            tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.INVINCIBILITY);
+                        if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.NOTHING) {
+                            tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.EMPTY);
+                        } else {
+                            if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.BERRY) {
+                                tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.BERRY);
+                            } else if (tiles[rowIndex][columnIndex].getContent().getContentType() == TileContentType.INVINCIBILITY) {
+                                tiles[rowIndex][columnIndex].getContent().setSprite(TileSprite.INVINCIBILITY);
+                            }
                         }
                     }
                 }
@@ -160,11 +163,11 @@ public class TileMap {
         return tiles[i][j];
     }
 
-    public Pair<Integer, Integer> findTilePos(Tile tile) { /*Revoie pos de la tyle en argument*/
+    public Pair findTilePos(Tile tile) { /*Revoie pos de la tyle en argument*/
         for (int i = 0 ; i < rowCount ; ++i) {
             for (int j = 0 ; j < columnCount ; ++j) {
                 if (get(i,j) == tile) {
-                    return new Pair<>(i,j);
+                    return new Pair(i,j);
                 }
             }
         }

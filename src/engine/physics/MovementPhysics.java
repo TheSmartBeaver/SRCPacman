@@ -1,7 +1,7 @@
 package src.engine.physics;
 
-import javafx.util.Pair;
 import src.Level;
+import src.Pair;
 import src.engine.ai.GhostAI;
 import src.entities.moving.Direction;
 import src.entities.moving.Ghost;
@@ -31,18 +31,18 @@ public class MovementPhysics {
             if (tileMap.get(entityTileY, entityTileX).isTeleportTile()) {
                 TileTeleport tileSrc = (TileTeleport)tileMap.get(entityTileY, entityTileX);
                 TileTeleport tileDest = tileSrc.getTileDest();
-                Pair<Integer, Integer> tileDestIndexes = tileMap.findTilePos(tileDest);
-                entity.setTileY(tileDestIndexes.getKey());
-                entity.setTileX(tileDestIndexes.getValue());
-                entity.setPosY(offsetUp + tileHeight * tileDestIndexes.getKey() + tileHeight / 2);
-                entity.setPosX(offsetLeft + tileWidth * tileDestIndexes.getValue() + tileWidth / 2);
+                Pair tileDestIndexes = tileMap.findTilePos(tileDest);
+                entity.setTileY(tileDestIndexes.getX());
+                entity.setTileX(tileDestIndexes.getY());
+                entity.setPosY(offsetUp + tileHeight * tileDestIndexes.getX() + tileHeight / 2);
+                entity.setPosX(offsetLeft + tileWidth * tileDestIndexes.getY() + tileWidth / 2);
                 //entity.setNbPixelsMoved(0);
             }
             else {
                 DirectionManager.determineEntityDirection(entity, tileMap);
             }
             //TODO : a changer de place, ceci n'a rien a faire dans le moteur physique, c'est juste pour tester
-            tileMap.get(entityTileY,entityTileX).setContent(null);
+            //tileMap.get(entityTileY,entityTileX).setContent(null);
         }
 
         float nbPixelsMoved = entity.getNbPixelsMoved();
