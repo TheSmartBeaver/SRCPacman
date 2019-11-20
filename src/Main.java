@@ -7,7 +7,10 @@ import org.lwjgl.util.glu.GLU;
 import src.engine.graphics.GameRenderer;
 import src.engine.graphics.Texture;
 import src.engine.input.InputGetter;
+import src.entities.moving.PacmanSprite;
 import src.entities.moving.SquareTest;
+import src.entities.space.Tile;
+import src.entities.space.TileSprite;
 import src.loaders.LevelLoader;
 
 import java.awt.*;
@@ -26,6 +29,7 @@ public class Main {
 
     private static int targetFPS = 60;
     private static long targetMSPerFrame = 1000 / targetFPS;
+    public static int time;
 
     DisplayMode mode;
 
@@ -61,7 +65,10 @@ public class Main {
             Display.create();
 
             initGL();
-            UserParams.texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8);
+
+            UserParams.texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8, TileSprite.class);
+            UserParams.pacmanTexture = new Texture(UserParams.userDir + "/assets/textures/pacman.png", 8, PacmanSprite.class);
+
         }
         catch (LWJGLException e){
             e.printStackTrace();
@@ -134,6 +141,8 @@ public class Main {
 
             Display.update();
             cleanBuffer();
+            time++;
+            //System.out.println(time);
         }
         exit();
     }

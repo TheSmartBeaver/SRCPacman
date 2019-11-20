@@ -80,7 +80,7 @@ public class GameMain {
     public static void update(double deltaTime) {
 
         if (newLevel) {
-            GameState.currentLevelPlayed = LevelLoader.levels.get(1);
+            GameState.currentLevelPlayed = LevelLoader.levels.get(0);
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
             GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));

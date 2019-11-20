@@ -1,5 +1,11 @@
 package src.engine.graphics;
 
+import src.Level;
+import src.Main;
+import src.UserParams;
+import src.entities.moving.Direction;
+import src.entities.moving.MovingEntity;
+
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;
 
@@ -7,6 +13,9 @@ import static org.lwjgl.opengl.GL11.glEnd;
  * Created by Vincent on 05/11/2019.
  */
 public class Drawer {
+
+    public static int time = 0;
+    public static boolean switchAnim = false;
 
     public static void debugDrawPoint(int x, int y, Color color) {
         glColor3f(color.r, color.g, color.b);
@@ -49,4 +58,46 @@ public class Drawer {
         glTexCoord2f((0 + xSprite) / 32.0f,(1 + ySprite) /32.0f); glVertex2f(x,y+heightSprite);
         glEnd();
     }
+
+    private static void setSwitchAnim(){
+        if(Main.time%15 == 0)
+                switchAnim = true;
+        if(Main.time%30 == 0)
+                switchAnim = false;
+
+    }
+
+    public static void drawPacmanSprite(MovingEntity entity, int movingEntitySpriteLength, Level level) {
+
+        setSwitchAnim();
+
+        if(switchAnim) {
+            UserParams.pacmanTexture.bind();
+            Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 8, 0);
+            UserParams.pacmanTexture.unbind();
+        }
+            else{
+                if (entity.getCurrentDirection() == Direction.LEFT) {
+                UserParams.pacmanTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 4, 0);
+                UserParams.pacmanTexture.unbind();
+            }
+            if (entity.getCurrentDirection() == Direction.RIGHT) {
+                UserParams.pacmanTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 0, 0);
+                UserParams.pacmanTexture.unbind();
+            }
+            if (entity.getCurrentDirection() == Direction.UP) {
+                UserParams.pacmanTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 6, 0);
+                UserParams.pacmanTexture.unbind();
+            }
+            if (entity.getCurrentDirection() == Direction.DOWN) {
+                UserParams.pacmanTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 2, 0);
+                UserParams.pacmanTexture.unbind();
+            }
+        }
+    }
+
 }

@@ -5,6 +5,8 @@ package src.engine.graphics;
  */
 import org.lwjgl.BufferUtils;
 import src.UserParams;
+import src.entities.moving.Pacman;
+import src.entities.moving.PacmanSprite;
 import src.entities.space.TileSprite;
 
 import javax.imageio.ImageIO;
@@ -27,10 +29,10 @@ public class Texture {
 
     private List<Sprite> sprites = new ArrayList<>(); /*liste contenant toutes les coordonnées de sprites*/
 
-    public Texture(String pngPath, int spriteSize) {
+    public Texture(String pngPath, int spriteSize, Object enumSprite) {
         this.spriteSize = spriteSize;
         loadTexture(pngPath); /*load png sprite*/
-        setSprites(); /*remplit liste "sprites"*/
+        setSprites(enumSprite); /*remplit liste "sprites"*/
         System.out.println(sprites); //aff coordonnées orthonormées
     }
 
@@ -79,11 +81,19 @@ public class Texture {
     }
 
     /*Parcours toutes les sprites, celles décrites dans enum TileSprite*/
-    private void setSprites() {
+    private void setSprites(Object enumSprite) {
         int x = 0;
         int y = 0;
+        int nbSprite = 0;
         int nbTexturesPerRow = width / spriteSize;
-        for (int spriteIndex = 0 ; spriteIndex < TileSprite.values().length ; ++spriteIndex) {
+        if(enumSprite == TileSprite.class) {
+            nbSprite = TileSprite.values().length;
+        }
+        if(enumSprite == PacmanSprite.class) {
+            nbSprite = PacmanSprite.values().length;
+        }
+
+        for (int spriteIndex = 0 ; spriteIndex < nbSprite ; ++spriteIndex) {
             sprites.add(new Sprite(x,y));
             ++x;
             if (x == nbTexturesPerRow) {
@@ -92,6 +102,7 @@ public class Texture {
             }
         }
     }
+
 
     public int getWidth() {
         return width;

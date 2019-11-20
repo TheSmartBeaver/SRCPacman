@@ -3,10 +3,7 @@ package src.engine.graphics;
 import src.Level;
 import src.UserParams;
 import src.entities.fixed.TileContentType;
-import src.entities.moving.Ghost;
-import src.entities.moving.MovingEntity;
-import src.entities.moving.MovingEntityType;
-import src.entities.moving.Pacman;
+import src.entities.moving.*;
 import src.entities.space.Tile;
 import src.entities.space.TileMap;
 import src.entities.space.TileTeleport;
@@ -80,7 +77,8 @@ public class GameRenderer {
         int movingEntitySpriteLength = (int)(tileWidth * 0.75); /*Taille du carré PACMAN*/
         for (MovingEntity entity : entities) { /*On dessine toutes les entités*/
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
-                Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
+                //Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
+                Drawer.drawPacmanSprite(entity, movingEntitySpriteLength, level);
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
             }
