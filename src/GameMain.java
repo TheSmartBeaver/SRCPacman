@@ -126,7 +126,7 @@ public class GameMain {
             }
         }
         time += deltaTime;
-        if (time>50){
+        if (time>60000){
             Vector<Pair> case_vides=new Vector<Pair>();
             for (int i=0;i<tileMap.getRowCount();i++) {
                 for (int j = 0; j < tileMap.getColumnCount(); j++) {
@@ -151,8 +151,8 @@ public class GameMain {
                     presedentStrawberry=0;
                 }
             }
+            time=0;
         }
-        time=0;
     }
 
     public static void render(){
