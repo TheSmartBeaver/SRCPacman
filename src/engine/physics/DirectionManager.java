@@ -81,10 +81,10 @@ public class DirectionManager {
     }
 
     static void determineEntityDirection(MovingEntity entity, TileMap tileMap) {
-        //si l'entité est pacman
+        //si l'entitï¿½ est pacman
         if (entity.getEntityType() == MovingEntityType.PACMAN) {
             determineNextPlayerDirection(entity, tileMap);
-            //si l'entité est un fantôme
+            //si l'entitï¿½ est un fantï¿½me
         } else if (entity.getEntityType() == MovingEntityType.GHOST) {
             GhostAI.ghostAIStart((Ghost)entity, tileMap);
 
@@ -92,5 +92,4 @@ public class DirectionManager {
             System.err.println("MAIS WTF LES AMIS");
         }
     }
-
 }

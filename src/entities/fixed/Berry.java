@@ -13,7 +13,7 @@ public class Berry extends TileContent {
 
     @Override
     public void execute(Pacman pacman) {
-
+        pacman.addScore(getScore());
     }
 
     @Override

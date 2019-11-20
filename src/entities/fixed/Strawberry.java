@@ -18,7 +18,6 @@ public class Strawberry extends TileContent {
 
     @Override
     public void execute(Pacman pacman) {
-        //ajouter this.score au score de Pacman
-        //pacman.addScore(super.getScore());
+        pacman.addScore(getScore());
     }
 }

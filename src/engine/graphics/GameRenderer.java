@@ -65,7 +65,14 @@ public class GameRenderer {
 
                 /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
-                    Sprite contentSprite = UserParams.texture.getSprites().get(currentTile.getContent().getSprite().ordinal());
+                    Sprite contentSprite = UserParams.
+                            texture.
+                            getSprites()
+                            .get(
+                                    currentTile.
+                                            getContent().
+                                            getSprite().
+                                            ordinal());
                     UserParams.texture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, contentSprite.getxSprite(), contentSprite.getySprite());
                     UserParams.texture.unbind();
