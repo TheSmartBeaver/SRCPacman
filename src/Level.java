@@ -1,10 +1,6 @@
 package src;
 
-import src.entities.moving.MovingEntity;
-import src.entities.space.TileMap;
-
-import java.util.ArrayList;
-import java.util.List;
+import src.entities.space.generic.TileMap;
 
 /**
  * Created by Vincent on 01/11/2019.

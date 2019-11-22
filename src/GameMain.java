@@ -5,19 +5,19 @@ import src.engine.input.GameInput;
 import src.engine.input.Input;
 import src.engine.physics.MovementPhysics;
 import src.engine.ai.MovingRandom;
-import src.entities.fixed.Cherry;
-import src.entities.fixed.Strawberry;
-import src.entities.fixed.TileContent;
-import src.entities.moving.*;
-import src.entities.space.TileMap;
-import src.entities.space.TileSprite;
-import src.entities.space.TileTeleport;
+import src.entities.fixed.specific.Cherry;
+import src.entities.fixed.specific.Strawberry;
+import src.entities.fixed.specific.TileContentPacman;
+import src.entities.moving.generic.Direction;
+import src.entities.moving.generic.MovingEntity;
+import src.entities.moving.specific.Ghost;
+import src.entities.moving.specific.MovingEntityType;
+import src.entities.moving.specific.Pacman;
+import src.entities.space.generic.TileMap;
+import src.entities.space.specific.TileSprite;
 import src.loaders.LevelLoader;
 
-import java.util.ArrayDeque;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Created by Vincent on 02/11/2019.
@@ -27,6 +27,16 @@ public class GameMain {
     private static boolean newLevel = true;
     private static float time=0;
     private static int presedentStrawberry=0;
+
+    public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) { /*Retourne toutes les instances de PacMan*/
+        List<Pacman> pacmans = new ArrayList<>();
+        for (MovingEntity entity : entities) {
+            if (entity.getEntityType() == MovingEntityType.PACMAN) {
+                pacmans.add((Pacman)entity);
+            }
+        }
+        return pacmans;
+    }
 
     //TODO : méthode de test, à mettre autre part ou à enlever
     private static void initEntitiesPosition() {
@@ -99,7 +109,7 @@ public class GameMain {
             newLevel = false;
         }
 
-        List<Pacman> pacmans = MovingEntity.findPacmanEntities(GameState.currentEntities);
+        List<Pacman> pacmans = findPacmanEntities(GameState.currentEntities);
         for (Pacman pacman : pacmans) {
             if (pacman.getId() == 1) {
                 pacman.setInput(GameInput.getInputFirst());
@@ -116,7 +126,7 @@ public class GameMain {
         for (MovingEntity entity : GameState.currentEntities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 if (entity.isInMiddleOfTile()) {
-                    TileContent tileContent = tileMap.get(entity.getTileY(), entity.getTileX()).getContent();
+                    TileContentPacman tileContent = (TileContentPacman)tileMap.get(entity.getTileY(), entity.getTileX()).getContent();
                     if (tileContent != null) {
                         tileContent.execute((Pacman)entity);
                         System.out.println(((Pacman)entity).getScore());

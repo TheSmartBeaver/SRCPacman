@@ -1,7 +1,7 @@
 package src.engine.graphics;
 
 import src.Level;
-import src.entities.moving.MovingEntity;
+import src.entities.moving.generic.MovingEntity;
 
 public class MovingEntityRenderer {
 

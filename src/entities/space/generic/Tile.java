@@ -1,7 +1,8 @@
-package src.entities.space;
+package src.entities.space.generic;
 
-import src.engine.graphics.Color;
-import src.entities.fixed.TileContent;
+import src.entities.fixed.generic.TileContent;
+import src.entities.space.specific.TileSprite;
+import src.entities.space.specific.TileType;
 
 /**
  * Created by Vincent on 01/11/2019.

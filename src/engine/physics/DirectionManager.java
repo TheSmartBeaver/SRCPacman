@@ -1,11 +1,11 @@
 package src.engine.physics;
 
 import src.engine.ai.GhostAI;
-import src.entities.moving.Direction;
-import src.entities.moving.Ghost;
-import src.entities.moving.MovingEntity;
-import src.entities.moving.MovingEntityType;
-import src.entities.space.TileMap;
+import src.entities.moving.generic.Direction;
+import src.entities.moving.specific.Ghost;
+import src.entities.moving.generic.MovingEntity;
+import src.entities.moving.specific.MovingEntityType;
+import src.entities.space.generic.TileMap;
 
 /**
  * Created by Vincent on 19/11/2019.

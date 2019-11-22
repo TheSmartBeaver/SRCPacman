@@ -1,4 +1,4 @@
-package src.entities.space;
+package src.entities.space.specific;
 
 /**
  * Created by Vincent on 06/11/2019.

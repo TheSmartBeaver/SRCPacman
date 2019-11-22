@@ -3,8 +3,8 @@ package src.engine.graphics;
 import src.Level;
 import src.Main;
 import src.UserParams;
-import src.entities.moving.Direction;
-import src.entities.moving.MovingEntity;
+import src.entities.moving.generic.Direction;
+import src.entities.moving.generic.MovingEntity;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;

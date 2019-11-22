@@ -1,8 +1,8 @@
 package src.engine.ai;
 
 import src.engine.input.Input;
-import src.entities.moving.Ghost;
-import src.entities.space.TileMap;
+import src.entities.moving.specific.Ghost;
+import src.entities.space.generic.TileMap;
 
 import java.util.ArrayDeque;
 import java.util.List;

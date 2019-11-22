@@ -2,13 +2,10 @@ package src.engine.physics;
 
 import src.Level;
 import src.Pair;
-import src.engine.ai.GhostAI;
-import src.entities.moving.Direction;
-import src.entities.moving.Ghost;
-import src.entities.moving.MovingEntity;
-import src.entities.moving.MovingEntityType;
-import src.entities.space.TileMap;
-import src.entities.space.TileTeleport;
+import src.entities.moving.generic.Direction;
+import src.entities.moving.generic.MovingEntity;
+import src.entities.space.generic.TileMap;
+import src.entities.space.specific.TileTeleport;
 
 import java.util.List;
 

@@ -4,13 +4,10 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
-import src.engine.graphics.GameRenderer;
 import src.engine.graphics.Texture;
 import src.engine.input.InputGetter;
-import src.entities.moving.PacmanSprite;
-import src.entities.moving.SquareTest;
-import src.entities.space.Tile;
-import src.entities.space.TileSprite;
+import src.entities.moving.specific.PacmanSprite;
+import src.entities.space.specific.TileSprite;
 import src.loaders.LevelLoader;
 
 import java.awt.*;

@@ -1,4 +1,4 @@
-package src.entities.moving;
+package src.entities.moving.generic;
 
 /**
  * Created by Vincent on 12/11/2019.

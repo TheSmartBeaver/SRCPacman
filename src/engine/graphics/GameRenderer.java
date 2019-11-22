@@ -2,11 +2,11 @@ package src.engine.graphics;
 
 import src.Level;
 import src.UserParams;
-import src.entities.fixed.TileContentType;
-import src.entities.moving.*;
-import src.entities.space.Tile;
-import src.entities.space.TileMap;
-import src.entities.space.TileTeleport;
+import src.entities.moving.generic.MovingEntity;
+import src.entities.moving.specific.MovingEntityType;
+import src.entities.space.generic.Tile;
+import src.entities.space.generic.TileMap;
+import src.entities.space.specific.TileTeleport;
 
 import java.util.List;
 
@@ -62,14 +62,7 @@ public class GameRenderer {
 
                 /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
-                    Sprite contentSprite = UserParams.
-                            texture.
-                            getSprites()
-                            .get(
-                                    currentTile.
-                                            getContent().
-                                            getSprite().
-                                            ordinal());
+                    Sprite contentSprite = UserParams.texture.getSprites().get(currentTile.getContent().getSprite().ordinal());
                     UserParams.texture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, contentSprite.getxSprite(), contentSprite.getySprite());
                     UserParams.texture.unbind();

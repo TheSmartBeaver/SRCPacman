@@ -4,16 +4,13 @@ package src.engine.graphics;
  * Created by Vincent on 06/11/2019.
  */
 import org.lwjgl.BufferUtils;
-import src.UserParams;
-import src.entities.moving.Pacman;
-import src.entities.moving.PacmanSprite;
-import src.entities.space.TileSprite;
+import src.entities.moving.specific.PacmanSprite;
+import src.entities.space.specific.TileSprite;
 
 import javax.imageio.ImageIO;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;

@@ -1,9 +1,9 @@
 package src.engine.ai;
 
 import src.engine.input.Input;
-import src.entities.moving.Direction;
-import src.entities.moving.MovingEntity;
-import src.entities.space.TileMap;
+import src.entities.moving.generic.Direction;
+import src.entities.moving.generic.MovingEntity;
+import src.entities.space.generic.TileMap;
 
 import java.util.ArrayList;
 import java.util.List;

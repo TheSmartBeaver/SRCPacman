@@ -2,11 +2,13 @@ package src.loaders;
 
 import src.Level;
 import src.engine.graphics.Color;
-import src.entities.fixed.Berry;
-import src.entities.fixed.InvincibilityPowerUp;
-import src.entities.fixed.Nothing;
-import src.entities.fixed.TileContentType;
-import src.entities.space.*;
+import src.entities.fixed.specific.Berry;
+import src.entities.fixed.specific.InvincibilityPowerUp;
+import src.entities.fixed.specific.Nothing;
+import src.entities.fixed.specific.TileContentType;
+import src.entities.space.generic.Tile;
+import src.entities.space.generic.TileMap;
+import src.entities.space.specific.*;
 
 import java.io.*;
 import java.util.ArrayList;

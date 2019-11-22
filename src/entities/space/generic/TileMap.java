@@ -1,7 +1,6 @@
-package src.entities.space;
+package src.entities.space.generic;
 
 import src.Pair;
-import src.entities.fixed.TileContentType;
 
 /**
  * Created by Vincent on 01/11/2019.

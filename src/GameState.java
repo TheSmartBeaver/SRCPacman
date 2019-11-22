@@ -1,6 +1,6 @@
 package src;
 
-import src.entities.moving.MovingEntity;
+import src.entities.moving.generic.MovingEntity;
 
 import java.util.ArrayList;
 import java.util.List;

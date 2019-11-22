@@ -1,9 +1,7 @@
-package src.entities.moving;
+package src.entities.moving.generic;
 
 import src.engine.input.Input;
-
-import java.util.ArrayList;
-import java.util.List;
+import src.entities.moving.specific.MovingEntityType;
 
 public abstract class MovingEntity {
 
@@ -126,16 +124,6 @@ public abstract class MovingEntity {
 
     public void setInput(Input input) {
         this.input = input;
-    }
-
-    public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) { /*Retourne toutes les instances de PacMan*/
-        List<Pacman> pacmans = new ArrayList<>();
-        for (MovingEntity entity : entities) {
-            if (entity.getEntityType() == MovingEntityType.PACMAN) {
-                pacmans.add((Pacman)entity);
-            }
-        }
-        return pacmans;
     }
 
     public abstract MovingEntityType getEntityType();

@@ -1,6 +1,7 @@
-package src.entities.space;
+package src.entities.space.specific;
 
-import src.entities.fixed.TileContent;
+import src.entities.fixed.generic.TileContent;
+import src.entities.space.generic.Tile;
 
 /**
  * Created by Vincent on 16/11/2019.
