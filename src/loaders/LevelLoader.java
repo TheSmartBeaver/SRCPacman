@@ -5,6 +5,7 @@ import src.engine.graphics.Color;
 import src.entities.fixed.Berry;
 import src.entities.fixed.InvincibilityPowerUp;
 import src.entities.fixed.Nothing;
+import src.entities.fixed.TileContentType;
 import src.entities.space.*;
 
 import java.io.*;
@@ -15,7 +16,6 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Created by Vincent on 01/11/2019.
  */
-//TODO :
 public class LevelLoader {
 
     public static List<Level> levels = new ArrayList<>();
@@ -121,7 +121,7 @@ public class LevelLoader {
 
             int numLevel = Integer.parseInt(fileName.replaceFirst("[.][^.]+$", ""));
             TileMap newTileMap = new TileMap(tiles, levelHeight, levelWidth);
-            newTileMap.loadSprites();
+            loadSprites(newTileMap);
             Level level = new Level(newTileMap, numLevel);
             return level;
 
@@ -131,5 +131,138 @@ public class LevelLoader {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static void loadSprites(TileMap tileMap) {
+        int rowCount = tileMap.getRowCount();
+                int columnCount = tileMap.getColumnCount();
+                Tile currentTile = null;
+                Tile upperTile = null;
+                Tile downTile = null;
+                Tile leftTile = null;
+                Tile rightTile = null;
+                //algo pour d�terminer quel sprite pour les murs (en fonction de la configuration des murs)
+                for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) {
+                    for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
+                        currentTile = tileMap.get(rowIndex, columnIndex);
+                        upperTile = rowIndex > 0 ?                  tileMap.get(rowIndex-1, columnIndex) : null;
+                        downTile  = rowIndex < rowCount - 1 ?       tileMap.get(rowIndex+1, columnIndex) : null;
+                        leftTile  = columnIndex > 0 ?               tileMap.get(rowIndex, columnIndex-1) : null;
+                        rightTile = columnIndex < columnCount - 1 ? tileMap.get(rowIndex, columnIndex+1) : null;
+                if (currentTile.isWall()) {
+                    //TODO : faire les if pour les sprites qui ont le plus de murs adjacents en premier (ordre d�croissant de nombre de murs par sprite)
+
+                    if (
+                            columnIndex != 0 && columnIndex != columnCount - 1 && rowIndex != 0 && rowIndex != rowCount - 1
+                                    && leftTile.isWall()
+                                    && rightTile.isWall()
+                                    && upperTile.isWall()
+                                    && downTile.isWall()) {
+                        currentTile.setSprite(TileSprite.INT_QUAD_WALL); continue;
+                    }
+
+                    if (rowIndex != 0 && columnIndex != 0 && columnIndex != columnCount - 1
+                            && leftTile.isWall()
+                            && rightTile.isWall()
+                            && upperTile.isWall()) {
+                        currentTile.setSprite(TileSprite.INT_RIGHT_TOP_LEFT_WALL); continue;
+                    }
+
+                    if (rowIndex != 0 && rowIndex != rowCount - 1 && columnIndex != 0
+                            && leftTile.isWall()
+                            && downTile.isWall()
+                            && upperTile.isWall()) {
+                        currentTile.setSprite(TileSprite.INT_TOP_LEFT_DOWN_WALL); continue;
+                    }
+
+                    if (rowIndex != rowCount - 1 && columnIndex != 0 && columnIndex != columnCount - 1
+                            && leftTile.isWall()
+                            && rightTile.isWall()
+                            && downTile.isWall()) {
+                        currentTile.setSprite(TileSprite.INT_LEFT_DOWN_RIGHT_WALL); continue;
+                    }
+
+                    if (rowIndex != 0 && rowIndex != rowCount - 1 && columnIndex != columnCount - 1
+                            && upperTile.isWall()
+                            && downTile.isWall()
+                            && rightTile.isWall()) {
+                        currentTile.setSprite(TileSprite.INT_DOWN_RIGHT_TOP_WALL); continue;
+                    }
+
+                    if (rowIndex != 0 && columnIndex != columnCount - 1
+                            && upperTile.isWall()
+                            && rightTile.isWall()) {
+                        currentTile.setSprite(TileSprite.BOT_LEFT_CORNER_WALL); continue;
+                    }
+
+                    if (rowIndex != 0 && columnIndex != 0
+                            && upperTile.isWall()
+                            && leftTile.isWall()) {
+                        currentTile.setSprite(TileSprite.BOT_RIGHT_CORNER_WALL); continue;
+                    }
+
+                    if (columnIndex != 0 && rowIndex != rowCount - 1
+                            && downTile.isWall()
+                            && leftTile.isWall()) {
+                        currentTile.setSprite(TileSprite.TOP_RIGHT_CORNER_WALL); continue;
+                    }
+
+                    if (rowIndex != rowCount - 1 && columnIndex != columnCount - 1
+                            && downTile.isWall()
+                            && rightTile.isWall()) {
+                        currentTile.setSprite(TileSprite.TOP_LEFT_CORNER_WALL); continue;
+                    }
+
+                    if (rowIndex != 0 && rowIndex != rowCount - 1
+                            && upperTile.isWall()
+                            && downTile.isWall()) {
+                        currentTile.setSprite(TileSprite.VERTICAL_WALL); continue;
+                    }
+
+                    if (columnIndex != 0 && columnIndex != columnCount - 1
+                            && leftTile.isWall()
+                            && rightTile.isWall()) {
+                        currentTile.setSprite(TileSprite.HORIZONTAL_WALL); continue;
+                    }
+
+                    if (columnIndex != columnCount - 1
+                            && rightTile.isWall()) {
+                        currentTile.setSprite(TileSprite.EXT_LEFT_WALL); continue;
+                    }
+
+                    if (columnIndex != 0
+                            && leftTile.isWall()) {
+                        currentTile.setSprite(TileSprite.EXT_RIGHT_WALL); continue;
+                    }
+
+                    if (rowIndex != 0
+                            && upperTile.isWall()) {
+                        currentTile.setSprite(TileSprite.EXT_DOWN_WALL); continue;
+                    }
+
+                    if (rowIndex != rowCount - 1
+                            && downTile.isWall()) {
+                        currentTile.setSprite(TileSprite.EXT_TOP_WALL); continue;
+                    }
+
+                    currentTile.setSprite(TileSprite.LONE_WALL); continue;
+
+                } /*Traitement des corridor avec fruits*/
+                else {
+                    currentTile.setSprite(TileSprite.EMPTY);
+                    if (currentTile.getContent() != null) {
+                        if (currentTile.getContent().getContentType() == TileContentType.NOTHING) {
+                            currentTile.getContent().setSprite(TileSprite.EMPTY);
+                        } else {
+                            if (currentTile.getContent().getContentType() == TileContentType.BERRY) {
+                                currentTile.getContent().setSprite(TileSprite.BERRY);
+                            } else if (currentTile.getContent().getContentType() == TileContentType.INVINCIBILITY) {
+                                currentTile.getContent().setSprite(TileSprite.INVINCIBILITY);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
