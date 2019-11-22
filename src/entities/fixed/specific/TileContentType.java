@@ -1,4 +1,4 @@
-package src.entities.fixed;
+package src.entities.fixed.specific;
 
 /**
  * Created by Vincent on 05/11/2019.
