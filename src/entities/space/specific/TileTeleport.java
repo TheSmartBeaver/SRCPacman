@@ -1,6 +1,6 @@
 package src.entities.space.specific;
 
-import src.engine.graphics.Color;
+import src.engine.graphics.generic.Color;
 import src.entities.space.generic.Tile;
 
 /**

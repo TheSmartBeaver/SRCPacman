@@ -1,6 +1,6 @@
 package src;
 
-import src.engine.graphics.Texture;
+import src.engine.graphics.generic.Texture;
 
 /**
  * Created by Vincent on 05/11/2019.
@@ -22,9 +22,6 @@ public class UserParams {
 
     public static int maxLevelScreenHeight;
     public static int maxLevelScreenWidth;
-
-    public static Texture texture;
-    public static Texture pacmanTexture;
 
     public static String dump() {
         //TODO : enrichir pour tous les autres param�tres

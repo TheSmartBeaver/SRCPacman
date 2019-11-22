@@ -1,7 +1,7 @@
 package src.loaders;
 
 import src.Level;
-import src.engine.graphics.Color;
+import src.engine.graphics.generic.Color;
 import src.entities.fixed.specific.Berry;
 import src.entities.fixed.specific.InvincibilityPowerUp;
 import src.entities.fixed.specific.Nothing;

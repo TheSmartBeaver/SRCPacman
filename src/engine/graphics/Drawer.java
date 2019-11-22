@@ -1,8 +1,10 @@
 package src.engine.graphics;
 
+import src.GameTextures;
 import src.Level;
 import src.Main;
 import src.UserParams;
+import src.engine.graphics.generic.Color;
 import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
 
@@ -52,7 +54,7 @@ public class Drawer {
     public static void drawSprite(float x, float y, int widthSprite, int heightSprite, int xSprite, int ySprite) {
         glBegin(GL_QUADS);
         glColor4f(1,1,1,1);
-        glTexCoord2f((0 + xSprite) / 32.0f,(0 + ySprite) /32.0f); glVertex2f(x,y); /*1 pour 100% de la texture*/
+        glTexCoord2f((0 + xSprite) / 32.0f,(0 + ySprite) /32.0f); glVertex2f(x,y); /*1 pour 100% de la fixedEntitiesTexture*/
         glTexCoord2f((1 + xSprite) / 32.0f,(0 + ySprite) /32.0f); glVertex2f(x+widthSprite,y);
         glTexCoord2f((1 + xSprite) / 32.0f,(1 + ySprite) /32.0f); glVertex2f(x+widthSprite,y+heightSprite);
         glTexCoord2f((0 + xSprite) / 32.0f,(1 + ySprite) /32.0f); glVertex2f(x,y+heightSprite);
@@ -72,30 +74,30 @@ public class Drawer {
         setSwitchAnim();
 
         if(switchAnim) {
-            UserParams.pacmanTexture.bind();
+            GameTextures.movingEntitiesTexture.bind();
             Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 8, 0);
-            UserParams.pacmanTexture.unbind();
+            GameTextures.movingEntitiesTexture.unbind();
         }
-            else{
-                if (entity.getCurrentDirection() == Direction.LEFT) {
-                UserParams.pacmanTexture.bind();
+        else{
+            if (entity.getCurrentDirection() == Direction.LEFT) {
+                GameTextures.movingEntitiesTexture.bind();
                 Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 4, 0);
-                UserParams.pacmanTexture.unbind();
+                GameTextures.movingEntitiesTexture.unbind();
             }
             if (entity.getCurrentDirection() == Direction.RIGHT) {
-                UserParams.pacmanTexture.bind();
+                GameTextures.movingEntitiesTexture.bind();
                 Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 0, 0);
-                UserParams.pacmanTexture.unbind();
+                GameTextures.movingEntitiesTexture.unbind();
             }
             if (entity.getCurrentDirection() == Direction.UP) {
-                UserParams.pacmanTexture.bind();
+                GameTextures.movingEntitiesTexture.bind();
                 Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 6, 0);
-                UserParams.pacmanTexture.unbind();
+                GameTextures.movingEntitiesTexture.unbind();
             }
             if (entity.getCurrentDirection() == Direction.DOWN) {
-                UserParams.pacmanTexture.bind();
+                GameTextures.movingEntitiesTexture.bind();
                 Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 2, 0);
-                UserParams.pacmanTexture.unbind();
+                GameTextures.movingEntitiesTexture.unbind();
             }
         }
     }

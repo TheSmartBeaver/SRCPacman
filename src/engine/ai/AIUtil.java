@@ -15,57 +15,57 @@ public class AIUtil {
 
     static List<Input> determinePossibleDirections(MovingEntity entity, TileMap tileMap) {
         List<Input> possibleInputs = new ArrayList<>();
-        int tileXGhost = entity.getTileX();
-        int tileYGhost = entity.getTileY();
+        int entityTileX = entity.getTileX();
+        int entityTileY = entity.getTileY();
         switch (entity.getCurrentDirection()) {
             case UP:
             {
-                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
                     possibleInputs.add(Input.UP);
                 }
-                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
                     possibleInputs.add(Input.LEFT);
                 }
-                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                if (!tileMap.get(entityTileY, entityTileX + 1).isWall()) {
                     possibleInputs.add(Input.RIGHT);
                 }
                 break;
             }
             case DOWN:
             {
-                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
                     possibleInputs.add(Input.DOWN);
                 }
-                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
                     possibleInputs.add(Input.LEFT);
                 }
-                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                if (!tileMap.get(entityTileY, entityTileX + 1).isWall()) {
                     possibleInputs.add(Input.RIGHT);
                 }
                 break;
             }
             case LEFT:
             {
-                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
                     possibleInputs.add(Input.DOWN);
                 }
-                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
                     possibleInputs.add(Input.LEFT);
                 }
-                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
                     possibleInputs.add(Input.UP);
                 }
                 break;
             }
             case RIGHT:
             {
-                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
                     possibleInputs.add(Input.UP);
                 }
-                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                if (!tileMap.get(entityTileY, entityTileX + 1).isWall()) {
                     possibleInputs.add(Input.RIGHT);
                 }
-                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
                     possibleInputs.add(Input.DOWN);
                 }
                 break;
@@ -98,6 +98,7 @@ public class AIUtil {
     }
 
     static boolean isEntityAtIntersection(MovingEntity entity, TileMap tileMap) {
+        //return (determinePossibleDirections(entity, tileMap).size() >= 1);
         int entityTileX = entity.getTileX();
         int entityTileY = entity.getTileY();
         switch (entity.getCurrentDirection()) {

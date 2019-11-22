@@ -1,7 +1,9 @@
 package src.engine.graphics;
 
+import src.GameTextures;
 import src.Level;
-import src.UserParams;
+import src.engine.graphics.generic.Color;
+import src.engine.graphics.generic.Sprite;
 import src.entities.moving.generic.MovingEntity;
 import src.entities.moving.specific.MovingEntityType;
 import src.entities.space.generic.Tile;
@@ -27,16 +29,6 @@ public class GameRenderer {
 
     public static void renderLevel(Level level, List<MovingEntity> entities) {
 
-        /*System.out.println(tileHeight);
-        System.out.println(tileWidth);
-        System.out.println(levelScreenHeight);
-        System.out.println(levelScreenOffsetUp);
-        System.out.println(levelScreenOffsetDown);
-        System.out.println(levelScreenWidth);
-        System.out.println(levelScreenOffsetLeft);
-        System.out.println(levelScreenOffsetRight);
-        System.out.println();*/
-
         int levelScreenOffsetLeft = level.getLevelScreenOffsetLeft(); /*Coin gauche du level?*/
         int x = levelScreenOffsetLeft;
         int y = level.getLevelScreenOffsetUp(); /*y haut du level*/
@@ -50,22 +42,22 @@ public class GameRenderer {
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 Tile currentTile = levelTileMap.get(rowIndex, columnIndex); /*case en cours de traitement*/
                 //TODO : voir si la technique avec le .ordinal() pose probl�me
-                Sprite currentSprite = UserParams.texture.getSprites().get(currentTile.getSprite().ordinal()); /*récup sprite correspondant au contenu de la la Tile*/
+                Sprite currentSprite = GameTextures.fixedEntitiesTexture.getSprites().get(currentTile.getSprite().ordinal()); /*récup sprite correspondant au contenu de la la Tile*/
                 if (currentTile.isTeleportTile()) {
                     Drawer.drawRect(x, y, tileWidth, tileHeight, ((TileTeleport)currentTile).getColor());
                 }
                 else { /*Si pas case téléportation, bind sprite correspondante*/
-                    UserParams.texture.bind();
+                    GameTextures.fixedEntitiesTexture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, currentSprite.getxSprite(), currentSprite.getySprite());
-                    UserParams.texture.unbind();
+                    GameTextures.fixedEntitiesTexture.unbind();
                 }
 
                 /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
-                    Sprite contentSprite = UserParams.texture.getSprites().get(currentTile.getContent().getSprite().ordinal());
-                    UserParams.texture.bind();
+                    Sprite contentSprite = GameTextures.fixedEntitiesTexture.getSprites().get(currentTile.getContent().getSprite().ordinal());
+                    GameTextures.fixedEntitiesTexture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, contentSprite.getxSprite(), contentSprite.getySprite());
-                    UserParams.texture.unbind();
+                    GameTextures.fixedEntitiesTexture.unbind();
                 }
                 x += tileWidth;
             }
@@ -82,14 +74,14 @@ public class GameRenderer {
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
             }
-            /*UserParams.texture.bind();
+            /*UserParams.fixedEntitiesTexture.bind();
             Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));
-            UserParams.texture.unbind();
+            UserParams.fixedEntitiesTexture.unbind();
             int xRectDebug = level.getLevelScreenOffsetLeft() + entity.getTileX() * tileWidth;
             int yRectDebug = level.getLevelScreenOffsetUp() + entity.getTileY() * tileHeight;
-            UserParams.texture.bind();
+            UserParams.fixedEntitiesTexture.bind();
             Drawer.drawRect(xRectDebug, yRectDebug, tileWidth, tileHeight, debugRectColor);
-            UserParams.texture.unbind();*/
+            UserParams.fixedEntitiesTexture.unbind();*/
         }
     }
 }

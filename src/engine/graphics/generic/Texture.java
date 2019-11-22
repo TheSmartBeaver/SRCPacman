@@ -1,4 +1,4 @@
-package src.engine.graphics;
+package src.engine.graphics.generic;
 
 /**
  * Created by Vincent on 06/11/2019.
@@ -67,7 +67,7 @@ public class Texture {
         glBindTexture(GL_TEXTURE_2D, id);
         this.id = id;
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP); /*Place texture*/
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP); /*Place fixedEntitiesTexture*/
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -110,7 +110,7 @@ public class Texture {
     }
 
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, id); /*Placer texture par rapport � des coordonn�es ?*/
+        glBindTexture(GL_TEXTURE_2D, id); /*Placer fixedEntitiesTexture par rapport � des coordonn�es ?*/
     }
 
     public void unbind() {

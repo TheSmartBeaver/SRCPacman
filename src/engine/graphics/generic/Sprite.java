@@ -1,4 +1,4 @@
-package src.engine.graphics;
+package src.engine.graphics.generic;
 
 /**
  * Created by Vincent on 06/11/2019.

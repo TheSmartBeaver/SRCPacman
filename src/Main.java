@@ -4,9 +4,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
-import src.engine.graphics.Texture;
+import src.engine.graphics.generic.Texture;
 import src.engine.input.GameInput;
-import src.engine.input.InputGetter;
 import src.entities.moving.specific.PacmanSprite;
 import src.entities.space.specific.TileSprite;
 import src.loaders.LevelLoader;
@@ -64,8 +63,8 @@ public class Main {
 
             initGL();
 
-            UserParams.texture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8, TileSprite.class);
-            UserParams.pacmanTexture = new Texture(UserParams.userDir + "/assets/textures/pacman.png", 8, PacmanSprite.class);
+            GameTextures.fixedEntitiesTexture = new Texture(UserParams.userDir + "/assets/textures/textures_test.png", 8, TileSprite.class);
+            GameTextures.movingEntitiesTexture = new Texture(UserParams.userDir + "/assets/textures/pacman.png", 8, PacmanSprite.class);
 
         }
         catch (LWJGLException e){
