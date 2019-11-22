@@ -9,6 +9,19 @@ public class GameInput {
     private static Input inputSecond = Input.NONE; /*2ème imput*/
     private static boolean pauseKeyDown;
 
+    public static void getInputs() {
+        InputGetter.getInputs();
+        if (InputGetter.keyFirstDownPressed) inputFirst = Input.DOWN;
+        else if (InputGetter.keyFirstUpPressed) inputFirst = Input.UP;
+        else if (InputGetter.keyFirstLeftPressed) inputFirst = Input.LEFT;
+        else if (InputGetter.keyFirstRightPressed) inputFirst = Input.RIGHT;
+
+        if (InputGetter.keySecondDownPressed) inputSecond = Input.DOWN;
+        else if (InputGetter.keySecondUpPressed) inputSecond = Input.UP;
+        else if (InputGetter.keySecondLeftPressed) inputSecond = Input.LEFT;
+        else if (InputGetter.keySecondRightPressed) inputSecond = Input.RIGHT;
+    }
+
     public static Input getInputFirst() {
         return inputFirst;
     }

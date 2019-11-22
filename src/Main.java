@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 import src.engine.graphics.Texture;
+import src.engine.input.GameInput;
 import src.engine.input.InputGetter;
 import src.entities.moving.specific.PacmanSprite;
 import src.entities.space.specific.TileSprite;
@@ -117,7 +118,7 @@ public class Main {
 
             lastBeginningFrameTime = currentBeginningFrameTime;
 
-            InputGetter.getInputs();
+            GameInput.getInputs();
             GameMain.update(deltaTime);
 
             GameMain.render();
