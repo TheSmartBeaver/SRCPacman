@@ -1,47 +1,23 @@
-package src.engine.physics;
+package src.engine.physics.generic;
 
-import src.Level;
-import src.Pair;
 import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
 import src.entities.space.generic.TileMap;
-import src.entities.space.specific.TileTeleport;
 
-import java.util.List;
-
+/**
+ * Created by Vincent on 22/11/2019.
+ */
 public class MovementPhysics {
 
-    static Integer absoluteToRelativePosX(float posX, Integer tileWidth, Integer offsetLeft) {
+    public static Integer absoluteToRelativePosX(float posX, Integer tileWidth, Integer offsetLeft) {
         return (int)(posX - offsetLeft) / tileWidth;
     }
 
-    static Integer absoluteToRelativePosY(float posY, Integer tileHeight, Integer offsetUp) {
+    public static Integer absoluteToRelativePosY(float posY, Integer tileHeight, Integer offsetUp) {
         return (int)(posY - offsetUp) / tileHeight;
     }
 
-    private static void updateEntityPosition(MovingEntity entity, double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp, TileMap tileMap) {
-
-        if (entity.isInMiddleOfTile()) {
-            int entityTileY = entity.getTileY();
-            int entityTileX = entity.getTileX();
-            //si l'entité est sur une case de téléportation
-            if (tileMap.get(entityTileY, entityTileX).isTeleportTile()) {
-                TileTeleport tileSrc = (TileTeleport)tileMap.get(entityTileY, entityTileX);
-                TileTeleport tileDest = tileSrc.getTileDest();
-                Pair tileDestIndexes = tileMap.findTilePos(tileDest);
-                entity.setTileY(tileDestIndexes.getX());
-                entity.setTileX(tileDestIndexes.getY());
-                entity.setPosY(offsetUp + tileHeight * tileDestIndexes.getX() + tileHeight / 2);
-                entity.setPosX(offsetLeft + tileWidth * tileDestIndexes.getY() + tileWidth / 2);
-                //entity.setNbPixelsMoved(0);
-            }
-            else {
-                DirectionManager.determineEntityDirection(entity, tileMap);
-            }
-            //TODO : a changer de place, ceci n'a rien a faire dans le moteur physique, c'est juste pour tester
-            //tileMap.get(entityTileY,entityTileX).setContent(null);
-        }
-
+    public static void updateEntityPosition(MovingEntity entity, double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp) {
         float nbPixelsMoved = entity.getNbPixelsMoved();
         Direction currentDirection = entity.getCurrentDirection();
         if (entity.isMoving()) {
@@ -103,15 +79,6 @@ public class MovementPhysics {
                     break;
                 }
             }
-        }
-
-        //System.out.println(entity.getPosX() + " " + entity.getPosY() + " " + entity.getTileX() + " " + entity.getTileY() + " " + entity.getNbPixelsMoved() + " " + entity.isInMiddleOfTile() + " " + deltaTime);
-    }
-
-    public static void updateEntitiesPositions(double deltaTime, List<MovingEntity> entities, Level levelPlayed) {
-        //CODE DE TEST
-        for (MovingEntity entity : entities) {
-            updateEntityPosition(entity, deltaTime, levelPlayed.getTileWidth(), levelPlayed.getTileHeight(), levelPlayed.getLevelScreenOffsetLeft(), levelPlayed.getLevelScreenOffsetUp(), levelPlayed.getTileMap());
         }
     }
 }

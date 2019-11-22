@@ -3,7 +3,7 @@ package src;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.Input;
-import src.engine.physics.MovementPhysics;
+import src.engine.physics.specific.GamePhysicsManager;
 import src.engine.ai.MovingRandom;
 import src.entities.fixed.specific.Cherry;
 import src.entities.fixed.specific.Strawberry;
@@ -119,7 +119,7 @@ public class GameMain {
             }
         }
 
-        MovementPhysics.updateEntitiesPositions(deltaTime, GameState.currentEntities, GameState.currentLevelPlayed);
+        GamePhysicsManager.updateEntitiesPositions(deltaTime, GameState.currentEntities, GameState.currentLevelPlayed);
 
         //TODO : a voir ou on met ce code
         TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
