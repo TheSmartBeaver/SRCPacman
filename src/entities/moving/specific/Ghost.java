@@ -12,7 +12,7 @@ import java.util.ArrayDeque;
 public class Ghost extends MovingEntity {
 
     private Pacman pacman;
-    private ArrayDeque<Input> inputs; /*Toujours de taille 1 ??*/
+    private Input input = Input.NONE;
 
     private MovingStrategy movingStrategy; /*Stratégie du fantôme*/
     private GhostState state;
@@ -30,12 +30,12 @@ public class Ghost extends MovingEntity {
         return pacman;
     }
 
-    public ArrayDeque<Input> getInputs() {
-        return inputs;
+    public Input getInput() {
+        return input;
     }
 
-    public void setInputs(ArrayDeque<Input> inputs) {
-        this.inputs = inputs;
+    public void setInput(Input input) {
+        this.input = input;
     }
 
     public MovingStrategy getMovingStrategy() {

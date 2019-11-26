@@ -17,6 +17,41 @@ public class MovementPhysics {
         return (int)(posY - offsetUp) / tileHeight;
     }
 
+    public static void outOfBoundsCheck(MovingEntity entity, TileMap tileMap) {
+        int entityTileY = entity.getTileY();
+        int entityTileX = entity.getTileX();
+        switch (entity.getInput()) {
+            case UP:
+            {
+                if (entityTileY == 0) {
+                    entity.setMoving(false);
+                }
+                break;
+            }
+            case DOWN:
+            {
+                if (entityTileY == tileMap.getRowCount() - 1) {
+                    entity.setMoving(false);
+                }
+                break;
+            }
+            case LEFT:
+            {
+                if (entityTileX == 0) {
+                    entity.setMoving(false);
+                }
+                break;
+            }
+            case RIGHT:
+            {
+                if (entityTileX == tileMap.getColumnCount() - 1) {
+                    entity.setMoving(false);
+                }
+                break;
+            }
+        }
+    }
+
     public static void updateEntityPosition(MovingEntity entity, double deltaTime, Integer tileWidth, Integer tileHeight, Integer offsetLeft, Integer offsetUp) {
         float nbPixelsMoved = entity.getNbPixelsMoved();
         Direction currentDirection = entity.getCurrentDirection();

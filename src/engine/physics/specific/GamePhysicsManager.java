@@ -8,6 +8,7 @@ import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
 import src.entities.moving.specific.Ghost;
 import src.entities.moving.specific.MovingEntityType;
+import src.entities.moving.specific.Pacman;
 import src.entities.space.generic.TileMap;
 import src.entities.space.specific.TileTeleport;
 
@@ -15,78 +16,11 @@ import java.util.List;
 
 public class GamePhysicsManager {
 
-    private static void determineNextPlayerDirection(MovingEntity entity, TileMap tileMap) {
-        Direction oldDirection = entity.getCurrentDirection();
-        int entityTileY = entity.getTileY();
-        int entityTileX = entity.getTileX();
-        switch (entity.getInput()) {
-            case UP:
-            {
-                if (!tileMap.get(entityTileY - 1, entityTileX).isWall()) {
-                    entity.setMoving(true);
-                    entity.setCurrentDirection(Direction.UP);
-                } else {
-                    if (
-                            (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                    (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                    (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()))
-                        entity.setMoving(false);
-                }
-                break;
-            }
-            case DOWN:
-            {
-                if (!tileMap.get(entityTileY + 1, entityTileX).isWall()) {
-                    entity.setMoving(true);
-                    entity.setCurrentDirection(Direction.DOWN);
-                } else {
-                    if (
-                            (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                    (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                    (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
-                        entity.setMoving(false);
-                    }
-
-                }
-                break;
-            }
-            case LEFT:
-            {
-                if (!tileMap.get(entityTileY, entityTileX - 1).isWall()) {
-                    entity.setMoving(true);
-                    entity.setCurrentDirection(Direction.LEFT);
-                } else {
-                    if (
-                            (oldDirection == Direction.LEFT && tileMap.get(entityTileY, entityTileX - 1).isWall()) ||
-                                    (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
-                                    (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall())) {
-                        entity.setMoving(false);
-                    }
-
-                }
-                break;
-            }
-            case RIGHT:
-            {
-                if (!tileMap.get(entityTileY, entity.getTileX() + 1).isWall()) {
-                    entity.setMoving(true);
-                    entity.setCurrentDirection(Direction.RIGHT);
-                } else {
-                    if (
-                            (oldDirection == Direction.RIGHT && tileMap.get(entityTileY, entityTileX + 1).isWall()) ||
-                                    (oldDirection == Direction.UP && tileMap.get(entityTileY - 1, entityTileX).isWall()) ||
-                                    (oldDirection == Direction.DOWN && tileMap.get(entityTileY + 1, entityTileX).isWall()))
-                        entity.setMoving(false);
-                }
-                break;
-            }
-        }
-    }
-
     private static void determineEntityDirection(MovingEntity entity, TileMap tileMap) {
+        MovementPhysics.outOfBoundsCheck(entity, tileMap);
         //si l'entit� est pacman
         if (entity.getEntityType() == MovingEntityType.PACMAN) {
-            determineNextPlayerDirection(entity, tileMap);
+            ((Pacman)entity).getMovementRestrictions().determineNextPlayerDirection(entity, tileMap);
             //si l'entit� est un fant�me
         } else if (entity.getEntityType() == MovingEntityType.GHOST) {
             GhostAI.ghostAIStart((Ghost)entity, tileMap);

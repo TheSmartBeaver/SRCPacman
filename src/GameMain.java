@@ -6,6 +6,7 @@ import src.engine.input.Input;
 import src.engine.physics.specific.GamePhysicsManager;
 import src.engine.ai.MovingRandom;
 import src.entities.fixed.specific.Cherry;
+import src.entities.fixed.specific.PowerUp;
 import src.entities.fixed.specific.Strawberry;
 import src.entities.fixed.specific.TileContentPacman;
 import src.entities.moving.generic.Direction;
@@ -85,9 +86,7 @@ public class GameMain {
                             movingEntity.setTileY(rowIndex);
                             //TODO : WARNING CODE DE TEST A PARTIR DE MAINTENANT A ENLEVER IMPERATIVEMENT PLUS TARD
                             movingEntity.setCurrentDirection(Direction.LEFT);
-                            ArrayDeque<Input> inputInitPourTest = new ArrayDeque<>();
-                            inputInitPourTest.push(Input.UP);
-                            ((Ghost)movingEntity).setInputs(inputInitPourTest);
+                            ((Ghost)movingEntity).setInput(Input.UP);
                         }
                     }
                 }
@@ -125,12 +124,20 @@ public class GameMain {
         TileMap tileMap = GameState.currentLevelPlayed.getTileMap();
         for (MovingEntity entity : GameState.currentEntities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
-                if (entity.isInMiddleOfTile()) {
-                    TileContentPacman tileContent = (TileContentPacman)tileMap.get(entity.getTileY(), entity.getTileX()).getContent();
+                Pacman pacmanEntity = (Pacman)entity;
+                if (pacmanEntity.isInMiddleOfTile()) {
+                    TileContentPacman tileContent = (TileContentPacman)tileMap.get(pacmanEntity.getTileY(), pacmanEntity.getTileX()).getContent();
                     if (tileContent != null) {
-                        tileContent.execute((Pacman)entity);
-                        System.out.println(((Pacman)entity).getScore());
-                        tileMap.get(entity.getTileY(), entity.getTileX()).setContent(null);
+                        tileContent.execute(pacmanEntity);
+                        System.out.println((pacmanEntity).getScore());
+                        tileMap.get(pacmanEntity.getTileY(), pacmanEntity.getTileX()).setContent(null);
+                    }
+                }
+                if (pacmanEntity.getActivePowerUp() != null) {
+                    PowerUp currentPowerUp = pacmanEntity.getActivePowerUp();
+                    currentPowerUp.decDurationMS(deltaTime);
+                    if (currentPowerUp.isFinished()) {
+                        currentPowerUp.end(pacmanEntity);
                     }
                 }
             }
