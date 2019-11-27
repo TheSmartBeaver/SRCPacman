@@ -6,6 +6,7 @@ import src.engine.graphics.generic.Color;
 import src.engine.graphics.generic.Sprite;
 import src.entities.moving.generic.MovingEntity;
 import src.entities.moving.specific.MovingEntityType;
+import src.entities.moving.specific.Pacman;
 import src.entities.space.generic.Tile;
 import src.entities.space.generic.TileMap;
 import src.entities.space.specific.TileTeleport;
@@ -71,6 +72,8 @@ public class GameRenderer {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 //Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
                 Drawer.drawPacmanSprite(entity, movingEntitySpriteLength, level);
+                Pacman pac = (Pacman) entity;
+                Drawer.drawPacmanScore(pac.getId(),pac.getScore());
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
             }

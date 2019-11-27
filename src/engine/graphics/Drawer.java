@@ -5,8 +5,10 @@ import src.Level;
 import src.Main;
 import src.UserParams;
 import src.engine.graphics.generic.Color;
+import src.engine.graphics.generic.TextSlick2D;
 import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
+
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;
@@ -67,6 +69,10 @@ public class Drawer {
         if(Main.time%30 == 0)
                 switchAnim = false;
 
+    }
+
+    public static void drawPacmanScore(int idPacman, int score){
+        TextSlick2D.drawText(0,idPacman*30,"pacman "+idPacman+" : "+score, org.newdawn.slick.Color.green);
     }
 
     public static void drawPacmanSprite(MovingEntity entity, int movingEntitySpriteLength, Level level) {
