@@ -23,6 +23,10 @@ public class LevelLoader {
     public static List<Level> levels = new ArrayList<>();
     private final static int MAX_NB_OF_TP = 10;
 
+    public static List<Level> getLevels() {
+        return levels;
+    }
+
     public static void loadLevels(String directoryName) {
 
         List<String> filenames = new ArrayList<>();
@@ -128,7 +132,7 @@ public class LevelLoader {
             int numLevel = Integer.parseInt(fileName.replaceFirst("[.][^.]+$", ""));
             TileMap newTileMap = new TileMap(tiles, levelHeight, levelWidth);
             loadSprites(newTileMap);
-            Level level = new Level(newTileMap, numLevel);
+            Level level = new Level(newTileMap, numLevel, nbBerryForWin);
             level.setTilesForA(tilesForA); /*ON SET map pour A* */
             return level;
 

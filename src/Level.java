@@ -19,12 +19,15 @@ public class Level {
     private int levelScreenHeight;
     private int levelScreenWidth;
 
+    private int nbBerryForWin;
+
     private int tileWidth;
     private int tileHeight;
 
-    public Level(TileMap tileMap, int numeroLevel) {
+    public Level(TileMap tileMap, int numeroLevel, int nbBerryForWin) {
         this.tileMap = tileMap;
         this.numeroLevel = numeroLevel;
+        this.nbBerryForWin = nbBerryForWin;
 
         levelScreenOffsetUp = UserParams.minLevelScreenOffsetUp;
         levelScreenOffsetDown = UserParams.minLevelScreenOffsetDown;
@@ -62,6 +65,12 @@ public class Level {
     public void setTilesForA(int[][] tilesForA) {
         this.tilesForA = tilesForA;
     }
+
+    public int getNbBerryForWin() {
+        return nbBerryForWin;
+    }
+
+    public void decrementNbBerryForWin(){ nbBerryForWin--;}
 
     public int getNumeroLevel() {
         return numeroLevel;

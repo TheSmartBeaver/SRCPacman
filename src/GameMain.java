@@ -1,15 +1,11 @@
 package src;
 
-import src.engine.ai.AStarStrategy;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.Input;
 import src.engine.physics.specific.GamePhysicsManager;
 import src.engine.ai.MovingRandom;
-import src.entities.fixed.specific.Cherry;
-import src.entities.fixed.specific.PowerUp;
-import src.entities.fixed.specific.Strawberry;
-import src.entities.fixed.specific.TileContentPacman;
+import src.entities.fixed.specific.*;
 import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
 import src.entities.moving.specific.Ghost;
@@ -17,10 +13,11 @@ import src.entities.moving.specific.MovingEntityType;
 import src.entities.moving.specific.Pacman;
 import src.entities.space.generic.TileMap;
 import src.entities.space.specific.TileSprite;
-import src.entities.space.specific.TilesForA;
 import src.loaders.LevelLoader;
 
 import java.util.*;
+
+import static java.lang.System.exit;
 
 /**
  * Created by Vincent on 02/11/2019.
@@ -29,7 +26,8 @@ public class GameMain {
 
     private static boolean newLevel = true;
     private static float time=0;
-    private static int presedentStrawberry=0;
+    private static int precedentStrawberry =0;
+    private static int currentLevel = -1;
 
     public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) { /*Retourne toutes les instances de PacMan*/
         List<Pacman> pacmans = new ArrayList<>();
@@ -99,21 +97,23 @@ public class GameMain {
     public static void update(double deltaTime) {
 
         if (newLevel) {
-            GameState.currentLevelPlayed = LevelLoader.levels.get(0);
+            GameState.currentLevelPlayed = LevelLoader.levels.get(++currentLevel);
+            System.out.println("On joue le niveau numéro : "+currentLevel);
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
             GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(5.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(1.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
+            /*Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
             Ghost chasingGhost = new Ghost(3.0f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
             chasingGhost.isAChaser = true;
-            GameState.currentEntities.add(chasingGhost);
+            GameState.currentEntities.add(chasingGhost);*/
 
 
             initEntitiesPosition();
             newLevel = false;
+
         }
 
         List<Pacman> pacmans = findPacmanEntities(GameState.currentEntities);
@@ -137,8 +137,10 @@ public class GameMain {
                     TileContentPacman tileContent = (TileContentPacman)tileMap.get(pacmanEntity.getTileY(), pacmanEntity.getTileX()).getContent();
                     if (tileContent != null) {
                         tileContent.execute(pacmanEntity);
-                        System.out.println((pacmanEntity).getScore());
-                        tileMap.get(pacmanEntity.getTileY(), pacmanEntity.getTileX()).setContent(null);
+                        //System.out.println((pacmanEntity).getScore());
+                        if(tileContent.getContentType() == TileContentType.BERRY)
+                            GameState.currentLevelPlayed.decrementNbBerryForWin();
+                        tileMap.get(pacmanEntity.getTileY(), pacmanEntity.getTileX()).setContent(null); /*On enlève les fruits que le Pacman mange.*/
                     }
                 }
                 if (pacmanEntity.getActivePowerUp() != null) {
@@ -150,6 +152,9 @@ public class GameMain {
                 }
             }
         }
+
+
+
         time += deltaTime;
         if (time>60000){
             Vector<Pair> case_vides=new Vector<Pair>();
@@ -165,19 +170,22 @@ public class GameMain {
             if (case_vides.size() != 0) {
                 int nb_rand = rand.nextInt(case_vides.size());
                 Pair pair_choisi=case_vides.get(nb_rand);
-                if (presedentStrawberry<3) {
+                if (precedentStrawberry <3) {
                     tileMap.get(pair_choisi.getX(), pair_choisi.getY()).setContent(new Strawberry());
                     tileMap.get(pair_choisi.getX(), pair_choisi.getY()).getContent().setSprite(TileSprite.STRAWBERRY);
-                    presedentStrawberry++;
+                    precedentStrawberry++;
                 }
                 else{
                     tileMap.get(pair_choisi.getX(), pair_choisi.getY()).setContent(new Cherry());
                     tileMap.get(pair_choisi.getX(), pair_choisi.getY()).getContent().setSprite(TileSprite.CHERRY);
-                    presedentStrawberry=0;
+                    precedentStrawberry =0;
                 }
             }
             time=0;
         }
+        if(GameState.currentLevelPlayed.getNbBerryForWin() == 0) /*On va passer au niveau suivant si tout mangé*/
+            goNextLevel();
+
     }
 
     public static void render(){
@@ -185,5 +193,14 @@ public class GameMain {
         //TODO : idée : faire une classe GlobalRenderer qui prend tous les paramètres qu'il faut et appeler dedans les sous-renderers ?
         GameRenderer.renderLevel(GameState.currentLevelPlayed, GameState.currentEntities);
 
+    }
+
+    public static void goNextLevel(){
+        if(LevelLoader.getLevels().size() == currentLevel+1) {
+            System.out.println("Tous les niveaux ont été fini");
+            exit(1);
+        }
+        newLevel = true;
+        GameState.currentEntities = new ArrayList<>();;
     }
 }

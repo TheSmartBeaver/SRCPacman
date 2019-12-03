@@ -142,29 +142,4 @@ public class AStar {
         }
     }
 
-    public static void main(String[] args) {
-        // -1 = blocked
-        // 0+ = additional movement cost
-        int[][] maze = {
-                {  0,  0,  0,  0,  0,  0,  0,  0},
-                {  100,  0,  0,  0,  0,  0,  0,  0},
-                {  0,  0,  0,100,100,100,  0,  0},
-                {  0,  0,  0,  0,  0,100,  0,  0},
-                {  0,  0,100,  0,  0,100,  0,  0},
-                {  0,  0,100,  0,  0,100,  100,  0},
-                {  0,  0,100,100,100,100,  0,  0},
-                {  0,  0,  100,  0,  0,  0,  0,  0},
-        };
-        AStar as = new AStar(maze, 0, 0, false);
-        List<Node> path = as.findPathTo(7, 7);
-        if (path != null) {
-            path.forEach((n) -> {
-                System.out.print("[" + n.x + ", " + n.y + "] ");
-                maze[n.y][n.x] = -1;
-            });
-            System.out.printf("\nTotal cost: %.02f\n", path.get(path.size() - 1).g);
-
-            AStar.printPath(maze);
-        }
-    }
 }
