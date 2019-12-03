@@ -11,6 +11,7 @@ public abstract class MovingEntity {
     private int tileX;
     private int tileY;
 
+
     //TODO : attribut � supprimer, il sert juste � d�bug
     private int length = 20;
 
@@ -125,6 +126,8 @@ public abstract class MovingEntity {
     public void setInput(Input input) {
         this.input = input;
     }
+
+
 
     public abstract MovingEntityType getEntityType();
 }

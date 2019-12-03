@@ -13,6 +13,7 @@ public class Ghost extends MovingEntity {
 
     private Pacman pacman;
     private Input input = Input.NONE;
+    public boolean isAChaser = false;
 
     private MovingStrategy movingStrategy; /*Stratégie du fantôme*/
     private GhostState state;
@@ -48,6 +49,10 @@ public class Ghost extends MovingEntity {
 
     public void setState(GhostState state) {
         this.state = state;
+    }
+
+    public void setAChaser(boolean AChaser) {
+        isAChaser = AChaser;
     }
 
     @Override

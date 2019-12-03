@@ -1,6 +1,7 @@
 package src;
 
 import src.entities.space.generic.TileMap;
+import src.entities.space.specific.TilesForA;
 
 /**
  * Created by Vincent on 01/11/2019.
@@ -8,6 +9,7 @@ import src.entities.space.generic.TileMap;
 public class Level {
 
     private TileMap tileMap;
+    private int[][] tilesForA;
     private int numeroLevel;
 
     private int levelScreenOffsetUp;
@@ -51,6 +53,14 @@ public class Level {
 
     public TileMap getTileMap() {
         return tileMap;
+    }
+
+    public int[][] getTilesForA() {
+        return tilesForA;
+    }
+
+    public void setTilesForA(int[][] tilesForA) {
+        this.tilesForA = tilesForA;
     }
 
     public int getNumeroLevel() {

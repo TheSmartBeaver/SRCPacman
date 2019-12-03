@@ -1,5 +1,6 @@
 package src;
 
+import src.engine.ai.AStarStrategy;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.Input;
@@ -16,6 +17,7 @@ import src.entities.moving.specific.MovingEntityType;
 import src.entities.moving.specific.Pacman;
 import src.entities.space.generic.TileMap;
 import src.entities.space.specific.TileSprite;
+import src.entities.space.specific.TilesForA;
 import src.loaders.LevelLoader;
 
 import java.util.*;
@@ -103,7 +105,13 @@ public class GameMain {
             GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(5.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(1.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(10.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
+            Ghost chasingGhost = new Ghost(3.0f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
+            chasingGhost.isAChaser = true;
+            GameState.currentEntities.add(chasingGhost);
+
+
             initEntitiesPosition();
             newLevel = false;
         }
