@@ -20,6 +20,10 @@ public class LevelLoader {
     public static List<Level> levels = new ArrayList<>();
     private final static int MAX_NB_OF_TP = 10;
 
+    public static List<Level> getLevels() {
+        return levels;
+    }
+
     public static void loadLevels(String directoryName) {
 
         List<String> filenames = new ArrayList<>();
@@ -52,6 +56,7 @@ public class LevelLoader {
             String line;
             int levelWidth = 0;
             int levelHeight = 0;
+            int nbBerryForWin = 0;
 
             if((line = bf.readLine()) != null) {
                 levelWidth = Integer.parseInt(line);
@@ -62,6 +67,7 @@ public class LevelLoader {
             }
 
             Tile[][] tiles = new Tile[levelHeight][levelWidth];
+            int[][] tilesForA = new int[levelHeight][levelWidth];
             int lineNumber = 0;
             TileTeleport[] tilesTeleportFound = new TileTeleport[MAX_NB_OF_TP];
             while((line = bf.readLine()) != null) { /*On associe caractères à objets du jeu*/
@@ -71,6 +77,7 @@ public class LevelLoader {
                         case('X'):
                         {
                             tiles[lineNumber][charNumber] = new TileWall();
+                            tilesForA[lineNumber][charNumber] = 100; /*Il s'agit de la tileMap pour l'algo A*   */
                             break;
                         }
                         case('P'):
@@ -86,6 +93,7 @@ public class LevelLoader {
                         case('.'):
                         {
                             tiles[lineNumber][charNumber] = new TileCorridor(new Berry());
+                            nbBerryForWin++; /*On incrémente le nombre de berry à manger pour gagner*/
                             break;
                         }
                         case('*'):
@@ -126,7 +134,8 @@ public class LevelLoader {
             int numLevel = Integer.parseInt(fileName.replaceFirst("[.][^.]+$", ""));
             TileMap newTileMap = new TileMap(tiles, levelHeight, levelWidth);
             loadSprites(newTileMap);
-            Level level = new Level(newTileMap, numLevel);
+            Level level = new Level(newTileMap, numLevel, nbBerryForWin);
+            level.setTilesForA(tilesForA); /*ON SET map pour A* */
             return level;
 
         } catch (FileNotFoundException e) {

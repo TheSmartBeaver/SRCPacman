@@ -58,7 +58,14 @@ public class GameRenderer {
 
                 /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
-                    Sprite contentSprite = GameTextures.fixedEntitiesTexture.getSprites().get(currentTile.getContent().getSprite().ordinal());
+                    System.out.println("Type CONTENT : "+currentTile.getContent().getContentType());
+                    Sprite contentSprite = GameTextures.
+                            fixedEntitiesTexture.
+                            getSprites().
+                            get(currentTile.
+                                    getContent().
+                                    getSprite().
+                                    ordinal());
                     GameTextures.fixedEntitiesTexture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, contentSprite.getxSprite(), contentSprite.getySprite());
                     GameTextures.fixedEntitiesTexture.unbind();
@@ -90,7 +97,8 @@ public class GameRenderer {
             Drawer.drawRect(xRectDebug, yRectDebug, tileWidth, tileHeight, debugRectColor);
             UserParams.fixedEntitiesTexture.unbind();*/
         }
-        for (MovingEntity entity : entities) { /*On dessine les scores*/
+        /*On dessine les scores*/
+        for (MovingEntity entity : entities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 Pacman pac = (Pacman) entity;
                 Drawer.drawPacmanScore(pac.getId(),pac.getScore());
