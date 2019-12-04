@@ -101,6 +101,14 @@ public class Pacman extends MovingEntity implements SpecialPower{
         }
     }
 
+    public void resetPowerUps() {
+        List<PowerUp> tmpPower = new ArrayList<>(activePowerUps);
+        for (PowerUp powerUp : tmpPower) {
+            powerUp.end(this);
+        }
+        activePowerUps = new ArrayList<>();
+    }
+
     @Override
     public void execute() {
 

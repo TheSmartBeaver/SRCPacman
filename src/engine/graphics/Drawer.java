@@ -80,6 +80,7 @@ public class Drawer {
         TextSlick2D.drawText(0,idPacman*30,"pacman "+idPacman+" : "+score, org.newdawn.slick.Color.green);
     }
 
+    //TODO : changer cette méthode affreuse en iutilisant la classe AnimableLoop
     public static void drawPacmanSprite(MovingEntity entity, Level level) {
 
         setSwitchAnim();
@@ -87,7 +88,6 @@ public class Drawer {
         PowerUp lastPacmanPowerUp = null;
         if (powerUps.size() != 0) {
             lastPacmanPowerUp = (powerUps.get(powerUps.size() - 1));
-            System.out.println(lastPacmanPowerUp.getContentType());
         }
 
         if(switchAnim) {

@@ -25,8 +25,10 @@ public class GhostCollisionDeath implements GhostCollision {
         pacman.setNbPixelsMoved(0);
         pacman.setInput(Input.NONE);
         pacman.setCurrentDirection(Direction.NONE);
+        pacman.resetPowerUps();
         PowerUp respawnInvincibility = new RespawnInvincibility();
         pacman.setActivePowerUp(respawnInvincibility);
+        System.out.println(pacman.getActivePowerUps().size());
         respawnInvincibility.execute(pacman);
     }
 }

@@ -108,12 +108,12 @@ public class GameMain {
             System.out.println("On joue le niveau numéro : "+currentLevel);
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
-            GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(5.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(1.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
-            Ghost chasingGhost = new Ghost(3.0f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
+            Ghost chasingGhost = new Ghost(2.5f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
             chasingGhost.isAChaser = true;
             GameState.currentEntities.add(chasingGhost);
 
@@ -151,6 +151,8 @@ public class GameMain {
                     }
                 }
                 List<PowerUp> tmpPower = new ArrayList<>(pacmanEntity.getActivePowerUps());
+                if (pacmanEntity.getId() == 1)
+                    System.out.println(tmpPower.size());
                 for (PowerUp currentPowerUp: tmpPower) {
                     currentPowerUp.decDurationMS(deltaTime);
                     if (currentPowerUp.isFinished()) {

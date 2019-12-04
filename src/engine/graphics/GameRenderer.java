@@ -78,7 +78,7 @@ public class GameRenderer {
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
                 Ghost aGhost = (Ghost) entity;
-                if(aGhost.isAChaser == true)
+                if(aGhost.isAChaser)
                     Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, debugRectColor);
             }
             /*UserParams.fixedEntitiesTexture.bind();

@@ -19,9 +19,18 @@ public class RespawnInvincibility extends PowerUp {
     }
 
     @Override
+    //TODO: changer ça c'est immonde (faire une file de collisions ?)
     public void end(Pacman pacman) {
         pacman.removeActivePowerUp(this);
-        pacman.setGhostCollision(new GhostCollisionDeath());
+        boolean isInvincible = false;
+        for(PowerUp powerUp : pacman.getActivePowerUps()) {
+            if (powerUp.getClass() == InvincibilityPowerUp.class) {
+                isInvincible = true;
+            }
+        }
+        if (!isInvincible) {
+            pacman.setGhostCollision(new GhostCollisionDeath());
+        }
     }
 
     @Override

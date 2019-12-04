@@ -1,7 +1,8 @@
-package src.engine.ai.util;
+package src.engine.ai;
 
 import src.GameState;
 import src.engine.ai.MovingStrategy;
+import src.engine.ai.util.AStar;
 import src.engine.input.Input;
 import src.engine.physics.generic.MovementPhysics;
 import src.entities.moving.specific.Ghost;
@@ -33,14 +34,14 @@ public class MovingReturningHome extends MovingStrategy {
     public void computeInputList(Ghost ghost) {
         Input nextInput = Input.NONE;
         int xGhost = ghost.getTileX(), yGhost = ghost.getTileY();
-        System.out.println("pos fantôme RETURN" + xGhost + " " + yGhost);
+        //System.out.println("pos fantôme RETURN" + xGhost + " " + yGhost);
         AStar ah = new AStar(tilesForA, xGhost, yGhost, false);
 
-        System.out.println("AHHHHHHHH " + tileGhostSpawnX + " " + tileGhostSpawnY);
+        //System.out.println("AHHHHHHHH " + tileGhostSpawnX + " " + tileGhostSpawnY);
         List<AStar.Node> path = ah.findPathTo(tileGhostSpawnX, tileGhostSpawnY);
         if (path != null) {
             path.forEach((n) -> {
-                System.out.print("RETURN [" + n.x + ", " + n.y + "] ");
+                //System.out.print("RETURN [" + n.x + ", " + n.y + "] ");
                 tilesForA[n.y][n.x] = -1; /* -1 représente un bout de chemin*/
             });
 
@@ -50,12 +51,12 @@ public class MovingReturningHome extends MovingStrategy {
         //exit(1);
         /*FIN DEBUG A* */
 
-        //TODO: Décider que faire véritablement quand il croise pacman
-        System.out.println("DAMN "+ghost.getTileX()+" "+tileGhostSpawnX+" "+ghost.getTileY()+" "+tileGhostSpawnY);
+        //TODO: Ceci est immonde, voir si on change
+        //System.out.println("DAMN "+ghost.getTileX()+" "+tileGhostSpawnX+" "+ghost.getTileY()+" "+tileGhostSpawnY);
         if (ghost.getTileX() == tileGhostSpawnX-1 && ghost.getTileY() == tileGhostSpawnY) {
             ghost.setState(new GhostStateNormal(ghost.getMovingStrategy()));
             ghost.setInput(Input.UP);
-            System.out.println("sortit avant destination ? spawn fantôme");
+            //System.out.println("sortit avant destination ? spawn fantôme");
 
             if (path != null) {
                 path.forEach((n) -> {
@@ -68,24 +69,24 @@ public class MovingReturningHome extends MovingStrategy {
         }
 
 
-        System.out.println(" RETURN Prochaine étape " + path.get(1).x + "--" + path.get(1).y);
+        //System.out.println(" RETURN Prochaine étape " + path.get(1).x + "--" + path.get(1).y);
         int nextX = path.get(1).x, nextY = path.get(1).y;
 
         if (nextX + 1 == xGhost) {
             nextInput = Input.LEFT;
-            System.out.println("RETURN A* indique GAUCHE");
+            //System.out.println("RETURN A* indique GAUCHE");
         }
         if (nextX - 1 == xGhost) {
             nextInput = Input.RIGHT;
-            System.out.println("RETURN A* indique DROITE");
+            //System.out.println("RETURN A* indique DROITE");
         }
         if (nextY == yGhost - 1) {
             nextInput = Input.UP;
-            System.out.println("RETURN A* indique HAUT");
+            //System.out.println("RETURN A* indique HAUT");
         }
         if (nextY == yGhost + 1) {
             nextInput = Input.DOWN;
-            System.out.println("RETURN A* indique BAS");
+            //System.out.println("RETURN A* indique BAS");
         }
 
         ghost.setInput(nextInput);

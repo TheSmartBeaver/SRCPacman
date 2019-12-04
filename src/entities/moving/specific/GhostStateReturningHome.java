@@ -1,7 +1,6 @@
 package src.entities.moving.specific;
 
-import src.engine.ai.util.MovingReturningHome;
-import src.entities.space.generic.TileMap;
+import src.engine.ai.MovingReturningHome;
 
 /**
  * Created by Vincent on 19/11/2019.
