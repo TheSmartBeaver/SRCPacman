@@ -10,7 +10,7 @@ import src.entities.moving.generic.MovingEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pacman extends MovingEntity {
+public class Pacman extends MovingEntity implements SpecialPower{
 
     int id;
     private int score = 0;
@@ -99,5 +99,15 @@ public class Pacman extends MovingEntity {
                 break;
             }
         }
+    }
+
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void end() {
+
     }
 }

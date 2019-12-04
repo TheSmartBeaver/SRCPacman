@@ -6,9 +6,14 @@ import src.Main;
 import src.UserParams;
 import src.engine.graphics.generic.Color;
 import src.engine.graphics.generic.TextSlick2D;
+import src.entities.fixed.specific.PowerUp;
+import src.entities.fixed.specific.TileContentType;
 import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
+import src.entities.moving.specific.Pacman;
 
+
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.glEnd;
@@ -75,37 +80,103 @@ public class Drawer {
         TextSlick2D.drawText(0,idPacman*30,"pacman "+idPacman+" : "+score, org.newdawn.slick.Color.green);
     }
 
-    public static void drawPacmanSprite(MovingEntity entity, int movingEntitySpriteLength, Level level) {
+    public static void drawPacmanSprite(MovingEntity entity, Level level) {
 
         setSwitchAnim();
+        List<PowerUp> powerUps = ((Pacman)entity).getActivePowerUps();
+        PowerUp lastPacmanPowerUp = null;
+        if (powerUps.size() != 0) {
+            lastPacmanPowerUp = (powerUps.get(powerUps.size() - 1));
+            System.out.println(lastPacmanPowerUp.getContentType());
+        }
 
         if(switchAnim) {
-            GameTextures.movingEntitiesTexture.bind();
-            Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 8, 0);
-            GameTextures.movingEntitiesTexture.unbind();
+            if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.WALLHACK) {
+                GameTextures.movingEntitiesTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 18, 0);
+                GameTextures.movingEntitiesTexture.unbind();
+            }
+            else if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.INVINCIBILITY) {
+                GameTextures.movingEntitiesTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 28, 0);
+                GameTextures.movingEntitiesTexture.unbind();
+            }
+            else {
+                GameTextures.movingEntitiesTexture.bind();
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 8, 0);
+                GameTextures.movingEntitiesTexture.unbind();
+            }
         }
         else{
             if (entity.getCurrentDirection() == Direction.LEFT) {
-                GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 4, 0);
-                GameTextures.movingEntitiesTexture.unbind();
+                if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.WALLHACK) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 14, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.INVINCIBILITY) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 24, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 4, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
             }
             if (entity.getCurrentDirection() == Direction.RIGHT) {
-                GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 0, 0);
-                GameTextures.movingEntitiesTexture.unbind();
+
+                if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.WALLHACK) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 10, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.INVINCIBILITY) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 20, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 0, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
             }
             if (entity.getCurrentDirection() == Direction.UP) {
-                GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 6, 0);
-                GameTextures.movingEntitiesTexture.unbind();
+                if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.WALLHACK) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 16, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.INVINCIBILITY) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 26, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 6, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
             }
             if (entity.getCurrentDirection() == Direction.DOWN) {
-                GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 2, 0);
-                GameTextures.movingEntitiesTexture.unbind();
+                if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.WALLHACK) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 12, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else if (lastPacmanPowerUp != null && lastPacmanPowerUp.getContentType() == TileContentType.INVINCIBILITY) {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 22, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
+                else {
+                    GameTextures.movingEntitiesTexture.bind();
+                    Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 2, 0);
+                    GameTextures.movingEntitiesTexture.unbind();
+                }
             }
         }
     }
-
 }
