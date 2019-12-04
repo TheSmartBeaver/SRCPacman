@@ -26,7 +26,6 @@ public class MovingReturningHome extends MovingStrategy {
 
         tileGhostSpawnX = MovementPhysics.absoluteToRelativePosX(GameState.currentLevelPlayed.getGhostXSpawn(), GameState.currentLevelPlayed.getTileWidth(), GameState.currentLevelPlayed.getLevelScreenOffsetLeft());
         tileGhostSpawnY = MovementPhysics.absoluteToRelativePosY(GameState.currentLevelPlayed.getGhostYSpawn(), GameState.currentLevelPlayed.getTileHeight(), GameState.currentLevelPlayed.getLevelScreenOffsetUp());
-        System.out.println(GameState.currentLevelPlayed.getGhostXSpawn()+" "+GameState.currentLevelPlayed.getGhostYSpawn());
 
     }
 

@@ -25,6 +25,7 @@ public class InvincibilityPowerUp extends PowerUp {
 
     @Override
     public void end(Pacman pacman) {
+        pacman.removeActivePowerUp(this);
         pacman.setGhostCollision(new GhostCollisionDeath());
         for (MovingEntity entity : GameState.currentEntities) {
             if(entity.getEntityType() == MovingEntityType.GHOST) {
@@ -35,6 +36,7 @@ public class InvincibilityPowerUp extends PowerUp {
 
     @Override
     public void execute(Pacman pacman) {
+        pacman.setActivePowerUp(this);
         pacman.setGhostCollision(new GhostCollisionInvincible());
         for (MovingEntity entity : GameState.currentEntities) {
             if(entity.getEntityType() == MovingEntityType.GHOST) {
