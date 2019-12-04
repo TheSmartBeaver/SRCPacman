@@ -1,6 +1,7 @@
 package src;
 
 import src.entities.space.generic.TileMap;
+import src.entities.space.specific.TilesForA;
 
 /**
  * Created by Vincent on 01/11/2019.
@@ -8,6 +9,7 @@ import src.entities.space.generic.TileMap;
 public class Level {
 
     private TileMap tileMap;
+    private int[][] tilesForA;
     private int numeroLevel;
 
     private int levelScreenOffsetUp;
@@ -17,12 +19,21 @@ public class Level {
     private int levelScreenHeight;
     private int levelScreenWidth;
 
+
+    private int nbBerryForWin;
+
     private int tileWidth;
     private int tileHeight;
 
-    public Level(TileMap tileMap, int numeroLevel) {
+    private float pacmanXSpawn;
+    private float pacmanYSpawn;
+    private float ghostXSpawn;
+    private float ghostYSpawn;
+
+    public Level(TileMap tileMap, int numeroLevel, int nbBerryForWin) {
         this.tileMap = tileMap;
         this.numeroLevel = numeroLevel;
+        this.nbBerryForWin = nbBerryForWin;
 
         levelScreenOffsetUp = UserParams.minLevelScreenOffsetUp;
         levelScreenOffsetDown = UserParams.minLevelScreenOffsetDown;
@@ -53,6 +64,20 @@ public class Level {
         return tileMap;
     }
 
+    public int[][] getTilesForA() {
+        return tilesForA;
+    }
+
+    public void setTilesForA(int[][] tilesForA) {
+        this.tilesForA = tilesForA;
+    }
+
+    public int getNbBerryForWin() {
+        return nbBerryForWin;
+    }
+
+    public void decrementNbBerryForWin(){ nbBerryForWin--;}
+
     public int getNumeroLevel() {
         return numeroLevel;
     }
@@ -71,5 +96,38 @@ public class Level {
 
     public int getTileHeight() {
         return tileHeight;
+    }
+
+
+    public float getPacmanXSpawn() {
+        return pacmanXSpawn;
+    }
+
+    public void setPacmanXSpawn(float pacmanXSpawn) {
+        this.pacmanXSpawn = pacmanXSpawn;
+    }
+
+    public float getPacmanYSpawn() {
+        return pacmanYSpawn;
+    }
+
+    public void setPacmanYSpawn(float pacmanYSpawn) {
+        this.pacmanYSpawn = pacmanYSpawn;
+    }
+
+    public float getGhostXSpawn() {
+        return ghostXSpawn;
+    }
+
+    public void setGhostXSpawn(float ghostXSpawn) {
+        this.ghostXSpawn = ghostXSpawn;
+    }
+
+    public float getGhostYSpawn() {
+        return ghostYSpawn;
+    }
+
+    public void setGhostYSpawn(float ghostYSpawn) {
+        this.ghostYSpawn = ghostYSpawn;
     }
 }

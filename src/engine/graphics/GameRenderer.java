@@ -1,10 +1,13 @@
 package src.engine.graphics;
 
+import src.GameMain;
 import src.GameTextures;
 import src.Level;
 import src.engine.graphics.generic.Color;
 import src.engine.graphics.generic.Sprite;
+import src.engine.graphics.generic.TextSlick2D;
 import src.entities.moving.generic.MovingEntity;
+import src.entities.moving.specific.Ghost;
 import src.entities.moving.specific.MovingEntityType;
 import src.entities.moving.specific.Pacman;
 import src.entities.space.generic.Tile;
@@ -72,10 +75,11 @@ public class GameRenderer {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 //Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
                 Drawer.drawPacmanSprite(entity, movingEntitySpriteLength, level);
-                Pacman pac = (Pacman) entity;
-                Drawer.drawPacmanScore(pac.getId(),pac.getScore());
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
+                Ghost aGhost = (Ghost) entity;
+                if(aGhost.isAChaser == true)
+                    Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, debugRectColor);
             }
             /*UserParams.fixedEntitiesTexture.bind();
             Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));
@@ -86,5 +90,12 @@ public class GameRenderer {
             Drawer.drawRect(xRectDebug, yRectDebug, tileWidth, tileHeight, debugRectColor);
             UserParams.fixedEntitiesTexture.unbind();*/
         }
+        for (MovingEntity entity : entities) { /*On dessine les scores*/
+            if (entity.getEntityType() == MovingEntityType.PACMAN) {
+                Pacman pac = (Pacman) entity;
+                Drawer.drawPacmanScore(pac.getId(),pac.getScore());
+            }
+        }
+        TextSlick2D.drawText(0,0,"nb berry restant : "+ level.getNbBerryForWin(), org.newdawn.slick.Color.green);
     }
 }

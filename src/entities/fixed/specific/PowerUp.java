@@ -16,7 +16,6 @@ public abstract class PowerUp extends TileContentPacman {
     public abstract void end(Pacman pacman);
 
     public void decDurationMS(double timeElapsed) {
-        System.out.println(durationMS);
         durationMS -= timeElapsed;
     }
 

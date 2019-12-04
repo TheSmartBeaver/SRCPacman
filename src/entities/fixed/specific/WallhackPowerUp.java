@@ -21,17 +21,18 @@ public class WallhackPowerUp extends PowerUp {
 
     @Override
     public void end(Pacman pacman) {
-        pacman.setActivePowerUp(null);
+        pacman.removeActivePowerUp(this);
         pacman.setMovementRestrictions(new NoWall());
+        //TODO : check si Pacman peut se décoincer s'il est dans un mur, sinon le tp sur sa case départ avec un temps d'invincibilité
     }
 
     @Override
     public TileContentType getContentType() {
-        return TileContentType.INVINCIBILITY;
+        return TileContentType.WALLHACK;
     }
 
     @Override
     public String toString() {
-        return "inv";
+        return "WallHack";
     }
 }

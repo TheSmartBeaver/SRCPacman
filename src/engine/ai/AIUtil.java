@@ -74,6 +74,68 @@ public class AIUtil {
         return possibleInputs;
     }
 
+    /*Fonction jojo A*   */
+    static List<TileScore> determinePossibleTiles(MovingEntity entity, TileMap tileMap) {
+        List<TileScore> possibleTiles = new ArrayList<>();
+        int tileXGhost = entity.getTileX();
+        int tileYGhost = entity.getTileY();
+        switch (entity.getCurrentDirection()) {
+            case UP:
+            {
+                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost,tileYGhost - 1));
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost - 1, tileYGhost));
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost + 1, tileYGhost));
+                }
+                break;
+            }
+            case DOWN:
+            {
+                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost, tileYGhost + 1));
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost - 1, tileYGhost));
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost + 1, tileYGhost));
+                }
+                break;
+            }
+            case LEFT:
+            {
+                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost, tileYGhost + 1));
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost - 1).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost - 1, tileYGhost));
+                }
+                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost, tileYGhost - 1));
+                }
+                break;
+            }
+            case RIGHT:
+            {
+                if (!tileMap.get(tileYGhost - 1, tileXGhost).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost, tileYGhost - 1));
+                }
+                if (!tileMap.get(tileYGhost, tileXGhost + 1).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost + 1, tileYGhost));
+                }
+                if (!tileMap.get(tileYGhost + 1, tileXGhost).isWall()) {
+                    possibleTiles.add(new TileScore(tileXGhost, tileYGhost + 1));
+                }
+                break;
+            }
+        }
+        return possibleTiles;
+    }
+
     static Direction convertInputToDirection(Input input) {
         switch (input) {
             case UP:

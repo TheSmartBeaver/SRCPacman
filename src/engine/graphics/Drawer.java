@@ -81,28 +81,28 @@ public class Drawer {
 
         if(switchAnim) {
             GameTextures.movingEntitiesTexture.bind();
-            Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 8, 0);
+            Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 8, 0);
             GameTextures.movingEntitiesTexture.unbind();
         }
         else{
             if (entity.getCurrentDirection() == Direction.LEFT) {
                 GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 4, 0);
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 4, 0);
                 GameTextures.movingEntitiesTexture.unbind();
             }
             if (entity.getCurrentDirection() == Direction.RIGHT) {
                 GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 0, 0);
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 0, 0);
                 GameTextures.movingEntitiesTexture.unbind();
             }
             if (entity.getCurrentDirection() == Direction.UP) {
                 GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 6, 0);
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 6, 0);
                 GameTextures.movingEntitiesTexture.unbind();
             }
             if (entity.getCurrentDirection() == Direction.DOWN) {
                 GameTextures.movingEntitiesTexture.bind();
-                Drawer.drawSprite((int) entity.getPosX() - movingEntitySpriteLength / 2, (int) entity.getPosY() - movingEntitySpriteLength / 2, level.getTileWidth(), level.getTileHeight(), 2, 0);
+                Drawer.drawSprite((int) entity.getPosX() - level.getTileHeight() / 2, (int) entity.getPosY() - level.getTileHeight() / 2, level.getTileWidth(), level.getTileHeight(), 2, 0);
                 GameTextures.movingEntitiesTexture.unbind();
             }
         }
