@@ -10,7 +10,7 @@ import src.entities.space.specific.TilesForA;
 public abstract class MovingStrategy {
 
     private TileMap tileMap;
-    int[][] tilesForA;
+    public int[][] tilesForA;
 
     public MovingStrategy(TileMap tileMap) {
         this.tileMap = tileMap;

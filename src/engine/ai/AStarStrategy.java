@@ -36,9 +36,10 @@ public class AStarStrategy extends MovingStrategy{
 
         }
         /*DEBUT DEBUG A* */
-        AStar.printPath(tilesForA);
+        //AStar.printPath(tilesForA);
         /*FIN DEBUG A* */
 
+        //TODO: Décider que faire véritablement quand il croise pacman
         if(path == null || path.size()==1) {
             nextInput = ghost.getInput(); /*Le fantôme est sur le Pacman, mais il garde sa direction, pour l'instant*/
             System.out.println("Fantôme sur Pacman");
@@ -68,8 +69,8 @@ public class AStarStrategy extends MovingStrategy{
 
 
         /*print debug*/
-        System.out.println(xGhost+"-"+yGhost);
-        System.out.println("pos fantome = toujours -1 :"+tilesForA[xGhost][yGhost]+" gauche = "+tilesForA[xGhost][yGhost+1]+" "+"droite = "+tilesForA[xGhost][yGhost-1]+" "+"bas = "+tilesForA[xGhost+1][yGhost]+" "+"haut = "+tilesForA[xGhost-1][yGhost]+" ");
+        //System.out.println(xGhost+"-"+yGhost);
+        //System.out.println("pos fantome = toujours -1 :"+tilesForA[xGhost][yGhost]+" gauche = "+tilesForA[xGhost][yGhost+1]+" "+"droite = "+tilesForA[xGhost][yGhost-1]+" "+"bas = "+tilesForA[xGhost+1][yGhost]+" "+"haut = "+tilesForA[xGhost-1][yGhost]+" ");
 
         if (nextInput == Input.NONE){
             System.out.println("AHHH INPUT = NONE");
@@ -87,7 +88,7 @@ public class AStarStrategy extends MovingStrategy{
             });
 
             /*On affiche chemin nettoyé*/
-            AStar.printPath(tilesForA);
+            //AStar.printPath(tilesForA);
 
         }
     }

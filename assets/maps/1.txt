@@ -9,7 +9,7 @@ X....X...X...X....X
 XXXX.XXX.X.XXX.XXXX
    X.X       X.X  -
 XXXX.X XX XX X.XXXX
-0   .  XGGGX  .   0
+0   .  X  GX  .   0
 XXXX.X XXXXX X.XXXX
    X.X       X.X  -
 XXXX.X.XXXXX.X.XXXX

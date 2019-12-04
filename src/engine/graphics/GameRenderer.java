@@ -58,7 +58,7 @@ public class GameRenderer {
 
                 /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
-                    System.out.println("Type CONTENT : "+currentTile.getContent().getContentType());
+                    //System.out.println("Type CONTENT : "+currentTile.getContent().getContentType());
                     Sprite contentSprite = GameTextures.
                             fixedEntitiesTexture.
                             getSprites().

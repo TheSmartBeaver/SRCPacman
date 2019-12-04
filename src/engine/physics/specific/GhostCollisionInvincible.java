@@ -11,6 +11,7 @@ import src.entities.moving.specific.Pacman;
 public class GhostCollisionInvincible implements GhostCollision {
     @Override
     public void ghostCollision(Pacman pacman, Ghost ghost) {
-        ghost.setState(new GhostStateReturningHome(GameState.currentLevelPlayed.getTileMap()));
+        ghost.setState(new GhostStateReturningHome(GameState.currentLevelPlayed.getTilesForA()));
+        pacman.addScore(1000);
     }
 }

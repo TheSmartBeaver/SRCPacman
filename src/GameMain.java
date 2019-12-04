@@ -1,5 +1,6 @@
 package src;
 
+import src.engine.ai.AStarStrategy;
 import src.engine.graphics.GameRenderer;
 import src.engine.input.GameInput;
 import src.engine.input.Input;
@@ -79,11 +80,15 @@ public class GameMain {
                                             GameState.currentLevelPlayed.getTileWidth() * columnIndex +
                                             GameState.currentLevelPlayed.getTileWidth() / 2
                             );
+                            GameState.currentLevelPlayed.setGhostXSpawn(GameState.currentLevelPlayed.getLevelScreenOffsetLeft() + GameState.currentLevelPlayed.getTileWidth() * columnIndex + GameState.currentLevelPlayed.getTileWidth() / 2);
+
                             movingEntity.setPosY(
                                     GameState.currentLevelPlayed.getLevelScreenOffsetUp() +
                                             GameState.currentLevelPlayed.getTileHeight() * rowIndex +
                                             GameState.currentLevelPlayed.getTileHeight() / 2
                             );
+                            GameState.currentLevelPlayed.setGhostYSpawn(GameState.currentLevelPlayed.getLevelScreenOffsetUp() + GameState.currentLevelPlayed.getTileHeight() * rowIndex + GameState.currentLevelPlayed.getTileHeight() / 2);
+
                             movingEntity.setTileX(columnIndex);
                             movingEntity.setTileY(rowIndex);
                             //TODO : WARNING CODE DE TEST A PARTIR DE MAINTENANT A ENLEVER IMPERATIVEMENT PLUS TARD
@@ -107,10 +112,10 @@ public class GameMain {
             GameState.currentEntities.add(new Ghost(5.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(1.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            /*Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
+            Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
             Ghost chasingGhost = new Ghost(3.0f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
             chasingGhost.isAChaser = true;
-            GameState.currentEntities.add(chasingGhost);*/
+            GameState.currentEntities.add(chasingGhost);
 
 
             initEntitiesPosition();
