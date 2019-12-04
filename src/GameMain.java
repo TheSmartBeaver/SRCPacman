@@ -56,14 +56,16 @@ public class GameMain {
                                     GameState.currentLevelPlayed.getTileWidth() * columnIndex +
                                     GameState.currentLevelPlayed.getTileWidth() / 2
                             );
+                            GameState.currentLevelPlayed.setPacmanXSpawn(GameState.currentLevelPlayed.getLevelScreenOffsetLeft() + GameState.currentLevelPlayed.getTileWidth() * columnIndex + GameState.currentLevelPlayed.getTileWidth() / 2);
                             movingEntity.setPosY(
                                     GameState.currentLevelPlayed.getLevelScreenOffsetUp() +
                                     GameState.currentLevelPlayed.getTileHeight() * rowIndex +
                                     GameState.currentLevelPlayed.getTileHeight() / 2
                             );
+                            GameState.currentLevelPlayed.setPacmanYSpawn(GameState.currentLevelPlayed.getLevelScreenOffsetUp() + GameState.currentLevelPlayed.getTileHeight() * rowIndex + GameState.currentLevelPlayed.getTileHeight() / 2);
                             movingEntity.setTileX(columnIndex);
                             movingEntity.setTileY(rowIndex);
-                            System.out.println(movingEntity.getPosX() + " " + movingEntity.getPosY());
+                            System.out.println(movingEntity.getPosX() + " " + movingEntity.getPosY() + " " + movingEntity.getTileX() + " " + movingEntity.getTileY());
                         }
                     }
                 }
@@ -143,8 +145,8 @@ public class GameMain {
                         tileMap.get(pacmanEntity.getTileY(), pacmanEntity.getTileX()).setContent(null); /*On enlève les fruits que le Pacman mange.*/
                     }
                 }
-                if (pacmanEntity.getActivePowerUp() != null) {
-                    PowerUp currentPowerUp = pacmanEntity.getActivePowerUp();
+                List<PowerUp> tmpPower = new ArrayList<>(pacmanEntity.getActivePowerUps());
+                for (PowerUp currentPowerUp: tmpPower) {
                     currentPowerUp.decDurationMS(deltaTime);
                     if (currentPowerUp.isFinished()) {
                         currentPowerUp.end(pacmanEntity);

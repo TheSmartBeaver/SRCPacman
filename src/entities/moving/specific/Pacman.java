@@ -1,9 +1,14 @@
 package src.entities.moving.specific;
 
+import src.engine.physics.specific.GhostCollision;
+import src.engine.physics.specific.GhostCollisionDeath;
 import src.engine.physics.specific.MovementRestrictions;
 import src.engine.physics.specific.NoWall;
 import src.entities.fixed.specific.PowerUp;
 import src.entities.moving.generic.MovingEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pacman extends MovingEntity {
 
@@ -11,8 +16,10 @@ public class Pacman extends MovingEntity {
     private int score = 0;
     private int liveCount;
 
+    private GhostCollision ghostCollision = new GhostCollisionDeath();
     private MovementRestrictions movementRestrictions;
-    private PowerUp activePowerUp = null;
+
+    private List<PowerUp> activePowerUps = new ArrayList<>();
 
     @Override
     public MovingEntityType getEntityType() {
@@ -23,6 +30,7 @@ public class Pacman extends MovingEntity {
         super(speed);
         this.id = id;
         movementRestrictions = new NoWall();
+        this.liveCount = 3;
     }
 
     public int getId() {
@@ -37,12 +45,24 @@ public class Pacman extends MovingEntity {
         this.score += score;
     }
 
+    public int getLiveCount() {
+        return liveCount;
+    }
+
     public void incLiveCount() {
         ++liveCount;
     }
 
     public void decLiveCount() {
         --liveCount;
+    }
+
+    public GhostCollision getGhostCollision() {
+        return ghostCollision;
+    }
+
+    public void setGhostCollision(GhostCollision ghostCollision) {
+        this.ghostCollision = ghostCollision;
     }
 
     public MovementRestrictions getMovementRestrictions() {
@@ -53,11 +73,31 @@ public class Pacman extends MovingEntity {
         this.movementRestrictions = movementRestrictions;
     }
 
-    public PowerUp getActivePowerUp() {
-        return activePowerUp;
+    public List<PowerUp> getActivePowerUps() {
+        return activePowerUps;
     }
 
     public void setActivePowerUp(PowerUp activePowerUp) {
-        this.activePowerUp = activePowerUp;
+        for (int i=0;i<this.activePowerUps.size();i++)
+        {
+            if (this.activePowerUps.get(i).getClass()==activePowerUp.getClass())
+            {
+                this.activePowerUps.set(i,activePowerUp);
+                return;
+            }
+        }
+        this.activePowerUps.add(activePowerUp);
+
+    }
+
+    public void removeActivePowerUp(PowerUp activePowerUp) {
+        for (int i=0;i<this.activePowerUps.size();i++)
+        {
+            if (this.activePowerUps.get(i).getClass()==activePowerUp.getClass())
+            {
+                this.activePowerUps.remove(i);
+                break;
+            }
+        }
     }
 }

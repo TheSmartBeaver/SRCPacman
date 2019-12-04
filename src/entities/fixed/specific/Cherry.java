@@ -8,7 +8,7 @@ import src.entities.moving.specific.Pacman;
 public class Cherry extends TileContentPacman {
 
     public Cherry() {
-        super(100);
+        super(300);
     }
 
     @Override

@@ -19,10 +19,16 @@ public class Level {
     private int levelScreenHeight;
     private int levelScreenWidth;
 
+
     private int nbBerryForWin;
 
     private int tileWidth;
     private int tileHeight;
+
+    private float pacmanXSpawn;
+    private float pacmanYSpawn;
+    private float ghostXSpawn;
+    private float ghostYSpawn;
 
     public Level(TileMap tileMap, int numeroLevel, int nbBerryForWin) {
         this.tileMap = tileMap;
@@ -90,5 +96,38 @@ public class Level {
 
     public int getTileHeight() {
         return tileHeight;
+    }
+
+
+    public float getPacmanXSpawn() {
+        return pacmanXSpawn;
+    }
+
+    public void setPacmanXSpawn(float pacmanXSpawn) {
+        this.pacmanXSpawn = pacmanXSpawn;
+    }
+
+    public float getPacmanYSpawn() {
+        return pacmanYSpawn;
+    }
+
+    public void setPacmanYSpawn(float pacmanYSpawn) {
+        this.pacmanYSpawn = pacmanYSpawn;
+    }
+
+    public float getGhostXSpawn() {
+        return ghostXSpawn;
+    }
+
+    public void setGhostXSpawn(float ghostXSpawn) {
+        this.ghostXSpawn = ghostXSpawn;
+    }
+
+    public float getGhostYSpawn() {
+        return ghostYSpawn;
+    }
+
+    public void setGhostYSpawn(float ghostYSpawn) {
+        this.ghostYSpawn = ghostYSpawn;
     }
 }

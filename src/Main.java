@@ -80,7 +80,6 @@ public class Main {
         glMatrixMode(GL_MODELVIEW); /*On revient à la vue d'origine*/
         glLoadIdentity();
         glEnable(GL_TEXTURE_2D);
-
         //
 
         GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -106,6 +105,7 @@ public class Main {
         GL11.glLoadIdentity();
         GL11.glOrtho(0, width, height, 0, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
     }
 
     public void start(){

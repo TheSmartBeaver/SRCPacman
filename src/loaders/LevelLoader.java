@@ -2,10 +2,7 @@ package src.loaders;
 
 import src.Level;
 import src.engine.graphics.generic.Color;
-import src.entities.fixed.specific.Berry;
-import src.entities.fixed.specific.WallhackPowerUp;
-import src.entities.fixed.specific.Nothing;
-import src.entities.fixed.specific.TileContentType;
+import src.entities.fixed.specific.*;
 import src.entities.space.generic.Tile;
 import src.entities.space.generic.TileMap;
 import src.entities.space.specific.*;
@@ -100,6 +97,11 @@ public class LevelLoader {
                             break;
                         }
                         case('*'):
+                        {
+                            tiles[lineNumber][charNumber] = new TileCorridor(new InvincibilityPowerUp());
+                            break;
+                        }
+                        case ('#'):
                         {
                             tiles[lineNumber][charNumber] = new TileCorridor(new WallhackPowerUp());
                             break;
@@ -269,6 +271,9 @@ public class LevelLoader {
                                 currentTile.getContent().setSprite(TileSprite.BERRY);
                             } else if (currentTile.getContent().getContentType() == TileContentType.INVINCIBILITY) {
                                 currentTile.getContent().setSprite(TileSprite.INVINCIBILITY);
+                            }
+                            else if (currentTile.getContent().getContentType() == TileContentType.WALLHACK) {
+                                currentTile.getContent().setSprite(TileSprite.WALLHACK);
                             }
                         }
                     }

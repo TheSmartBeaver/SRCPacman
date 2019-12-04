@@ -21,6 +21,7 @@ public class TextSlick2D {
 
     public static void drawText(int x, int y, String Text, Color c){
         font2.drawString(x,y,"",c);
+        //font.drawString(x,y,"",c);
         font.drawString(x,y,Text,c);
     }
 }
