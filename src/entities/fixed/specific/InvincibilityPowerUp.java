@@ -29,7 +29,10 @@ public class InvincibilityPowerUp extends PowerUp {
         pacman.setGhostCollision(new GhostCollisionDeath());
         for (MovingEntity entity : GameState.currentEntities) {
             if(entity.getEntityType() == MovingEntityType.GHOST) {
-                ((Ghost)entity).setState(new GhostStateNormal(((Ghost)entity).getMovingStrategy()));
+                //TODO : mettre un libellé dans la classe State
+                if (((Ghost)entity).getState().getClass() == GhostStateFleeing.class) {
+                    ((Ghost)entity).setState(new GhostStateNormal(((Ghost)entity).getMovingStrategy()));
+                }
             }
         }
     }

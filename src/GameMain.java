@@ -112,14 +112,18 @@ public class GameMain {
             System.out.println("On joue le niveau numéro : "+currentLevel);
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
-            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            //GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            //GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
             Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
+            Pacman deuxiemePacman = findPacmanEntities(GameState.currentEntities).get(1);
             Ghost chasingGhost = new Ghost(2.5f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
+            Ghost chasingGhost2 = new Ghost(2.5f, deuxiemePacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
             chasingGhost.isAChaser = true;
+            chasingGhost2.isAChaser = true;
             GameState.currentEntities.add(chasingGhost);
+            GameState.currentEntities.add(chasingGhost2);
 
 
             initEntitiesPosition();
