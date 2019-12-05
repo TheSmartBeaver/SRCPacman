@@ -7,8 +7,8 @@ import src.engine.ai.MovingStrategy;
  */
 public class GhostStateNormal extends GhostState{
 
-    public GhostStateNormal(MovingStrategy movingRandom) {
-        super(movingRandom);
+    public GhostStateNormal(MovingStrategy movingStrat) {
+        super(movingStrat);
     }
 
     @Override

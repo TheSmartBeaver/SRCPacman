@@ -4,6 +4,8 @@ import src.entities.moving.generic.Direction;
 import src.entities.moving.generic.MovingEntity;
 import src.entities.space.generic.TileMap;
 
+import java.util.List;
+
 /**
  * Created by Vincent on 22/11/2019.
  */
@@ -115,5 +117,17 @@ public class MovementPhysics {
                 }
             }
         }
+    }
+
+    public static boolean checkCollision(MovingEntity entity, MovingEntity entity2, double hitbox) {
+        float entityPosX = entity.getPosX();
+        float entityPosY = entity.getPosY();
+        float entity2PosX = entity2.getPosX();
+        float entity2PosY = entity2.getPosY();
+        double distance = Math.sqrt(Math.pow(entityPosX - entity2PosX, 2) + Math.pow(entityPosY - entity2PosY, 2));
+        if(distance < hitbox){
+            return true;
+        }
+        return false;
     }
 }

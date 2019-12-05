@@ -45,7 +45,6 @@ public class GameRenderer {
         for (int rowIndex = 0 ; rowIndex < rowCount ; ++rowIndex) { /*On parcourt toutes les lignes, colonnes de TileMap*/
             for (int columnIndex = 0 ; columnIndex < columnCount ; ++columnIndex) {
                 Tile currentTile = levelTileMap.get(rowIndex, columnIndex); /*case en cours de traitement*/
-                //TODO : voir si la technique avec le .ordinal() pose probl�me
                 Sprite currentSprite = GameTextures.fixedEntitiesTexture.getSprites().get(currentTile.getSprite().ordinal()); /*récup sprite correspondant au contenu de la la Tile*/
                 if (currentTile.isTeleportTile()) {
                     Drawer.drawRect(x, y, tileWidth, tileHeight, ((TileTeleport)currentTile).getColor());
@@ -58,14 +57,8 @@ public class GameRenderer {
 
                 /*Test si Tile contient entités(fruits) et dessine*/
                 if (currentTile.getContent() != null) {
-                    System.out.println("Type CONTENT : "+currentTile.getContent().getContentType());
-                    Sprite contentSprite = GameTextures.
-                            fixedEntitiesTexture.
-                            getSprites().
-                            get(currentTile.
-                                    getContent().
-                                    getSprite().
-                                    ordinal());
+                    //System.out.println("Type CONTENT : "+currentTile.getContent().getContentType());
+                    Sprite contentSprite = GameTextures.fixedEntitiesTexture.getSprites().get(currentTile.getContent().getSprite().ordinal());
                     GameTextures.fixedEntitiesTexture.bind();
                     Drawer.drawSprite(x, y, tileWidth, tileHeight, contentSprite.getxSprite(), contentSprite.getySprite());
                     GameTextures.fixedEntitiesTexture.unbind();
@@ -81,11 +74,11 @@ public class GameRenderer {
         for (MovingEntity entity : entities) { /*On dessine toutes les entités*/
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 //Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
-                Drawer.drawPacmanSprite(entity, movingEntitySpriteLength, level);
+                Drawer.drawPacmanSprite(entity, level);
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
                 Ghost aGhost = (Ghost) entity;
-                if(aGhost.isAChaser == true)
+                if(aGhost.isAChaser)
                     Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, debugRectColor);
             }
             /*UserParams.fixedEntitiesTexture.bind();
@@ -101,7 +94,7 @@ public class GameRenderer {
         for (MovingEntity entity : entities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 Pacman pac = (Pacman) entity;
-                Drawer.drawPacmanScore(pac.getId(),pac.getScore());
+                Drawer.drawPacmanScore(pac.getId(),pac.getScore(),pac.getLiveCount());
             }
         }
         TextSlick2D.drawText(0,0,"nb berry restant : "+ level.getNbBerryForWin(), org.newdawn.slick.Color.green);

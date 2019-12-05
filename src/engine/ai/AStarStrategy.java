@@ -19,13 +19,13 @@ public class AStarStrategy extends MovingStrategy{
 
     @Override
     public void computeInputList(Ghost ghost) {
-        System.out.println("Suis-je à une intersection ?");
+        //System.out.println("Suis-je à une intersection ?");
         //exit(1);
         Input nextInput = Input.NONE;
         int xGhost = ghost.getTileX(), yGhost = ghost.getTileY();
         int xPacman= ghost.getPacman().getTileX(), yPacman = ghost.getPacman().getTileY();
-        System.out.println("pos fantôme "+xGhost+" "+yGhost);
-        System.out.println("pos pacman "+xPacman+" "+yPacman);
+        //System.out.println("pos fantôme "+xGhost+" "+yGhost);
+        //System.out.println("pos pacman "+xPacman+" "+yPacman);
         AStar ah = new AStar(tilesForA, xGhost, yGhost, false);
         List<AStar.Node> path = ah.findPathTo(xPacman,yPacman);
         if (path != null) {
@@ -36,43 +36,44 @@ public class AStarStrategy extends MovingStrategy{
 
         }
         /*DEBUT DEBUG A* */
-        AStar.printPath(tilesForA);
+        //AStar.printPath(tilesForA);
         /*FIN DEBUG A* */
 
+        //TODO: Décider que faire véritablement quand il croise pacman
         if(path == null || path.size()==1) {
             nextInput = ghost.getInput(); /*Le fantôme est sur le Pacman, mais il garde sa direction, pour l'instant*/
-            System.out.println("Fantôme sur Pacman");
+            //System.out.println("Fantôme sur Pacman");
             return;
         }
 
-        System.out.println("Prochaine étape "+path.get(1).x +"--"+ path.get(1).y);
+        //System.out.println("Prochaine étape "+path.get(1).x +"--"+ path.get(1).y);
         int nextX = path.get(1).x, nextY = path.get(1).y;
 
         if(nextX+1 == xGhost){
             nextInput = Input.LEFT;
-            System.out.println("A* indique GAUCHE");
+            //System.out.println("A* indique GAUCHE");
         }
         if(nextX-1 == xGhost){
             nextInput = Input.RIGHT;
-            System.out.println("A* indique DROITE");
+            //System.out.println("A* indique DROITE");
         }
         if(nextY == yGhost-1){
             nextInput = Input.UP;
-            System.out.println("A* indique HAUT");
+            //System.out.println("A* indique HAUT");
         }
         if(nextY == yGhost+1){
             nextInput = Input.DOWN;
-            System.out.println("A* indique BAS");
+            //System.out.println("A* indique BAS");
         }
 
 
 
         /*print debug*/
-        System.out.println(xGhost+"-"+yGhost);
-        System.out.println("pos fantome = toujours -1 :"+tilesForA[xGhost][yGhost]+" gauche = "+tilesForA[xGhost][yGhost+1]+" "+"droite = "+tilesForA[xGhost][yGhost-1]+" "+"bas = "+tilesForA[xGhost+1][yGhost]+" "+"haut = "+tilesForA[xGhost-1][yGhost]+" ");
+        //System.out.println(xGhost+"-"+yGhost);
+        //System.out.println("pos fantome = toujours -1 :"+tilesForA[xGhost][yGhost]+" gauche = "+tilesForA[xGhost][yGhost+1]+" "+"droite = "+tilesForA[xGhost][yGhost-1]+" "+"bas = "+tilesForA[xGhost+1][yGhost]+" "+"haut = "+tilesForA[xGhost-1][yGhost]+" ");
 
         if (nextInput == Input.NONE){
-            System.out.println("AHHH INPUT = NONE");
+            //System.out.println("AHHH INPUT = NONE");
             exit(1);
         }
 
@@ -87,7 +88,7 @@ public class AStarStrategy extends MovingStrategy{
             });
 
             /*On affiche chemin nettoyé*/
-            AStar.printPath(tilesForA);
+            //AStar.printPath(tilesForA);
 
         }
     }

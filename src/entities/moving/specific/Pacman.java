@@ -10,11 +10,12 @@ import src.entities.moving.generic.MovingEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pacman extends MovingEntity {
+public class Pacman extends MovingEntity implements SpecialPower{
 
     int id;
     private int score = 0;
     private int liveCount;
+    private boolean alive = true;
 
     private GhostCollision ghostCollision = new GhostCollisionDeath();
     private MovementRestrictions movementRestrictions;
@@ -31,6 +32,10 @@ public class Pacman extends MovingEntity {
         this.id = id;
         movementRestrictions = new NoWall();
         this.liveCount = 3;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public int getId() {
@@ -99,5 +104,23 @@ public class Pacman extends MovingEntity {
                 break;
             }
         }
+    }
+
+    public void resetPowerUps() {
+        List<PowerUp> tmpPower = new ArrayList<>(activePowerUps);
+        for (PowerUp powerUp : tmpPower) {
+            powerUp.end(this);
+        }
+        activePowerUps = new ArrayList<>();
+    }
+
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public void end() {
+
     }
 }

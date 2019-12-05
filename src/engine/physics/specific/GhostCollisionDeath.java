@@ -15,17 +15,20 @@ import src.entities.moving.specific.Pacman;
 public class GhostCollisionDeath implements GhostCollision {
     @Override
     public void ghostCollision(Pacman pacman, Ghost ghost) {
-        System.out.println("Lose"); //TODO: Affichage de défaite, perte de vie et respawn à la case départ avec un temps d'invincibilité.
+        System.out.println("Lose"); //TODO: Affichage de dï¿½faite, perte de vie et respawn ï¿½ la case dï¿½part avec un temps d'invincibilitï¿½.
         (pacman).decLiveCount();
         pacman.setPosX(GameState.currentLevelPlayed.getPacmanXSpawn());
         pacman.setPosY(GameState.currentLevelPlayed.getPacmanYSpawn());
         pacman.setTileX(MovementPhysics.absoluteToRelativePosX(pacman.getPosX(),GameState.currentLevelPlayed.getTileWidth(),GameState.currentLevelPlayed.getLevelScreenOffsetLeft()));
         pacman.setTileY(MovementPhysics.absoluteToRelativePosY(pacman.getPosY(),GameState.currentLevelPlayed.getTileHeight(),GameState.currentLevelPlayed.getLevelScreenOffsetUp()));
         pacman.setInMiddleOfTile(true);
+        pacman.setNbPixelsMoved(0);
         pacman.setInput(Input.NONE);
         pacman.setCurrentDirection(Direction.NONE);
+        pacman.resetPowerUps();
         PowerUp respawnInvincibility = new RespawnInvincibility();
         pacman.setActivePowerUp(respawnInvincibility);
+        System.out.println(pacman.getActivePowerUps().size());
         respawnInvincibility.execute(pacman);
     }
 }

@@ -18,21 +18,6 @@ import java.util.List;
 
 public class GamePhysicsManager {
 
-    private static void checkGhostCollision(Pacman pacman, List<MovingEntity> entities, double ghostHitbox) {
-        for (MovingEntity entity2 : entities) {
-            if(entity2.getEntityType() == MovingEntityType.GHOST){
-                float entityPosX = pacman.getPosX();
-                float entityPosY = pacman.getPosY();
-                float entity2PosX = entity2.getPosX();
-                float entity2PosY = entity2.getPosY();
-                double distance = Math.sqrt(Math.pow(entityPosX - entity2PosX, 2) + Math.pow(entityPosY - entity2PosY, 2));
-                if(distance < ghostHitbox){
-                    (pacman).getGhostCollision().ghostCollision(pacman, (Ghost)entity2);
-                }
-            }
-        }
-    }
-
     private static void determineEntityDirection(MovingEntity entity, TileMap tileMap) {
         MovementPhysics.outOfBoundsCheck(entity, tileMap);
         //si l'entit� est pacman
@@ -75,9 +60,14 @@ public class GamePhysicsManager {
 
             if( entity.getEntityType() == MovingEntityType.PACMAN){
                 Pacman pacman = (Pacman)entity;
-                System.out.println(pacman.getPosX());
-                System.out.println(pacman.getPosY());
-                checkGhostCollision(pacman, entities, tileHeight / 2);
+                for (MovingEntity entity2 : entities) {
+                    if (entity2.getEntityType() == MovingEntityType.GHOST) {
+                        boolean hasCollided = MovementPhysics.checkCollision(pacman, entity2, tileHeight / 2);
+                        if (hasCollided) {
+                            pacman.getGhostCollision().ghostCollision(pacman, (Ghost) entity2);
+                        }
+                    }
+                }
             }
         }
     }

@@ -1,15 +1,14 @@
 package src.entities.moving.specific;
 
-import src.engine.ai.MovingInGhostArea;
-import src.entities.space.generic.TileMap;
+import src.engine.ai.MovingReturningHome;
 
 /**
  * Created by Vincent on 19/11/2019.
  */
 public class GhostStateReturningHome extends GhostState {
 
-    public GhostStateReturningHome(TileMap tileMap) {
-        super(new MovingInGhostArea(tileMap));
+    public GhostStateReturningHome(int[][] tilesForA) {
+        super(new MovingReturningHome(tilesForA));
     }
 
     @Override

@@ -1,6 +1,9 @@
 package src;
 
+import org.newdawn.slick.Color;
+import src.engine.ai.AStarStrategy;
 import src.engine.graphics.GameRenderer;
+import src.engine.graphics.generic.TextSlick2D;
 import src.engine.input.GameInput;
 import src.engine.input.Input;
 import src.engine.physics.specific.GamePhysicsManager;
@@ -28,6 +31,8 @@ public class GameMain {
     private static float time=0;
     private static int precedentStrawberry =0;
     private static int currentLevel = -1;
+
+    private List<Pacman> deadPacmans = new ArrayList<>();
 
     public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) { /*Retourne toutes les instances de PacMan*/
         List<Pacman> pacmans = new ArrayList<>();
@@ -79,11 +84,15 @@ public class GameMain {
                                             GameState.currentLevelPlayed.getTileWidth() * columnIndex +
                                             GameState.currentLevelPlayed.getTileWidth() / 2
                             );
+                            GameState.currentLevelPlayed.setGhostXSpawn(GameState.currentLevelPlayed.getLevelScreenOffsetLeft() + GameState.currentLevelPlayed.getTileWidth() * columnIndex + GameState.currentLevelPlayed.getTileWidth() / 2);
+
                             movingEntity.setPosY(
                                     GameState.currentLevelPlayed.getLevelScreenOffsetUp() +
                                             GameState.currentLevelPlayed.getTileHeight() * rowIndex +
                                             GameState.currentLevelPlayed.getTileHeight() / 2
                             );
+                            GameState.currentLevelPlayed.setGhostYSpawn(GameState.currentLevelPlayed.getLevelScreenOffsetUp() + GameState.currentLevelPlayed.getTileHeight() * rowIndex + GameState.currentLevelPlayed.getTileHeight() / 2);
+
                             movingEntity.setTileX(columnIndex);
                             movingEntity.setTileY(rowIndex);
                             //TODO : WARNING CODE DE TEST A PARTIR DE MAINTENANT A ENLEVER IMPERATIVEMENT PLUS TARD
@@ -103,14 +112,18 @@ public class GameMain {
             System.out.println("On joue le niveau numéro : "+currentLevel);
             GameState.currentEntities.add(new Pacman(1,3.0f));
             GameState.currentEntities.add(new Pacman(2,3.0f));
-            GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(5.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(1.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            GameState.currentEntities.add(new Ghost(3.0f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
-            /*Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
-            Ghost chasingGhost = new Ghost(3.0f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
+            //GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            //GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            GameState.currentEntities.add(new Ghost(2.5f, null, new MovingRandom(GameState.currentLevelPlayed.getTileMap())));
+            Pacman unPacman = findPacmanEntities(GameState.currentEntities).get(0);
+            Pacman deuxiemePacman = findPacmanEntities(GameState.currentEntities).get(1);
+            Ghost chasingGhost = new Ghost(2.5f, unPacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
+            Ghost chasingGhost2 = new Ghost(2.5f, deuxiemePacman, new AStarStrategy(GameState.currentLevelPlayed.getTilesForA()));
             chasingGhost.isAChaser = true;
-            GameState.currentEntities.add(chasingGhost);*/
+            chasingGhost2.isAChaser = true;
+            GameState.currentEntities.add(chasingGhost);
+            GameState.currentEntities.add(chasingGhost2);
 
 
             initEntitiesPosition();
@@ -118,7 +131,21 @@ public class GameMain {
 
         }
 
+
+
         List<Pacman> pacmans = findPacmanEntities(GameState.currentEntities);
+
+        if(pacmans.size()==0) {
+            TextSlick2D.drawText(0, 120, "PERDU", Color.red);
+        }
+
+        for (Pacman pacman : pacmans) {
+            if(pacman.getLiveCount() < 1)
+            GameState.currentEntities.remove(pacman);
+        }
+
+        pacmans = findPacmanEntities(GameState.currentEntities);
+
         for (Pacman pacman : pacmans) {
             if (pacman.getId() == 1) {
                 pacman.setInput(GameInput.getInputFirst());
@@ -146,6 +173,8 @@ public class GameMain {
                     }
                 }
                 List<PowerUp> tmpPower = new ArrayList<>(pacmanEntity.getActivePowerUps());
+                if (pacmanEntity.getId() == 1)
+                    System.out.println(tmpPower.size());
                 for (PowerUp currentPowerUp: tmpPower) {
                     currentPowerUp.decDurationMS(deltaTime);
                     if (currentPowerUp.isFinished()) {
