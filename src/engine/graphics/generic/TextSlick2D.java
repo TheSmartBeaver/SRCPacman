@@ -11,10 +11,10 @@ import java.io.InputStream;
 
 public class TextSlick2D {
 
-    private static Font awtFont = new Font("Times New Roman", Font.BOLD, 24);
+    private static Font awtFont = new Font("Times New Roman", Font.BOLD, 18);
     private static TrueTypeFont font = new TrueTypeFont(awtFont, true);
 
-    private static Font awtFont2 = new Font("Verdana", Font.BOLD, 24);
+    private static Font awtFont2 = new Font("Verdana", Font.BOLD, 18);
     private static TrueTypeFont font2 = new TrueTypeFont(awtFont, true);
 
 

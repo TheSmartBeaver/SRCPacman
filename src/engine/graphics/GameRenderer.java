@@ -94,7 +94,7 @@ public class GameRenderer {
         for (MovingEntity entity : entities) {
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
                 Pacman pac = (Pacman) entity;
-                Drawer.drawPacmanScore(pac.getId(),pac.getScore());
+                Drawer.drawPacmanScore(pac.getId(),pac.getScore(),pac.getLiveCount());
             }
         }
         TextSlick2D.drawText(0,0,"nb berry restant : "+ level.getNbBerryForWin(), org.newdawn.slick.Color.green);

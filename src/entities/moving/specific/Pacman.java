@@ -15,6 +15,7 @@ public class Pacman extends MovingEntity implements SpecialPower{
     int id;
     private int score = 0;
     private int liveCount;
+    private boolean alive = true;
 
     private GhostCollision ghostCollision = new GhostCollisionDeath();
     private MovementRestrictions movementRestrictions;
@@ -31,6 +32,10 @@ public class Pacman extends MovingEntity implements SpecialPower{
         this.id = id;
         movementRestrictions = new NoWall();
         this.liveCount = 3;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public int getId() {

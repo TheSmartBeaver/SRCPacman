@@ -76,8 +76,9 @@ public class Drawer {
 
     }
 
-    public static void drawPacmanScore(int idPacman, int score){
-        TextSlick2D.drawText(0,idPacman*30,"pacman "+idPacman+" : "+score, org.newdawn.slick.Color.green);
+    public static void drawPacmanScore(int idPacman, int score, int nbvie){
+        TextSlick2D.drawText(0,idPacman*60,"pacman "+idPacman+" : "+score, org.newdawn.slick.Color.green);
+        TextSlick2D.drawText(0,(idPacman*60)+30,"nb vie : "+nbvie, org.newdawn.slick.Color.green);
     }
 
     //TODO : changer cette méthode affreuse en iutilisant la classe AnimableLoop

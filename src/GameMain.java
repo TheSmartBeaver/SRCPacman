@@ -1,7 +1,9 @@
 package src;
 
+import org.newdawn.slick.Color;
 import src.engine.ai.AStarStrategy;
 import src.engine.graphics.GameRenderer;
+import src.engine.graphics.generic.TextSlick2D;
 import src.engine.input.GameInput;
 import src.engine.input.Input;
 import src.engine.physics.specific.GamePhysicsManager;
@@ -29,6 +31,8 @@ public class GameMain {
     private static float time=0;
     private static int precedentStrawberry =0;
     private static int currentLevel = -1;
+
+    private List<Pacman> deadPacmans = new ArrayList<>();
 
     public static List<Pacman> findPacmanEntities(List<MovingEntity> entities) { /*Retourne toutes les instances de PacMan*/
         List<Pacman> pacmans = new ArrayList<>();
@@ -123,7 +127,21 @@ public class GameMain {
 
         }
 
+
+
         List<Pacman> pacmans = findPacmanEntities(GameState.currentEntities);
+
+        if(pacmans.size()==0) {
+            TextSlick2D.drawText(0, 120, "PERDU", Color.red);
+        }
+
+        for (Pacman pacman : pacmans) {
+            if(pacman.getLiveCount() < 1)
+            GameState.currentEntities.remove(pacman);
+        }
+
+        pacmans = findPacmanEntities(GameState.currentEntities);
+
         for (Pacman pacman : pacmans) {
             if (pacman.getId() == 1) {
                 pacman.setInput(GameInput.getInputFirst());
