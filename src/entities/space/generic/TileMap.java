@@ -41,7 +41,7 @@ public class TileMap {
         return tiles[i][j];
     }
 
-    public Pair findTilePos(Tile tile) { /*Revoie pos de la tyle en argument*/
+    public Pair findTilePos(Tile tile) { /*Renvoie pos de la tile en argument*/
         for (int i = 0 ; i < rowCount ; ++i) {
             for (int j = 0 ; j < columnCount ; ++j) {
                 if (get(i,j) == tile) {

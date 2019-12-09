@@ -3,10 +3,8 @@ package src.engine.ai;
 import src.engine.ai.util.AStar;
 import src.engine.input.Input;
 import src.entities.moving.specific.Ghost;
-import src.entities.space.specific.TilesForA;
 
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.System.exit;
 
@@ -19,13 +17,9 @@ public class AStarStrategy extends MovingStrategy{
 
     @Override
     public void computeInputList(Ghost ghost) {
-        //System.out.println("Suis-je à une intersection ?");
-        //exit(1);
         Input nextInput = Input.NONE;
         int xGhost = ghost.getTileX(), yGhost = ghost.getTileY();
         int xPacman= ghost.getPacman().getTileX(), yPacman = ghost.getPacman().getTileY();
-        //System.out.println("pos fantôme "+xGhost+" "+yGhost);
-        //System.out.println("pos pacman "+xPacman+" "+yPacman);
         AStar ah = new AStar(tilesForA, xGhost, yGhost, false);
         List<AStar.Node> path = ah.findPathTo(xPacman,yPacman);
         if (path != null) {
@@ -41,12 +35,9 @@ public class AStarStrategy extends MovingStrategy{
 
         //TODO: Décider que faire véritablement quand il croise pacman
         if(path == null || path.size()==1) {
-            nextInput = ghost.getInput(); /*Le fantôme est sur le Pacman, mais il garde sa direction, pour l'instant*/
-            //System.out.println("Fantôme sur Pacman");
             return;
         }
 
-        //System.out.println("Prochaine étape "+path.get(1).x +"--"+ path.get(1).y);
         int nextX = path.get(1).x, nextY = path.get(1).y;
 
         if(nextX+1 == xGhost){

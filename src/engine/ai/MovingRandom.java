@@ -23,11 +23,6 @@ public class MovingRandom extends MovingStrategy {
         int nbPossibilities = possibleInputs.size();
         assert nbPossibilities >=2 && nbPossibilities <= 3; /*assert si = 2 ou 3*/
         Input nextInput = Input.NONE;
-        /*if (nbPossibilities == 1) {
-            nextInput.add(possibleInputs.get(0));
-            ghost.setInputs(nextInput);
-            return;
-        }*/
 
         /*Si nbPossibilité == 2 ou 3 on choisit aléatoirement l'une d'entre elle*/
         float probability = 1.0f / nbPossibilities;

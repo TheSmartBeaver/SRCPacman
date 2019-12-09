@@ -73,7 +73,6 @@ public class GameRenderer {
         int movingEntitySpriteLength = (int)(tileWidth * 0.75); /*Taille du carré PACMAN*/
         for (MovingEntity entity : entities) { /*On dessine toutes les entités*/
             if (entity.getEntityType() == MovingEntityType.PACMAN) {
-                //Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, pacmanSpawnColor);
                 Drawer.drawPacmanSprite(entity, level);
             } else if (entity.getEntityType() == MovingEntityType.GHOST) {
                 Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, invincibilityColor);
@@ -81,14 +80,6 @@ public class GameRenderer {
                 if(aGhost.isAChaser)
                     Drawer.drawRect((int)entity.getPosX() - movingEntitySpriteLength / 2, (int)entity.getPosY() - movingEntitySpriteLength / 2, movingEntitySpriteLength, movingEntitySpriteLength, debugRectColor);
             }
-            /*UserParams.fixedEntitiesTexture.bind();
-            Drawer.debugDrawPoint((int)entity.getPosX(), (int)entity.getPosY(), new Color(1.0f, 1.0f, 1.0f));
-            UserParams.fixedEntitiesTexture.unbind();
-            int xRectDebug = level.getLevelScreenOffsetLeft() + entity.getTileX() * tileWidth;
-            int yRectDebug = level.getLevelScreenOffsetUp() + entity.getTileY() * tileHeight;
-            UserParams.fixedEntitiesTexture.bind();
-            Drawer.drawRect(xRectDebug, yRectDebug, tileWidth, tileHeight, debugRectColor);
-            UserParams.fixedEntitiesTexture.unbind();*/
         }
         /*On dessine les scores*/
         for (MovingEntity entity : entities) {

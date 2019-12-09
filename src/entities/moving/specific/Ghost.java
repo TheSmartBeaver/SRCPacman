@@ -22,7 +22,6 @@ public class Ghost extends MovingEntity {
         super(speed); /*VITESSE*/
         this.pacman = pacman;
         this.movingStrategy = movingStrategy;
-        //state = new GhostStateReturningHome(movingStrategy.getTileMap());
         state = new GhostStateNormal(movingStrategy);
         setMoving(true);
     }

@@ -1,20 +1,13 @@
 package src.engine.ai;
 
 import src.GameState;
-import src.engine.ai.MovingStrategy;
 import src.engine.ai.util.AStar;
 import src.engine.input.Input;
 import src.engine.physics.generic.MovementPhysics;
 import src.entities.moving.specific.Ghost;
-import src.entities.moving.specific.GhostState;
 import src.entities.moving.specific.GhostStateNormal;
-import src.entities.space.generic.Tile;
-import src.entities.space.generic.TileMap;
-import src.entities.space.specific.TilesForA;
 
 import java.util.List;
-
-import static java.lang.System.exit;
 
 public class MovingReturningHome extends MovingStrategy {
 
@@ -34,10 +27,8 @@ public class MovingReturningHome extends MovingStrategy {
     public void computeInputList(Ghost ghost) {
         Input nextInput = Input.NONE;
         int xGhost = ghost.getTileX(), yGhost = ghost.getTileY();
-        //System.out.println("pos fantôme RETURN" + xGhost + " " + yGhost);
         AStar ah = new AStar(tilesForA, xGhost, yGhost, false);
 
-        //System.out.println("AHHHHHHHH " + tileGhostSpawnX + " " + tileGhostSpawnY);
         List<AStar.Node> path = ah.findPathTo(tileGhostSpawnX, tileGhostSpawnY);
         if (path != null) {
             path.forEach((n) -> {
@@ -52,11 +43,9 @@ public class MovingReturningHome extends MovingStrategy {
         /*FIN DEBUG A* */
 
         //TODO: Ceci est immonde, voir si on change
-        //System.out.println("DAMN "+ghost.getTileX()+" "+tileGhostSpawnX+" "+ghost.getTileY()+" "+tileGhostSpawnY);
         if (ghost.getTileX() == tileGhostSpawnX-1 && ghost.getTileY() == tileGhostSpawnY) {
             ghost.setState(new GhostStateNormal(ghost.getMovingStrategy()));
             ghost.setInput(Input.UP);
-            //System.out.println("sortit avant destination ? spawn fantôme");
 
             if (path != null) {
                 path.forEach((n) -> {
@@ -68,8 +57,6 @@ public class MovingReturningHome extends MovingStrategy {
             return;
         }
 
-
-        //System.out.println(" RETURN Prochaine étape " + path.get(1).x + "--" + path.get(1).y);
         int nextX = path.get(1).x, nextY = path.get(1).y;
 
         if (nextX + 1 == xGhost) {

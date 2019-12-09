@@ -1,7 +1,6 @@
 package src;
 
 import src.entities.space.generic.TileMap;
-import src.entities.space.specific.TilesForA;
 
 /**
  * Created by Vincent on 01/11/2019.
